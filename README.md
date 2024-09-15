@@ -1,1 +1,1 @@
-# GAME TITLE by The Cat Quartet Commonwealth
+# GAME TITLE by The Cthulhu-Cat Commonwealth
