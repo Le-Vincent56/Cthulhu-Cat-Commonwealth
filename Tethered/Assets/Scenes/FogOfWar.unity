@@ -172,6 +172,7 @@ MonoBehaviour:
   visionRadius: 4
   radiusTargetFactor: 1
   visionResolution: 36
+  edgeResolution: 2
   mode: 0
   targetMask:
     serializedVersion: 2
