@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Vision emitters manage the shape and occlusion of the fog of war vision objects.
@@ -26,6 +27,7 @@ public class FOWVisionEmitter : MonoBehaviour
 
     // How many rays to use when calculating occlusion.
     [SerializeField] private int visionResolution = 36;
+    [SerializeField] private int edgeResolution = 8;
 
     [SerializeField] private VisionEmitterMode mode;
     
@@ -115,6 +117,7 @@ public class FOWVisionEmitter : MonoBehaviour
         float stepSize = 360f / visionResolution;
 
         List<Vector3> viewPoints = new List<Vector3>();
+        VisionCastInfo oldVision = new VisionCastInfo();
         
         // Cast rays in 360 degrees
         for (int i = 0; i < visionResolution; i++)
@@ -122,7 +125,26 @@ public class FOWVisionEmitter : MonoBehaviour
             // angle to cast ray at
             float angle = stepSize * i;
             VisionCastInfo visionInfo = VisionCast(angle);
+
+            if (i > 0)
+            {
+                // Find the edge of an occluder if one ray is obstructed and the other isn't
+                if (oldVision.IsHit != visionInfo.IsHit || oldVision.Collision != visionInfo.Collision)
+                {
+                    EdgeInfo edge = FindEdge(oldVision, visionInfo);
+                    if (edge.NearPoint != Vector3.zero)
+                    {
+                        viewPoints.Add(edge.NearPoint);
+                    }
+                    if (edge.FarPoint != Vector3.zero)
+                    {
+                        viewPoints.Add(edge.FarPoint);
+                    }
+                }
+            }
+            
             viewPoints.Add(visionInfo.Point);
+            oldVision = visionInfo;
         }
 
         // Arrays needed to create a mesh in script
@@ -168,10 +190,37 @@ public class FOWVisionEmitter : MonoBehaviour
 
         if (hit)
         {
-            return new VisionCastInfo(true, hit.point, hit.distance, angle);
+            return new VisionCastInfo(true, hit.point, hit.distance, angle, hit.collider);
         }
         
-        return new VisionCastInfo(false, transform.position + dir * visionRadius, visionRadius, angle);
+        return new VisionCastInfo(false, transform.position + dir * visionRadius, visionRadius, angle, null);
+    }
+
+    EdgeInfo FindEdge(VisionCastInfo min, VisionCastInfo max)
+    {
+        float minAngle = min.Angle;
+        float maxAngle = max.Angle;
+        Vector3 minPoint = Vector3.zero;
+        Vector3 maxPoint = Vector3.zero;
+
+        for (int i = 0; i < edgeResolution; i++)
+        {
+            float angle = (minAngle + maxAngle) / 2;
+            VisionCastInfo newVisionCast = VisionCast(angle);
+
+            if (newVisionCast.IsHit == min.IsHit)
+            {
+                minAngle = angle;
+                minPoint = newVisionCast.Point;
+            }
+            else
+            {
+                maxAngle = angle;
+                maxPoint = newVisionCast.Point;
+            }
+        }
+
+        return new EdgeInfo(minPoint, maxPoint);
     }
 
     public struct VisionCastInfo
@@ -180,13 +229,27 @@ public class FOWVisionEmitter : MonoBehaviour
         public Vector3 Point;
         public float Dst;
         public float Angle;
+        public Collider2D Collision;
 
-        public VisionCastInfo(bool hit, Vector3 point, float dst, float angle)
+        public VisionCastInfo(bool hit, Vector3 point, float dst, float angle, Collider2D collision)
         {
             IsHit = hit;
             Point = point;
             Dst = dst;
             Angle = angle;
+            Collision = collision;
+        }
+    }
+
+    public struct EdgeInfo
+    {
+        public Vector3 NearPoint;
+        public Vector3 FarPoint;
+
+        public EdgeInfo(Vector3 nearPoint, Vector3 farPoint)
+        {
+            NearPoint = nearPoint;
+            FarPoint = farPoint;
         }
     }
 }
