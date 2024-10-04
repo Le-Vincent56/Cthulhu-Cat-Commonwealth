@@ -6,4 +6,9 @@ namespace Tethered.Monster.Events
     {
         public float GainedAttraction;
     }
+
+    public struct TriggerAttraction : IEvent
+    {
+        public bool TriggeredAttraction;
+    }
 }
