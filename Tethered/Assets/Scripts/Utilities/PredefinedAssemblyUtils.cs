@@ -86,8 +86,11 @@ namespace Tethered.Utilities.PredefinedAssembly
             }
 
             // Add types specifically from the AssemblyCSharp and AssemblyCSharpFirstPass assemblies
-            AddTypesFromAssembly(assemblyTypes[AssemblyType.AssemblyCSharp], types, interfaceType);
-            AddTypesFromAssembly(assemblyTypes[AssemblyType.AssemblyCSharpFirstPass], types, interfaceType);
+            assemblyTypes.TryGetValue(AssemblyType.AssemblyCSharp, out Type[] assemblyCSharpTypes);
+            AddTypesFromAssembly(assemblyCSharpTypes, types, interfaceType);
+
+            assemblyTypes.TryGetValue(AssemblyType.AssemblyCSharpFirstPass, out Type[] assemblyCSharpFirstPassTypes);
+            AddTypesFromAssembly(assemblyCSharpFirstPassTypes, types, interfaceType);
 
             return types;
         }

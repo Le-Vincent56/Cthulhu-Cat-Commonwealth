@@ -31,7 +31,6 @@ namespace Tethered.Timers
 #if UNITY_EDITOR
             EditorApplication.playModeStateChanged -= OnPlayModeState;
             EditorApplication.playModeStateChanged += OnPlayModeState;
-#endif
 
             // Handle changes to the play mode state
             static void OnPlayModeState(PlayModeStateChange state)
@@ -52,6 +51,7 @@ namespace Tethered.Timers
                     TimerManager.Clear();
                 }
             }
+#endif
         }
 
         /// <summary>
