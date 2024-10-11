@@ -28,5 +28,13 @@ namespace Tethered.Player
             // Update the state machine
             base.FixedUpdate();
         }
+
+        /// <summary>
+        /// Set up the Older Sibling's individual states
+        /// </summary>
+        protected override void SetupStates()
+        {
+            // TODO: Set up Climb State
+        }
     }
 }

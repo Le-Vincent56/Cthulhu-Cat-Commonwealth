@@ -4,13 +4,22 @@ using Tethered.Player.States;
 
 namespace Tethered.Player
 {
-    public class PlayerController : MonoBehaviour
+    public enum PlayerWeight
+    {
+        Light = 0, 
+        Heavy = 1
+    }
+
+    public abstract class PlayerController : MonoBehaviour
     {
         protected Rigidbody2D rb;
         private Animator animator;
         private StateMachine stateMachine;
 
         protected int moveDirectionX;
+        [SerializeField] protected PlayerWeight weight;
+
+        public PlayerWeight Weight { get => weight; }
 
         protected virtual void Awake()
         {
@@ -24,6 +33,9 @@ namespace Tethered.Player
             // Create states
             IdleState idleState = new IdleState(this, animator);
             LocomotionState locomotionState = new LocomotionState(this, animator);
+
+            // Set up individual states
+            SetupStates();
 
             // Define state tarnsitions
             stateMachine.At(idleState, locomotionState, new FuncPredicate(() => moveDirectionX != 0));
@@ -44,5 +56,10 @@ namespace Tethered.Player
             // Fixed update the state machine
             stateMachine.FixedUpdate();
         }
+
+        /// <summary>
+        /// Setup necessary states
+        /// </summary>
+        protected abstract void SetupStates();
     }
 }
