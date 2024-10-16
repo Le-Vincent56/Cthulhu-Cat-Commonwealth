@@ -37,7 +37,7 @@ namespace Tethered.Player
             // Set up individual states
             SetupStates();
 
-            // Define state tarnsitions
+            // Define state transitions
             stateMachine.At(idleState, locomotionState, new FuncPredicate(() => moveDirectionX != 0));
             stateMachine.At(locomotionState, idleState, new FuncPredicate(() => moveDirectionX == 0));
 
