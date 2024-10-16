@@ -1,5 +1,6 @@
 using UnityEngine;
 using Tethered.Input;
+using Tethered.Player.States;
 
 namespace Tethered.Player
 {
@@ -10,6 +11,16 @@ namespace Tethered.Player
 
         [Header("Movement")]
         [SerializeField] private float movementSpeed;
+
+        private void OnEnable()
+        {
+            inputReader.Interact += Interact;
+        }
+
+        private void OnDisable()
+        {
+            inputReader.Interact -= Interact;
+        }
 
         protected override void Update()
         {
@@ -27,6 +38,14 @@ namespace Tethered.Player
 
             // Update the state machine
             base.FixedUpdate();
+        }
+
+        /// <summary>
+        /// Set up the Older Sibling's individual states
+        /// </summary>
+        protected override void SetupStates(IdleState idleState, LocomotionState locomotionState)
+        {
+            // TODO: Set up Climb State
         }
     }
 }
