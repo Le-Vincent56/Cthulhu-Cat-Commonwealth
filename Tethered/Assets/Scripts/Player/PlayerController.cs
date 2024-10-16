@@ -75,6 +75,6 @@ namespace Tethered.Player
         /// <summary>
         /// Interact with the current interactable
         /// </summary>
-        protected void Interact() => currentInteractable.Interact(this);
+        protected void Interact() => currentInteractable?.Interact(this);
     }
 }
