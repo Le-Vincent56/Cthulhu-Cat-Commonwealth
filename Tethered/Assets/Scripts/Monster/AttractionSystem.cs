@@ -12,7 +12,7 @@ namespace Tethered.Monster
         [SerializeField] private float thresholdBuffer;
 
         [Header("Attraction Level")]
-        [SerializeField] private float attractionLevel;
+        [SerializeField] private float attractionLevel; //don't reference directly use property
         [SerializeField] private float attractionLevelMax;
         [SerializeField] private float decreaseAttractionRate;
 
@@ -38,7 +38,8 @@ namespace Tethered.Monster
                 attractionLevel = value;
                 EventBus<AttractionChanged>.Raise(new AttractionChanged()
                 {
-                    TotalAttractionLevel = attractionLevel
+                    AttractionLevelTotal = attractionLevel,
+                    AttractionLevelMax = attractionLevelMax
                 });
             }
         }

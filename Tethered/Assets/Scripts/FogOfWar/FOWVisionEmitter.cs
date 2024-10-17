@@ -2,6 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tethered.Monster.Events;
+using Tethered.Patterns.EventBus;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -22,6 +24,7 @@ public class FOWVisionEmitter : MonoBehaviour
     [Header("Functionality")]
     [SerializeField] private float visionRadius = 1f;
     [SerializeField] private float minVisionRadius = 0f;
+    [SerializeField] private float maxVisionRadius = 4f;
     
     // Multiplier for difference between target detection and vision calculations
     [SerializeField] private float radiusTargetFactor = 1f;
@@ -45,6 +48,8 @@ public class FOWVisionEmitter : MonoBehaviour
     private Mesh _visionMesh;
     private static readonly int Radius = Shader.PropertyToID("_Radius");
 
+    private EventBinding<AttractionChanged> onAttractionChanged;
+
     // Properties
     public float VisionRadius
     {
@@ -66,6 +71,17 @@ public class FOWVisionEmitter : MonoBehaviour
 
         _visionMeshRenderer = GetComponent<MeshRenderer>();
         _visionMeshRenderer.material = visionMaterial;
+    }
+
+    private void OnEnable()
+    {
+        onAttractionChanged = new EventBinding<AttractionChanged>(OnAttractionChanged);
+        EventBus<AttractionChanged>.Register(onAttractionChanged);
+    }
+
+    private void OnDisable()
+    {
+        EventBus<AttractionChanged>.Deregister(onAttractionChanged);
     }
 
     void FixedUpdate()
@@ -222,6 +238,12 @@ public class FOWVisionEmitter : MonoBehaviour
         }
 
         return new EdgeInfo(minPoint, maxPoint);
+    }
+
+    private void OnAttractionChanged(AttractionChanged eventData)
+    {
+        var ratio = (eventData.AttractionLevelMax - eventData.AttractionLevelTotal) / eventData.AttractionLevelMax;
+        visionRadius = (maxVisionRadius - minVisionRadius) * ratio + minVisionRadius;
     }
 
     public struct VisionCastInfo

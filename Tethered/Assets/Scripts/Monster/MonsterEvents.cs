@@ -1,4 +1,5 @@
 using Tethered.Patterns.EventBus;
+using UnityEngine.Serialization;
 
 namespace Tethered.Monster.Events
 {
@@ -9,6 +10,7 @@ namespace Tethered.Monster.Events
 
     public struct AttractionChanged : IEvent
     {
-        public float TotalAttractionLevel;
+        public float AttractionLevelTotal;
+        public float AttractionLevelMax;
     }
 }
