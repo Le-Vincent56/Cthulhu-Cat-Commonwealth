@@ -1,10 +1,15 @@
 using UnityEngine;
 using Tethered.Patterns.StateMachine;
 using Tethered.Player.States;
-using Tethered.Interactables;
 
 namespace Tethered.Player
 {
+    public enum PlayerType
+    {
+        Older,
+        Younger
+    }
+
     public enum PlayerWeight
     {
         Light = 0, 
@@ -20,8 +25,6 @@ namespace Tethered.Player
 
         protected int moveDirectionX;
         [SerializeField] protected PlayerWeight weight;
-
-        protected IInteractable currentInteractable;
 
         public PlayerWeight Weight { get => weight; }
 
@@ -66,15 +69,5 @@ namespace Tethered.Player
         /// Setup necessary states
         /// </summary>
         protected abstract void SetupStates(IdleState idleState, LocomotionState locomotionState);
-
-        /// <summary>
-        /// Set the current Interactable for the Player
-        /// </summary>
-        public void SetInteractable(IInteractable interactable) => currentInteractable = interactable;
-
-        /// <summary>
-        /// Interact with the current interactable
-        /// </summary>
-        protected void Interact() => currentInteractable?.Interact(this);
     }
 }

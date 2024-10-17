@@ -1,6 +1,5 @@
 using UnityEngine;
 using Tethered.Input;
-using Tethered.Interactables;
 using Tethered.Player.States;
 using Tethered.Patterns.StateMachine;
 using System.Collections.Generic;
@@ -32,16 +31,6 @@ namespace Tethered.Player
 
             // Set the initial offset and size
             normalOffsetAndSize = new Vector2(boxCollider.offset.y, boxCollider.size.y);
-        }
-
-        private void OnEnable()
-        {
-            inputReader.Interact += Interact;
-        }
-
-        private void OnDisable()
-        {
-            inputReader.Interact -= Interact;
         }
 
         protected override void Update()

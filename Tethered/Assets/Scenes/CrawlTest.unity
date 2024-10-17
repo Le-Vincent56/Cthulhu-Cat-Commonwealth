@@ -372,6 +372,7 @@ GameObject:
   - component: {fileID: 311594434}
   - component: {fileID: 311594435}
   - component: {fileID: 311594436}
+  - component: {fileID: 311594437}
   m_Layer: 6
   m_Name: Player One
   m_TagString: Untagged
@@ -483,6 +484,22 @@ MonoBehaviour:
   weight: 1
   inputReader: {fileID: 11400000, guid: ba00de9b38f7a7346876b6a02011fba0, type: 2}
   movementSpeed: 3
+--- !u!114 &311594437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311594431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a5c5fe0c7061924ea615d6c98d32b4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerOneInputReader: {fileID: 11400000, guid: ba00de9b38f7a7346876b6a02011fba0, type: 2}
+  playerTwoInputReader: {fileID: 0}
+  playerType: 0
+  currentInteractable: {fileID: 0}
 --- !u!1 &313023933
 GameObject:
   m_ObjectHideFlags: 0
@@ -963,7 +980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a637328e2061fe4b9664604f14f403f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactSymbol: {fileID: 0}
+  sharedInteractable: 0
   path:
   - {x: 4.5742583, y: -3.9271066}
   - {x: -1.1157417, y: -3.9271066}
@@ -1172,6 +1189,7 @@ GameObject:
   - component: {fileID: 1558801566}
   - component: {fileID: 1558801567}
   - component: {fileID: 1558801568}
+  - component: {fileID: 1558801569}
   m_Layer: 6
   m_Name: Player Two
   m_TagString: Untagged
@@ -1288,6 +1306,22 @@ MonoBehaviour:
   path: []
   crawlOffsetAndSize: {x: -0.2094104, y: 0.5811791}
   normalOffsetAndSize: {x: 0, y: 0}
+--- !u!114 &1558801569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558801563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a5c5fe0c7061924ea615d6c98d32b4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerOneInputReader: {fileID: 0}
+  playerTwoInputReader: {fileID: 11400000, guid: 7153fba7158f2504ba608ddc970a6ed4, type: 2}
+  playerType: 1
+  currentInteractable: {fileID: 0}
 --- !u!1 &1602546009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1505,10 +1539,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a637328e2061fe4b9664604f14f403f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactSymbol: {fileID: 0}
+  sharedInteractable: 0
   path:
   - {x: -1.0857418, y: -3.9271066}
-  - {x: -1.7057416, y: -3.2971065}
   - {x: 4.6042585, y: -3.9271066}
 --- !u!61 &1752946584
 BoxCollider2D:

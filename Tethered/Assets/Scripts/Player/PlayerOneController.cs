@@ -12,16 +12,6 @@ namespace Tethered.Player
         [Header("Movement")]
         [SerializeField] private float movementSpeed;
 
-        private void OnEnable()
-        {
-            inputReader.Interact += Interact;
-        }
-
-        private void OnDisable()
-        {
-            inputReader.Interact -= Interact;
-        }
-
         protected override void Update()
         {
             // Update movement direction
