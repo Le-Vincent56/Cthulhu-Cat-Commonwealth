@@ -26,6 +26,7 @@ public class FOWVisionEmitter : MonoBehaviour
     [SerializeField] private float visionRadius = 1f;
     [SerializeField] private float minVisionRadius = 0f;
     [SerializeField] private float maxVisionRadius = 4f;
+    [SerializeField] private float visionStrength;
     
     // Multiplier for difference between target detection and vision calculations
     [SerializeField] private float radiusTargetFactor = 1f;
@@ -60,6 +61,16 @@ public class FOWVisionEmitter : MonoBehaviour
     public List<Transform> VisibleTargets
     {
         get => _visibleTargets;
+    }
+
+    private float VisionStrength
+    {
+        get => visionStrength;
+        set
+        {
+            visionStrength = value;
+            visionRadius = (maxVisionRadius - minVisionRadius) * value + minVisionRadius;
+        }
     }
 
     private void Start()
@@ -244,8 +255,9 @@ public class FOWVisionEmitter : MonoBehaviour
     private void OnAttractionChanged(AttractionChanged eventData)
     {
         var ratio = (eventData.AttractionLevelMax - eventData.AttractionLevelTotal) / eventData.AttractionLevelMax;
-        var newVision = (maxVisionRadius - minVisionRadius) * ratio + minVisionRadius;
-        DOTween.To(() => visionRadius, x => visionRadius = x, newVision, 1);
+        
+        // change tween to tweening a separate variable, for better consolidation, fewer Tweens running.
+        DOTween.To(() => VisionStrength, x => VisionStrength = x, ratio, 1);
     }
 
     public struct VisionCastInfo
