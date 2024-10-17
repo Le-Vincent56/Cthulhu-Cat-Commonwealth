@@ -8,13 +8,18 @@ namespace Tethered.Interactables
 {
     public class Lever : Interactable
     {
+        [Header("Identifier")]
         [SerializeField] private int hash;
+
+        [Header("Level Details")]
         [SerializeField] private bool openDoor;
         [SerializeField] private bool onCooldown;
-        [SerializeField] private CountdownTimer cooldownTimer;
+
+        private CountdownTimer cooldownTimer;
 
         protected override void Awake()
         {
+            // Call the parent Awake
             base.Awake();
 
             // Set on cool down to false
