@@ -27,7 +27,7 @@ namespace Tethered.Interactables
             keyFadeDuration = 0.5f;
         }
 
-        protected override void ShowInteractSymbol(bool notifyShown = false)
+        protected override void ShowInteractSymbol(bool notifyShown = false, TweenCallback onComplete = null)
         {
             // Exit case - if the interact symbol is already shown
             if (symbolShown) return;
@@ -82,7 +82,7 @@ namespace Tethered.Interactables
         /// <summary>
         /// Fade the Door using tweening
         /// </summary>
-        private void FadeKey(float endValue, float duration, TweenCallback onComplete)
+        private void FadeKey(float endValue, float duration, TweenCallback onComplete = null)
         {
             // Kill the fade tween if it exists
             fadeTween?.Kill();

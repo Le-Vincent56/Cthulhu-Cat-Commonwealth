@@ -97,7 +97,7 @@ namespace Tethered.Interactables
         /// <summary>
         /// Show the interact symbol
         /// </summary>
-        protected virtual void ShowInteractSymbol(bool notifyShown = false)
+        protected virtual void ShowInteractSymbol(bool notifyShown = false, TweenCallback onComplete = null)
         {
             // Check if to notify shown
             if(notifyShown)
@@ -111,13 +111,13 @@ namespace Tethered.Interactables
             }
 
             // Scale to target
-            Scale(symbolTargetScale, scaleDuration);
+            Scale(symbolTargetScale, scaleDuration, onComplete);
         }
 
         /// <summary>
         /// Hide the interact symbol
         /// </summary>
-        protected virtual void HideInteractSymbol(bool notifyHidden = false)
+        protected virtual void HideInteractSymbol(bool notifyHidden = false, TweenCallback onComplete = null)
         {
             // Check if to notify hidden
             if(notifyHidden)
@@ -131,7 +131,7 @@ namespace Tethered.Interactables
             }
 
             // Scale to initial
-            Scale(symbolInitialScale, scaleDuration);
+            Scale(symbolInitialScale, scaleDuration, onComplete);
         }
 
         /// <summary>
