@@ -2,6 +2,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
+using Tethered.Monster.Events;
+using Tethered.Patterns.EventBus;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -15,13 +18,16 @@ public class FOWVisionEmitter : MonoBehaviour
     // Fields
     
     [Header("Visualization")]
-    // TODO: For procedural approach use distance calculation from center in vertex shader
     // pass in radius to calculate in object space position maximum light radius
     // why can use power to determine light fall off
     [SerializeField] private Material visionMaterial;
 
     [Header("Functionality")]
     [SerializeField] private float visionRadius = 1f;
+    [SerializeField] private float minVisionRadius = 0f;
+    [SerializeField] private float maxVisionRadius = 4f;
+    [SerializeField] private float visionStrength;
+    
     // Multiplier for difference between target detection and vision calculations
     [SerializeField] private float radiusTargetFactor = 1f;
 
@@ -44,6 +50,8 @@ public class FOWVisionEmitter : MonoBehaviour
     private Mesh _visionMesh;
     private static readonly int Radius = Shader.PropertyToID("_Radius");
 
+    private EventBinding<AttractionChanged> onAttractionChanged;
+
     // Properties
     public float VisionRadius
     {
@@ -53,6 +61,16 @@ public class FOWVisionEmitter : MonoBehaviour
     public List<Transform> VisibleTargets
     {
         get => _visibleTargets;
+    }
+
+    private float VisionStrength
+    {
+        get => visionStrength;
+        set
+        {
+            visionStrength = value;
+            visionRadius = (maxVisionRadius - minVisionRadius) * value + minVisionRadius;
+        }
     }
 
     private void Start()
@@ -65,6 +83,17 @@ public class FOWVisionEmitter : MonoBehaviour
 
         _visionMeshRenderer = GetComponent<MeshRenderer>();
         _visionMeshRenderer.material = visionMaterial;
+    }
+
+    private void OnEnable()
+    {
+        onAttractionChanged = new EventBinding<AttractionChanged>(OnAttractionChanged);
+        EventBus<AttractionChanged>.Register(onAttractionChanged);
+    }
+
+    private void OnDisable()
+    {
+        EventBus<AttractionChanged>.Deregister(onAttractionChanged);
     }
 
     void FixedUpdate()
@@ -221,6 +250,14 @@ public class FOWVisionEmitter : MonoBehaviour
         }
 
         return new EdgeInfo(minPoint, maxPoint);
+    }
+
+    private void OnAttractionChanged(AttractionChanged eventData)
+    {
+        var ratio = (eventData.AttractionLevelMax - eventData.AttractionLevelTotal) / eventData.AttractionLevelMax;
+        
+        // change tween to tweening a separate variable, for better consolidation, fewer Tweens running.
+        DOTween.To(() => VisionStrength, x => VisionStrength = x, ratio, 1);
     }
 
     public struct VisionCastInfo
