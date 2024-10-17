@@ -1,23 +1,12 @@
-using DG.Tweening;
 using System.Collections.Generic;
 using Tethered.Player;
 using UnityEngine;
 
 namespace Tethered.Interactables
 {
-    [RequireComponent(typeof(BoxCollider2D))]
-    public class CrawlSpace : MonoBehaviour, IInteractable
+    public class CrawlSpace : Interactable
     {
-        [SerializeField] private SpriteRenderer interactSymbol;
         [SerializeField] private List<Vector2> path;
-
-        private Vector2 initialScale;
-        private Vector2 targetScale;
-
-        private Tween fadeTween;
-        private Tween scaleTween;
-        private float fadeDuration;
-        private float scaleDuration;
 
         private void OnValidate()
         {
@@ -25,30 +14,21 @@ namespace Tethered.Interactables
             SetPath();
         }
 
-        private void Awake()
+        protected override void Awake()
         {
-            // Get components
-            interactSymbol = GetComponentInChildren<SpriteRenderer>();
+            base.Awake();
 
             // Set the path
             SetPath();
-
-            // Set scale targets
-            initialScale = interactSymbol.transform.localScale * 0.7f;
-            targetScale = interactSymbol.transform.localScale;
-
-            // Set animation durations
-            fadeDuration = 0.3f;
-            scaleDuration = 0.5f;
-
-            // Hide the interact symbol
-            interactSymbol.DOFade(0f, 0f);
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        protected override void OnTriggerEnter2D(Collider2D collision)
         {
             // Exit case - if a PlayerTwoController is not found on the collision object
-            if (!collision.TryGetComponent(out PlayerTwoController controller)) return;
+            if (!collision.TryGetComponent(out InteractController controller)) return;
+
+            // Exit case - if not the Younger Sibling
+            if (controller.PlayerType != PlayerType.Younger) return;
 
             // Set the controller's interactable
             controller.SetInteractable(this);
@@ -57,10 +37,13 @@ namespace Tethered.Interactables
             ShowInteractSymbol();
         }
 
-        private void OnTriggerExit2D(Collider2D collision)
+        protected override void OnTriggerExit2D(Collider2D collision)
         {
             // Exit case - if a PlayerTwoController is not found on the collision object
-            if (!collision.TryGetComponent(out PlayerTwoController controller)) return;
+            if (!collision.TryGetComponent(out InteractController controller)) return;
+
+            // Exit case - if not the Younger Sibling
+            if (controller.PlayerType != PlayerType.Younger) return;
 
             // Set the controller's interactable
             controller.SetInteractable(null);
@@ -70,42 +53,18 @@ namespace Tethered.Interactables
         }
 
         /// <summary>
-        /// Show the interact symbol
-        /// </summary>
-        public void ShowInteractSymbol()
-        {
-            // Fade in
-            Fade(1f);
-
-            // Scale to target
-            Scale(targetScale);
-        }
-
-        /// <summary>
-        /// Hide the interact symbol
-        /// </summary>
-        public void HideInteractSymbol()
-        {
-            // Fade out
-            Fade(0f);
-
-            // Scale to initial
-            Scale(initialScale);
-        }
-
-        /// <summary>
         /// Go through the Crawl Space
         /// </summary>
-        public void Interact(PlayerController controller)
+        public override void Interact(InteractController controller)
         {
-            // Exit case - if the PlayerController is not a PlayerTwoController
-            if (controller is not PlayerTwoController youngerController) return;
+            // Exit case - if there is no PlayerTwoController attached to the controller
+            if (!controller.TryGetComponent(out PlayerTwoController playerController)) return;
 
             // Hide the interact symbol
             HideInteractSymbol();
 
             // Start crawling for the Younger Sibling
-            youngerController.StartCrawl(path);
+            playerController.StartCrawl(path);
         }
 
         /// <summary>
@@ -128,43 +87,6 @@ namespace Tethered.Interactables
             {
                 path.Add(transform.GetChild(i).position);
             }
-        }
-
-        /// <summary>
-        /// Fade using Tweening
-        /// </summary>
-        private void Fade(float endValue, TweenCallback onComplete = null)
-        {
-            // Kill the fade tween if it exists
-            fadeTween?.Kill();
-
-            // Fade the interact symbol
-            fadeTween = interactSymbol.DOFade(endValue, fadeDuration);
-
-            // Exit case - no callback was given
-            if (onComplete == null) return;
-
-            // Add completion listeners
-            fadeTween.onComplete += onComplete;
-        }
-
-        /// <summary>
-        /// Scale using Tweening
-        /// </summary>
-        private void Scale(Vector3 target, TweenCallback onComplete = null)
-        {
-            // Kill the scale tween if it exists
-            scaleTween?.Kill();
-
-            // Scale the interact symbol
-            scaleTween = interactSymbol.transform.DOScale(target, scaleDuration)
-                    .SetEase(Ease.OutBounce);
-
-            // Exit case - no callback was given
-            if (onComplete == null) return;
-
-            // Add completion listeners
-            scaleTween.onComplete += onComplete;
         }
 
         private void OnDrawGizmosSelected()
