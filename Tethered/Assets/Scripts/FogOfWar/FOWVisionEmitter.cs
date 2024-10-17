@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Tethered.Monster.Events;
 using Tethered.Patterns.EventBus;
 using UnityEngine;
@@ -243,7 +244,8 @@ public class FOWVisionEmitter : MonoBehaviour
     private void OnAttractionChanged(AttractionChanged eventData)
     {
         var ratio = (eventData.AttractionLevelMax - eventData.AttractionLevelTotal) / eventData.AttractionLevelMax;
-        visionRadius = (maxVisionRadius - minVisionRadius) * ratio + minVisionRadius;
+        var newVision = (maxVisionRadius - minVisionRadius) * ratio + minVisionRadius;
+        DOTween.To(() => visionRadius, x => visionRadius = x, newVision, 1);
     }
 
     public struct VisionCastInfo
