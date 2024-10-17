@@ -12,7 +12,7 @@ namespace Tethered.Monster
         [SerializeField] private float thresholdBuffer;
 
         [Header("Attraction Level")]
-        [SerializeField] private float attractionLevel;
+        [SerializeField] private float attractionLevel; //don't reference directly use property
         [SerializeField] private float attractionLevelMax;
         [SerializeField] private float decreaseAttractionRate;
 
@@ -23,6 +23,26 @@ namespace Tethered.Monster
         private FrequencyTimer decreaseAttractionTimer;
 
         private EventBinding<IncreaseAttraction> onIncreaseAttraction;
+        
+        // properties
+        
+        /// <summary>
+        /// Set up to always trigger AttractionChanged event when attraction level changes.
+        /// Used for Fog of War, UI, and other systems that need to know total attraction level.
+        /// </summary>
+        public float AttractionLevel
+        {
+            get => attractionLevel;
+            private set
+            {
+                attractionLevel = value;
+                EventBus<AttractionChanged>.Raise(new AttractionChanged()
+                {
+                    AttractionLevelTotal = attractionLevel,
+                    AttractionLevelMax = attractionLevelMax
+                });
+            }
+        }
 
         private void Awake()
         {
@@ -30,7 +50,7 @@ namespace Tethered.Monster
             currentThreshold = 20f;
 
             // Set the attraction level to 0
-            attractionLevel = 0f;
+            AttractionLevel = 0f;
 
             // Initialize the Timer
             InitializeTimers();
@@ -67,10 +87,10 @@ namespace Tethered.Monster
         private void RaiseAttractionLevel(IncreaseAttraction eventData)
         {
             // Raise the attraction level
-            attractionLevel += eventData.GainedAttraction;
+            AttractionLevel += eventData.GainedAttraction;
 
             // Check if the attraction level has exceeded the max level
-            if (attractionLevel >= attractionLevelMax)
+            if (AttractionLevel >= attractionLevelMax)
             {
                 // If so, end the game
                 EndGame();
@@ -105,7 +125,7 @@ namespace Tethered.Monster
         private void BufferThreshold()
         {
             // Exit case - if the attractionl level is below the current threshold
-            if (attractionLevel < currentThreshold) return;
+            if (AttractionLevel < currentThreshold) return;
 
             // Add the buffer to the current threshold
             currentThreshold += thresholdBuffer;
@@ -122,17 +142,17 @@ namespace Tethered.Monster
         private void DecreaseAttraction()
         {
             // Exit case - if the attraction level has reached the current threshold
-            if (attractionLevel == currentThreshold) return;
+            if (AttractionLevel == currentThreshold) return;
 
             // Decrease the attraction level by the attraction rate
-            attractionLevel -= decreaseAttractionRate;
+            AttractionLevel -= decreaseAttractionRate;
 
             // Check if the attraction level has gone below or equal to the current
             // threshold
-            if(attractionLevel <= currentThreshold)
+            if(AttractionLevel <= currentThreshold)
             {
                 // If so, set the attraction level to the current threshold
-                attractionLevel = currentThreshold;
+                AttractionLevel = currentThreshold;
 
                 // Reset and stop the attraction timer
                 decreaseAttractionTimer.Reset();
