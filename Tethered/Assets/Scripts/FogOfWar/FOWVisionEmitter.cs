@@ -15,13 +15,14 @@ public class FOWVisionEmitter : MonoBehaviour
     // Fields
     
     [Header("Visualization")]
-    // TODO: For procedural approach use distance calculation from center in vertex shader
     // pass in radius to calculate in object space position maximum light radius
     // why can use power to determine light fall off
     [SerializeField] private Material visionMaterial;
 
     [Header("Functionality")]
     [SerializeField] private float visionRadius = 1f;
+    [SerializeField] private float minVisionRadius = 0f;
+    
     // Multiplier for difference between target detection and vision calculations
     [SerializeField] private float radiusTargetFactor = 1f;
 
