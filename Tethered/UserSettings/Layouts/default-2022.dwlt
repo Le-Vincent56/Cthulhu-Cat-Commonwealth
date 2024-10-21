@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1638.4
     height: 932.8
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: Hierarchy
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 371}
   m_MaxSize: {x: 10000, y: 10000}
@@ -412,7 +412,7 @@ MonoBehaviour:
     m_VAllowExceedBaseRangeMin: 1
     m_VAllowExceedBaseRangeMax: 1
     m_ScaleWithWindow: 0
-    m_HSlider: 1
+    m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
     m_EnableMouseInput: 1
@@ -426,18 +426,18 @@ MonoBehaviour:
       y: 21
       width: 845.2
       height: 544.4
-    m_Scale: {x: 0.6012844, y: 0.6012844}
-    m_Translation: {x: 430.25925, y: 272.2}
+    m_Scale: {x: 0.5502604, y: 0.5502604}
+    m_Translation: {x: 422.6, y: 272.2}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -715.56696
-      y: -452.69763
-      width: 1405.6577
-      height: 905.39526
+      x: -768
+      y: -494.6749
+      width: 1536
+      height: 989.3498
     m_MinimalGUI: 1
   m_defaultScale: 0.5502604
   m_LastWindowPixelSize: {x: 1056.5, y: 706.75}
@@ -483,9 +483,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 32750000
-      m_LastClickedID: 30002
-      m_ExpandedIDs: 1cc9ffff90d8ffff44dfffffbcdffffff0f8ffff04fbffff
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 2aa6ffff04fbffff32720000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -930,9 +930,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.21354759, y: -1.606273, z: -0.013107993}
+    m_Target: {x: 1.2735646, y: -1.7790093, z: -0.021063747}
     speed: 2
-    m_Value: {x: -0.21354759, y: -1.606273, z: -0.013107993}
+    m_Value: {x: 1.2735646, y: -1.7790093, z: -0.021063747}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -982,9 +982,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 3.175707
+    m_Target: 3.971289
     speed: 2
-    m_Value: 3.175707
+    m_Value: 3.971289
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1054,7 +1054,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Animations/Controllers
+    - Packages/com.unity.2d.sprite/Editor/ObjectMenuCreation/DefaultAssets/Textures
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1062,16 +1062,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 81
   m_LastFolders:
-  - Assets/Animations/Controllers
+  - Packages/com.unity.2d.sprite/Editor/ObjectMenuCreation/DefaultAssets/Textures
   m_LastFoldersGridSize: 81
   m_LastProjectPath: C:\Users\levin\source\repos\Cthulhu-Cat-Commonwealth\Tethered
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 3e810000
-    m_LastClickedID: 33086
-    m_ExpandedIDs: 00000000007300000273000004730000b47400002077000000ca9a3b
+    scrollPos: {x: 0, y: 549.09845}
+    m_SelectedIDs: 14750000
+    m_LastClickedID: 29972
+    m_ExpandedIDs: 00000000927200009472000096720000987200009a720000c8740000f4740000fc7400001275000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1099,7 +1099,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000007300000273000004730000
+    m_ExpandedIDs: 00000000927200009472000096720000987200009a720000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1124,9 +1124,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 32750000
-    m_LastClickedInstanceID: 30002
-    m_HadKeyboardFocusLastEvent: 1
+    m_SelectedInstanceIDs: 42720000
+    m_LastClickedInstanceID: 29250
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c623000074a700002cc10000ca9800005acc0000468a0000008b0000e08e000022480200c6740000566f0000ca6c00005c02000000000000247d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
