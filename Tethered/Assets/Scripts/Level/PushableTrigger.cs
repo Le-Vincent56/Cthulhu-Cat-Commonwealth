@@ -14,7 +14,7 @@ namespace Tethered.Level
             if (!other.TryGetComponent(out Moveable pushable)) return;
 
             // Exit case - if not within locking distance
-            if (Vector3.Distance(transform.position, other.transform.position) > lockDistance) return;
+            if (transform.position.x - pushable.transform.position.x > lockDistance) return;
 
             // Lock the pushable onto the center of the trigger
             pushable.LockIntoPlace(transform.position);

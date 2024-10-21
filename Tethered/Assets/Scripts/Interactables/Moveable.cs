@@ -15,7 +15,7 @@ namespace Tethered.Interactables
         private Bounds colliderBounds;
 
         [Header("Interaction")]
-        [SerializeField] private bool requireBothPlayers;
+        [SerializeField] private int numofPlayersRequired;
         [SerializeField] private bool canMove;
         private HashSet<MoveableController> moveableControllers;
 
@@ -99,22 +99,24 @@ namespace Tethered.Interactables
             // Exit case - there is no attached Player or the HashSet is not initialized
             if (moveableControllers == null || moveableControllers.Count <= 0) return;
 
+            // Exit case - there's not enough Players to move the Moveable
+            if (moveableControllers.Count < numofPlayersRequired) return;
+
             // Create a container for the final movement direction
-            float xInputForce = 0;
+            float xInputDirection = 0;
 
             // Iterate through each MoveableController
-            for(int i = 0; i < moveableControllers.Count; i++)
+            foreach(MoveableController controller in moveableControllers)
             {
-                // Get the contribution factor
-                float contributionFactor = (i == 0) ? 1f : 0.5f;
-
-                // Add to the X-Input force
-                xInputForce += 
-                    moveableControllers.ElementAt(i).MoveInputX * contributionFactor;
+                // Accumulate inputs
+                xInputDirection += controller.MoveInputX;
             }
 
+            // Clamp the x-input direction to normalize
+            xInputDirection = Mathf.Clamp(xInputDirection, -1, 1);
+
             // Set the Moveable's velocity
-            rb.velocity = CalculateVelocity(xInputForce, moveSpeed);
+            rb.velocity = CalculateVelocity(xInputDirection, moveSpeed);
 
             // Iterate through each attached Player
             foreach (MoveableController controller in moveableControllers)
@@ -156,14 +158,14 @@ namespace Tethered.Interactables
         /// </summary>
         private Vector2 CalculateVelocity(float xInputForce, float moveSpeed)
         {
-            // Create a container for the velocity
-            Vector2 velocity = Vector2.zero;
-
-            // Exit case - if the Moveable requires both players and not enough force is given
-            if (requireBothPlayers && Mathf.Abs(xInputForce) < 1.5f) return velocity;
+            // Calculate the max speed depending on the amount of players moving
+            // the Moveable
+            float maxSpeed = (moveableControllers.Count > numofPlayersRequired)
+                ? moveSpeed * 1.5f
+                : moveSpeed;
 
             // Calculate the velocity
-            velocity = new Vector2(xInputForce * moveSpeed, 0f);
+            Vector2 velocity = new Vector2(xInputForce * maxSpeed, 0f);
 
             return velocity;
         }
@@ -186,8 +188,15 @@ namespace Tethered.Interactables
                 controller.SetMovingObject(null, false);
             }
 
+            // Get the new position
+            Vector3 newPosition = new Vector3(
+                position.x,
+                transform.position.y,
+                transform.position.z
+            );
+
             // Move to the position
-            Translate(position, translateDuration);
+            Translate(newPosition, translateDuration);
 
             // Lock the Moveable
             canMove = false;
