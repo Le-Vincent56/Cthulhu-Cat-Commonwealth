@@ -1,15 +1,23 @@
 using DG.Tweening;
+using System.Collections.Generic;
+using System.Linq;
 using Tethered.Player;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 namespace Tethered.Interactables
 {
     public class Moveable : Interactable
     {
+        [Header("Components")]
         private Rigidbody2D rb;
+        [SerializeField] private BoxCollider2D placementCollider;
+        private Bounds colliderBounds;
 
         [Header("Interaction")]
-        [SerializeField] private bool moving;
+        [SerializeField] private bool requireBothPlayers;
+        [SerializeField] private bool canMove;
+        private HashSet<MoveableController> moveableControllers;
 
         [Header("Tweening Variables")]
         [SerializeField] private float translateDuration;
@@ -22,9 +30,14 @@ namespace Tethered.Interactables
 
             // Get components
             rb = GetComponent<Rigidbody2D>();
+            placementCollider = GetComponents<BoxCollider2D>()[1];
 
-            // Set moving to false
-            moving = false;
+            // Set variables
+            canMove = true;
+            colliderBounds = placementCollider.bounds;
+
+            // Initialize the MoveableControllers HashSet
+            moveableControllers = new();
         }
 
         /// <summary>
@@ -32,31 +45,47 @@ namespace Tethered.Interactables
         /// </summary>
         public override void Interact(InteractController controller)
         {
+            // Exit case - the Moveable cannot be moved
+            if (!canMove) return;
+
+            // Exit case - the MoveableControllers HashSet is not initialized
+            if (moveableControllers == null) return;
+
             // Exit case - the controller does not have a PlayerController component
             if (!controller.TryGetComponent(out MoveableController moveableController)) return;
 
-            // Check if already moving the Moveable
-            if (!moving)
-            {
-                // If not, set this as the player's object to move and notify
-                // to start moving an object
-                moveableController.SetMovingObject(this, true);
+            // Set to kinematic and release constraints
+            rb.isKinematic = true;
+            rb.constraints = RigidbodyConstraints2D.None;
 
-                // Start moving the Moveable
-                moving = true;
-
-                // Hide the interact symbol
-                HideInteractSymbol(false);
-            }
-            else
+            // Check whether the HashSet already contains the MoveableController
+            if(moveableControllers.Contains(moveableController))
             {
                 // Otherwise, Set the player's object to move to null and notify to stop
                 // moving an object
                 moveableController.SetMovingObject(null, false);
 
-                // Stop moving the Moveable
-                moving = false;
+                // Remove the MoveableController from the HashSet
+                moveableControllers.Remove(moveableController);
+            }
+            else
+            {
+                // If not, set this as the player's object to move and notify
+                // to start moving an object
+                moveableController.SetMovingObject(this, true);
 
+                // Add the MoveableController from the HashSet
+                moveableControllers.Add(moveableController);
+            }
+
+            // Check if there are MoveableControllers
+            if(moveableControllers.Count > 0)
+            {
+                // Hide the interact symbol
+                HideInteractSymbol(false);
+            }
+            else if (moveableControllers.Count <= 0)
+            {
                 // Show the interact symbol
                 ShowInteractSymbol(false);
             }
@@ -65,14 +94,103 @@ namespace Tethered.Interactables
         /// <summary>
         /// Move the Moveable
         /// </summary>
-        public void Move(Vector2 velocity) => rb.velocity = velocity;
+        public void Move(float moveSpeed)
+        {
+            // Exit case - there is no attached Player or the HashSet is not initialized
+            if (moveableControllers == null || moveableControllers.Count <= 0) return;
+
+            // Create a container for the final movement direction
+            float xInputForce = 0;
+
+            // Iterate through each MoveableController
+            for(int i = 0; i < moveableControllers.Count; i++)
+            {
+                // Get the contribution factor
+                float contributionFactor = (i == 0) ? 1f : 0.5f;
+
+                // Add to the X-Input force
+                xInputForce += 
+                    moveableControllers.ElementAt(i).MoveInputX * contributionFactor;
+            }
+
+            // Set the Moveable's velocity
+            rb.velocity = CalculateVelocity(xInputForce, moveSpeed);
+
+            // Iterate through each attached Player
+            foreach (MoveableController controller in moveableControllers)
+            {
+                // Get collider bounds
+                BoxCollider2D controllerCollider = controller.GetComponent<BoxCollider2D>();
+                Bounds controllerBounds = controllerCollider.bounds;
+                colliderBounds = placementCollider.bounds;
+
+                // Calculate the distance between the Moveable and the Player
+                Vector2 controllerPosition = controller.transform.position;
+                Vector2 currentPosition = rb.position;
+
+                // Calculate the horizontal direction
+                float directionX = controllerPosition.x - currentPosition.x;
+
+                // Adjust the controller's X position based on which side it's on
+                Vector2 newControllerPosition = controllerPosition;
+
+                // Check if the MoveableController is on the left
+                if (directionX < 0)
+                {
+                    // Otherweise, align its right edge with the left edge of the Moveable
+                    newControllerPosition.x = colliderBounds.min.x - (controllerBounds.size.x / 2f);
+                }
+                else
+                {
+                    // If so, align its left edge with the right edge of the Moveable
+                    newControllerPosition.x = colliderBounds.max.x + (controllerBounds.size.x / 2f);
+                }
+
+                // Update the MoveableController's position
+                controller.transform.position = newControllerPosition;
+            }
+        }
+        
+        /// <summary>
+        /// Calculate the velocity for the Moveable
+        /// </summary>
+        private Vector2 CalculateVelocity(float xInputForce, float moveSpeed)
+        {
+            // Create a container for the velocity
+            Vector2 velocity = Vector2.zero;
+
+            // Exit case - if the Moveable requires both players and not enough force is given
+            if (requireBothPlayers && Mathf.Abs(xInputForce) < 1.5f) return velocity;
+
+            // Calculate the velocity
+            velocity = new Vector2(xInputForce * moveSpeed, 0f);
+
+            return velocity;
+        }
 
         /// <summary>
         /// Handle locking into place
         /// </summary>
         public void LockIntoPlace(Vector3 position)
         {
+            // Exit case - there is no attached Player or the HashSet is not initialized
+            if (moveableControllers == null || moveableControllers.Count <= 0) return;
+
+            // Zero out the velocity
+            rb.velocity = Vector2.zero;
+
+            // Iterate through each attached MoveableController
+            foreach(MoveableController controller in moveableControllers)
+            {
+                // Detach the Moveable from the MoveableController
+                controller.SetMovingObject(null, false);
+            }
+
+            // Move to the position
             Translate(position, translateDuration);
+
+            // Lock the Moveable
+            canMove = false;
         }
         
         /// <summary>

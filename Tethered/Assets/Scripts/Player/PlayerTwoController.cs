@@ -56,6 +56,16 @@ namespace Tethered.Player
         }
 
         /// <summary>
+        /// Enable Player Two's input
+        /// </summary>
+        public override void EnableInput() => inputReader.Enable();
+
+        /// <summary>
+        /// Disable Player Two's input
+        /// </summary>
+        public override void DisableInput() => inputReader.Disable();
+
+        /// <summary>
         /// Start crawling for the Younger Sibling
         /// </summary>
         public void StartCrawl(List<Vector2> path)

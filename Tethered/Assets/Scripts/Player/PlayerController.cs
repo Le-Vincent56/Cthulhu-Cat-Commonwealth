@@ -82,6 +82,16 @@ namespace Tethered.Player
         protected abstract void SetupStates(IdleState idleState, LocomotionState locomotionState);
 
         /// <summary>
+        /// Enable the input
+        /// </summary>
+        public abstract void EnableInput();
+
+        /// <summary>
+        /// Disable the input
+        /// </summary>
+        public abstract void DisableInput();
+
+        /// <summary>
         /// Move the Player
         /// </summary>
         public void Move() => rb.velocity = new Vector2(moveDirectionX * movementSpeed, 0);

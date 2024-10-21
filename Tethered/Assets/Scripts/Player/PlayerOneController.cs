@@ -25,5 +25,15 @@ namespace Tethered.Player
         {
             // TODO: Set up Climb State
         }
+
+        /// <summary>
+        /// Enable Player One's input
+        /// </summary>
+        public override void EnableInput() => inputReader.Enable();
+
+        /// <summary>
+        /// Disable Player One's input
+        /// </summary>
+        public override void DisableInput() => inputReader.Disable();
     }
 }

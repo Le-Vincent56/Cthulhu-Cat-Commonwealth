@@ -5,7 +5,7 @@ namespace Tethered.Player.States
     public class MovingObjectState : PlayerState
     {
         private readonly MoveableController moveableController;
-        private bool canMove;
+        private bool canMoveObjects;
 
         public MovingObjectState(
             PlayerController controller, 
@@ -18,24 +18,36 @@ namespace Tethered.Player.States
 
         public override void OnEnter()
         {
-            // Set the position of the player
+            // Disable input to prevent movement
+            controller.DisableInput();
+
+            // Set the position of the Player
             moveableController.PositionWithMoveable(() =>
             {
                 // Cross fade into the animation
                 animator.CrossFade(MoveObjectHash, crossFadeDuration);
 
-                // Allow the player to move
-                canMove = true;
+                // Allow the Player to move objects
+                canMoveObjects = true;
+
+                // Enable input
+                controller.EnableInput();
             });
         }
 
         public override void FixedUpdate()
         {
-            // Exit case - if can't move
-            if (!canMove) return;
+            // Exit case - if the Player can;t move objects
+            if (!canMoveObjects) return;
 
             // Move the object
             moveableController.MoveObject();
+        }
+
+        public override void OnExit()
+        {
+            // Don't allow the Player to move objects
+            canMoveObjects = false;
         }
     }
 }
