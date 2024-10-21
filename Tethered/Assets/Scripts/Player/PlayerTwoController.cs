@@ -11,9 +11,6 @@ namespace Tethered.Player
         [Header("Input")]
         [SerializeField] private PlayerTwoInputReader inputReader;
 
-        [Header("Movement")]
-        [SerializeField] private float movementSpeed;
-
         [Header("Crawling")]
         [SerializeField] private bool crawling;
         [SerializeField] private int currentPathIndex;
@@ -40,15 +37,6 @@ namespace Tethered.Player
 
             // Update the state machine
             base.Update();
-        }
-
-        protected override void FixedUpdate()
-        {
-            // Set the player velocity
-            rb.velocity = new Vector2(moveDirectionX * movementSpeed, 0);
-
-            // Update the state machine
-            base.FixedUpdate();
         }
 
         /// <summary>
