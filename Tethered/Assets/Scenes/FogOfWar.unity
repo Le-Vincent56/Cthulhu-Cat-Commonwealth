@@ -3888,7 +3888,6 @@ GameObject:
   - component: {fileID: 1513432052}
   - component: {fileID: 1513432051}
   - component: {fileID: 1513432054}
-  - component: {fileID: 1513432055}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3950,7 +3949,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
+  m_AllowDynamicResolution: 1
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -4279,9 +4278,9 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8581727927830173069, guid: 61287ce7d94e3df419a7c81c6ce2a588, type: 3}
-      propertyPath: orthographic size
-      value: 5.4
+    - target: {fileID: 4615751787940875840, guid: 61287ce7d94e3df419a7c81c6ce2a588, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

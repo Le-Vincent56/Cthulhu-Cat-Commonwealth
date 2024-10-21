@@ -11,9 +11,6 @@ namespace Tethered.Player
         [Header("Input")]
         [SerializeField] private PlayerTwoInputReader inputReader;
 
-        [Header("Movement")]
-        [SerializeField] private float movementSpeed;
-
         [Header("Crawling")]
         [SerializeField] private bool crawling;
         [SerializeField] private int currentPathIndex;
@@ -42,15 +39,6 @@ namespace Tethered.Player
             base.Update();
         }
 
-        protected override void FixedUpdate()
-        {
-            // Set the player velocity
-            rb.velocity = new Vector2(moveDirectionX * movementSpeed, 0);
-
-            // Update the state machine
-            base.FixedUpdate();
-        }
-
         /// <summary>
         /// Set up the Younger Sibling's individual states
         /// </summary>
@@ -66,6 +54,16 @@ namespace Tethered.Player
             stateMachine.At(crawlState, idleState, new FuncPredicate(() => !crawling && moveDirectionX == 0));
             stateMachine.At(crawlState, locomotionState, new FuncPredicate(() => !crawling && moveDirectionX != 0));
         }
+
+        /// <summary>
+        /// Enable Player Two's input
+        /// </summary>
+        public override void EnableInput() => inputReader.Enable();
+
+        /// <summary>
+        /// Disable Player Two's input
+        /// </summary>
+        public override void DisableInput() => inputReader.Disable();
 
         /// <summary>
         /// Start crawling for the Younger Sibling

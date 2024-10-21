@@ -9,9 +9,12 @@ namespace Tethered.Interactables
     public abstract class Interactable : MonoBehaviour
     {
         [SerializeField] private bool sharedInteractable;
+        [SerializeField] private bool multiSided;
+        private int enterDirection;
         protected HashSet<InteractController> controllers;
 
         protected bool symbolShown;
+        private float initialPosX;
         protected SpriteRenderer interactSymbol;
 
         private Tween fadeTween;
@@ -32,7 +35,13 @@ namespace Tethered.Interactables
                 ? spriteRenderers[0]
                 : spriteRenderers[1];
 
+            // Set the interact symbol's position
+            Vector3 localPosition = interactSymbol.transform.localPosition;
+            localPosition.x = Mathf.Abs(localPosition.x);
+            interactSymbol.transform.localPosition = localPosition;
+
             // Set scale targets
+            initialPosX = interactSymbol.transform.localPosition.x;
             symbolInitialScale = interactSymbol.transform.localScale * 0.7f;
             symbolTargetScale = interactSymbol.transform.localScale;
 
@@ -61,6 +70,9 @@ namespace Tethered.Interactables
 
             // Exit case - if the symbol is shown
             if (symbolShown) return;
+
+            // Get the direction the controller is entering from
+            enterDirection = (int)(controller.transform.position.x - transform.position.x);
 
             // Show the interact symbol
             ShowInteractSymbol(sharedInteractable);
@@ -99,6 +111,19 @@ namespace Tethered.Interactables
         /// </summary>
         protected virtual void ShowInteractSymbol(bool notifyShown = false, TweenCallback onComplete = null)
         {
+            // Check if multi-sided
+            if(multiSided)
+            {
+                // Get the symbol's local position
+                Vector3 localPosition = interactSymbol.transform.localPosition;
+
+                // Switch the x-position based on the enter direction
+                localPosition.x = initialPosX * enterDirection;
+
+                // Shift the symbol position to match the side
+                interactSymbol.transform.localPosition = localPosition;
+            }
+
             // Check if to notify shown
             if(notifyShown)
             {

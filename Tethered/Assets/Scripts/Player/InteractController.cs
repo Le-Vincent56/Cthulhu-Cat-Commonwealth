@@ -7,9 +7,9 @@ namespace Tethered.Player
 {
     public class InteractController : MonoBehaviour
     {
+        [SerializeField] private PlayerType playerType;
         [SerializeField] private PlayerOneInputReader playerOneInputReader;
         [SerializeField] private PlayerTwoInputReader playerTwoInputReader;
-        [SerializeField] private PlayerType playerType;
         [SerializeField] protected Interactable currentInteractable;
         protected HashSet<int> keys;
 

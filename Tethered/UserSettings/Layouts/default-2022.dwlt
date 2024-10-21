@@ -23,7 +23,7 @@ MonoBehaviour:
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 371}
   m_MaxSize: {x: 10000, y: 10000}
-  m_Maximized: 1
+  m_Maximized: 0
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -336,7 +336,7 @@ MonoBehaviour:
     x: 375.2
     y: 73.6
     width: 845.2
-    height: 565.4
+    height: 567.8
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -350,15 +350,32 @@ MonoBehaviour:
   m_ViewTransforms:
     m_KeySerializationHelper:
     - {fileID: 2140118961156209757, guid: 64eeb8ec02019924c87c08fa15f59f07, type: 2}
+    - {fileID: 2140118961156209757, guid: bd031720fae886c499fbad2a1092fb9f, type: 2}
     m_ValueSerializationHelper:
-    - e00: 0.54021984
+    - e00: 0.5174737
       e01: 0
       e02: 0
-      e03: -12.011017
+      e03: -10.873688
       e10: 0
-      e11: 0.54021984
+      e11: 0.5174737
       e12: 0
-      e13: 188.05542
+      e13: 181.6042
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    - e00: 0.5174737
+      e01: 0
+      e02: 0
+      e03: -10.873688
+      e10: 0
+      e11: 0.5174737
+      e12: 0
+      e13: 207.47789
       e20: 0
       e21: 0
       e22: 1
@@ -368,9 +385,9 @@ MonoBehaviour:
       e32: 0
       e33: 1
   m_PreviewAnimator: {fileID: 0}
-  m_AnimatorController: {fileID: 9100000, guid: 64eeb8ec02019924c87c08fa15f59f07, type: 2}
+  m_AnimatorController: {fileID: 9100000, guid: bd031720fae886c499fbad2a1092fb9f, type: 2}
   m_BreadCrumbs:
-  - m_Target: {fileID: 2140118961156209757, guid: 64eeb8ec02019924c87c08fa15f59f07, type: 2}
+  - m_Target: {fileID: 2140118961156209757, guid: bd031720fae886c499fbad2a1092fb9f, type: 2}
     m_ScrollPosition: {x: 0, y: 0}
   stateMachineGraph: {fileID: 0}
   stateMachineGraphGUI: {fileID: 0}
