@@ -1,6 +1,8 @@
 using UnityEngine;
 using Tethered.Patterns.StateMachine;
 using Tethered.Player.States;
+using Tethered.Cameras;
+using Tethered.Patterns.ServiceLocator;
 
 namespace Tethered.Player
 {
@@ -23,6 +25,7 @@ namespace Tethered.Player
         protected Animator animator;
         protected StateMachine stateMachine;
         protected MoveableController moveableController;
+        protected CameraBoundary cameraBoundary;
 
         [Header("Movement")]
         [SerializeField] protected float movementSpeed;
@@ -62,6 +65,13 @@ namespace Tethered.Player
 
             // Set an initial state
             stateMachine.SetState(idleState);
+        }
+
+        protected virtual void Start()
+        {
+            // Retrieve the Camera boundary and register to it
+            cameraBoundary = ServiceLocator.ForSceneOf(this).Get<CameraBoundary>();
+            cameraBoundary.Register(this);
         }
 
         protected virtual void Update()
