@@ -8,7 +8,6 @@ namespace Tethered.Interactables
     public class Key : Interactable
     {
         [SerializeField] private int hash;
-        [SerializeField] private bool collected;
 
         private SpriteRenderer keySprite;
 
@@ -53,9 +52,6 @@ namespace Tethered.Interactables
         /// </summary>
         private void DisableKey()
         {
-            // Set collected
-            collected = true;
-            
             // Iterate through each controller within the trigger
             foreach (InteractController controller in controllers)
             {

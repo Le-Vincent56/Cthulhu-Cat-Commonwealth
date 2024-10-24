@@ -9,9 +9,6 @@ namespace Tethered.Player
         [Header("Input")]
         [SerializeField] private PlayerOneInputReader inputReader;
 
-        [Header("Movement")]
-        [SerializeField] private float movementSpeed;
-
         protected override void Update()
         {
             // Update movement direction
@@ -21,15 +18,6 @@ namespace Tethered.Player
             base.Update();
         }
 
-        protected override void FixedUpdate()
-        {
-            // Set the player velocity
-            rb.velocity = new Vector2(moveDirectionX * movementSpeed, 0);
-
-            // Update the state machine
-            base.FixedUpdate();
-        }
-
         /// <summary>
         /// Set up the Older Sibling's individual states
         /// </summary>
@@ -37,5 +25,15 @@ namespace Tethered.Player
         {
             // TODO: Set up Climb State
         }
+
+        /// <summary>
+        /// Enable Player One's input
+        /// </summary>
+        public override void EnableInput() => inputReader.Enable();
+
+        /// <summary>
+        /// Disable Player One's input
+        /// </summary>
+        public override void DisableInput() => inputReader.Disable();
     }
 }
