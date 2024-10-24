@@ -13,5 +13,16 @@ namespace Tethered.Player.States
         {
             animator.CrossFade(LocomotionHash, crossFadeDuration);
         }
+
+        public override void FixedUpdate()
+        {
+            // Move the player
+            controller.Move();
+        }
+
+        public override void OnExit()
+        {
+            controller.EndMove();
+        }
     }
 }
