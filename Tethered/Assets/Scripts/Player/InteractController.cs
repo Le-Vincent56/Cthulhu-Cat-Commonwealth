@@ -13,6 +13,11 @@ namespace Tethered.Player
         [SerializeField] protected Interactable currentInteractable;
         protected HashSet<int> keys;
 
+        // climb
+        [SerializeField] private bool climbing;
+        [SerializeField] private int currentPathIndex;
+        [SerializeField] private List<Vector2> path;
+
         public PlayerType PlayerType { get => playerType; }
         public HashSet<int> Keys { get => keys; }
 

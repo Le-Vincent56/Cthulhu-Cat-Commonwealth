@@ -54,7 +54,7 @@ namespace Tethered.Player
         /// <summary>
         /// Set up the Younger Sibling's individual states
         /// </summary>
-        protected override void SetupStates(IdleState idleState, LocomotionState locomotionState)
+        protected override void SetupStates(IdleState idleState, LocomotionState locomotionState, ClimbState climbState)
         {
             // Create states
             CrawlState crawlState = new CrawlState(this, animator);
