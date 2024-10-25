@@ -40,15 +40,15 @@ namespace Tethered.Interactables
         /// </summary>
         public override void Interact(InteractController controller)
         {
-            // Add the key to the Player's key set
-            controller.AddKey(hash);
+            // Add the key to the Players' inventory
+            controller.Inventory.StoreKey(hash);
 
             // Disable the key
             DisableKey();
         }
 
         /// <summary>
-        /// Disable the key
+        /// Disable the Key
         /// </summary>
         private void DisableKey()
         {
@@ -76,7 +76,7 @@ namespace Tethered.Interactables
         public void SetHash(int hash) => this.hash = hash;
 
         /// <summary>
-        /// Fade the Door using tweening
+        /// Fade the Key using tweening
         /// </summary>
         private void FadeKey(float endValue, float duration, TweenCallback onComplete = null)
         {

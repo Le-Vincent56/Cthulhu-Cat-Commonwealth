@@ -26,6 +26,7 @@ namespace Tethered.Player
         protected StateMachine stateMachine;
         protected MoveableController moveableController;
         protected CameraBoundary cameraBoundary;
+        private Transform skinTransform;
 
         [Header("Movement")]
         [SerializeField] protected float movementSpeed;
@@ -41,6 +42,7 @@ namespace Tethered.Player
             boxCollider = GetComponent<BoxCollider2D>();
             animator = GetComponentInChildren<Animator>();
             moveableController = GetComponent<MoveableController>();
+            skinTransform = animator.transform;
 
             // Initialize the state machine
             stateMachine = new StateMachine();
@@ -104,11 +106,30 @@ namespace Tethered.Player
         /// <summary>
         /// Move the Player
         /// </summary>
-        public void Move() => rb.velocity = new Vector2(moveDirectionX * movementSpeed, 0);
+        public void Move()
+        {
+            rb.velocity = new Vector2(moveDirectionX * movementSpeed, 0);
+            SetFacingDirection(moveDirectionX);
+        }
 
         /// <summary>
         /// Stop moving the Player
         /// </summary>
         public void EndMove() => rb.velocity = new Vector2(0, 0);
+
+        /// <summary>
+        /// Sets the facing direction of the player based on moveDirectionX.
+        /// </summary>
+        protected void SetFacingDirection(int direction)
+        {
+            // Check if direction is non-zero (player is moving)
+            if (direction != 0)
+            {
+                // Flip the sprite based on the direction
+                Vector3 scale = skinTransform.localScale;
+                scale.x = Mathf.Abs(scale.x) * Mathf.Sign(direction);
+                skinTransform.localScale = scale;
+            }
+        }
     }
 }

@@ -1,5 +1,4 @@
 using Tethered.Patterns.EventBus;
-using UnityEngine.Serialization;
 
 namespace Tethered.Monster.Events
 {
@@ -12,5 +11,11 @@ namespace Tethered.Monster.Events
     {
         public float AttractionLevelTotal;
         public float AttractionLevelMax;
+    }
+
+    public struct ToggleTrigger : IEvent
+    {
+        public int Hash;
+        public bool Enabled;
     }
 }

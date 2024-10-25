@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Tethered.Input;
 using Tethered.Interactables;
+using Tethered.Inventory;
 using UnityEngine;
 
 namespace Tethered.Player
@@ -10,16 +11,16 @@ namespace Tethered.Player
         [SerializeField] private PlayerType playerType;
         [SerializeField] private PlayerOneInputReader playerOneInputReader;
         [SerializeField] private PlayerTwoInputReader playerTwoInputReader;
-        [SerializeField] protected Interactable currentInteractable;
-        protected HashSet<int> keys;
+        private PlayerInventory inventory;
+        [SerializeField] private Interactable currentInteractable;
 
         public PlayerType PlayerType { get => playerType; }
-        public HashSet<int> Keys { get => keys; }
+        public PlayerInventory Inventory { get => inventory; }
 
         private void Awake()
         {
-            // Initialize the hashset
-            keys = new HashSet<int>();
+            // Get components
+            inventory = GetComponent<PlayerInventory>();
         }
 
         private void OnEnable()
@@ -64,25 +65,5 @@ namespace Tethered.Player
         /// Interact with the current interactable
         /// </summary>
         protected void Interact() => currentInteractable?.Interact(this);
-
-        /// <summary>
-        /// Add a Key to the Player's key set
-        /// </summary>
-        public void AddKey(int hash) => keys.Add(hash);
-
-        /// <summary>
-        /// Check a Key in the Player's key set
-        /// </summary>
-        public void CheckKey(Door door)
-        {
-            // Exit case - if the key is not found
-            if (!keys.Contains(door.Hash)) return;
-
-            // Unlock the door
-            door.Unlock();
-
-            // Remove the key
-            keys.Remove(door.Hash);
-        }
     }
 }
