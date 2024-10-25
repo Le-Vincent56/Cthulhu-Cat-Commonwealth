@@ -6,5 +6,6 @@ namespace Tethered.Interactables.Events
     {
         public int Hash;
         public bool Open;
+        public bool Deactivate;
     }
 }

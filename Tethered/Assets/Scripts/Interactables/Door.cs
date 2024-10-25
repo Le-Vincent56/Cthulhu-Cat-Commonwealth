@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Tethered.Interactables
 {
-    public class Door : Interactable
+    public class Door : MonoBehaviour
     {
 
         [Header("Identifier")]
@@ -21,11 +21,8 @@ namespace Tethered.Interactables
 
         public int Hash { get => hash; }
 
-        protected override void Awake()
+        private void Awake()
         {
-            // Call the parent Awake
-            base.Awake();
-
             // Get components
             doorSprite = GetComponent<SpriteRenderer>();
 
@@ -45,22 +42,10 @@ namespace Tethered.Interactables
         }
 
         /// <summary>
-        /// Try to open the Door
-        /// </summary>
-        public override void Interact(InteractController controller)
-        {
-            // Check the InteractController for the correct key
-            controller.CheckKey(this);
-        }
-
-        /// <summary>
         /// Unlock the Door
         /// </summary>
         public void Unlock(bool deactivate = true)
         {
-            // Fade out the Interact Symbol
-            HideInteractSymbol(true);
-
             // Fade out the door and set inactive
             FadeDoor(0f, doorFadeDuration, () =>
             {
@@ -90,7 +75,7 @@ namespace Tethered.Interactables
             if(eventData.Open)
             {
                 // If so, unlock it
-                Unlock(false);
+                Unlock(eventData.Deactivate);
             }
             else
             {

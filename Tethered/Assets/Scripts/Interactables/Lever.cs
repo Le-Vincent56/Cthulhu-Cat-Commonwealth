@@ -48,7 +48,8 @@ namespace Tethered.Interactables
             EventBus<HandleDoor>.Raise(new HandleDoor()
             {
                 Hash = hash,
-                Open = openDoor
+                Open = openDoor,
+                Deactivate = false
             });
 
             // Toggle the lever

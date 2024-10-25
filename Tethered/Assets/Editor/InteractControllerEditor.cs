@@ -12,8 +12,6 @@ namespace Tethered.Player.Editors
         private SerializedProperty playerTypeProp;
         private SerializedProperty currentInteractableProp;
 
-        private InteractController interactController;
-
         private void OnEnable()
         {
             // Link the Serialized Properties to their corresponding fields
@@ -21,9 +19,6 @@ namespace Tethered.Player.Editors
             playerTwoInputReaderProp = serializedObject.FindProperty("playerTwoInputReader");
             playerTypeProp = serializedObject.FindProperty("playerType");
             currentInteractableProp = serializedObject.FindProperty("currentInteractable");
-
-            // Cast the target
-            interactController = (InteractController)target;
         }
 
         public override void OnInspectorGUI()
@@ -57,30 +52,6 @@ namespace Tethered.Player.Editors
             // Show the current Interactable field
             EditorGUILayout.LabelField("Interactables", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(currentInteractableProp, new GUIContent("Current Interactable"));
-
-            // Create space
-            EditorGUILayout.Space();
-
-            // Show the Keys HashSet
-            EditorGUILayout.LabelField("Keys", EditorStyles.boldLabel);
-
-            // Check if the Keys HashSet exists
-            if(interactController.Keys != null)
-            {
-                // If so, cast into a List
-                List<int> keysList = new List<int>(interactController.Keys);
-
-                // Iterate through the List
-                for(int i = 0; i < keysList.Count; i++)
-                {
-                    // Display each Key
-                    EditorGUILayout.LabelField($"Key {i + 1}: {keysList[i]}");
-                }
-            }
-            else
-            {
-                EditorGUILayout.HelpBox("No keys", MessageType.Info);
-            }
 
             // Apply any modified properties
             serializedObject.ApplyModifiedProperties();
