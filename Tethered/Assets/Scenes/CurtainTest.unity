@@ -225,7 +225,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3957490703655534696, guid: 1ef1f7093dd77d5438967f421a0aad6b, type: 3}
       propertyPath: orthographic size
-      value: 5.4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3957490703655534696, guid: 1ef1f7093dd77d5438967f421a0aad6b, type: 3}
       propertyPath: m_NormalizedViewPortRect.y
@@ -1176,6 +1176,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 797478816930352976, guid: aaf26476795f0ed43946601312ea937d, type: 3}
+      propertyPath: m_Size.x
+      value: 3.021596
+      objectReference: {fileID: 0}
+    - target: {fileID: 797478816930352976, guid: aaf26476795f0ed43946601312ea937d, type: 3}
+      propertyPath: m_Size.y
+      value: 11.754082
+      objectReference: {fileID: 0}
+    - target: {fileID: 797478816930352976, guid: aaf26476795f0ed43946601312ea937d, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.018081486
+      objectReference: {fileID: 0}
+    - target: {fileID: 797478816930352976, guid: aaf26476795f0ed43946601312ea937d, type: 3}
+      propertyPath: m_Offset.y
+      value: 6.384797
+      objectReference: {fileID: 0}
     - target: {fileID: 3730928803521616450, guid: aaf26476795f0ed43946601312ea937d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.78
@@ -1257,7 +1273,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4055846699529396922, guid: aaf26476795f0ed43946601312ea937d, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aaf26476795f0ed43946601312ea937d, type: 3}
