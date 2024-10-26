@@ -103,7 +103,7 @@ namespace Tethered.Player
         /// <summary>
         /// Setup necessary states
         /// </summary>
-        protected abstract void SetupStates(IdleState idleState, LocomotionState locomotionState,);
+        protected abstract void SetupStates(IdleState idleState, LocomotionState locomotionState, ClimbState climbState);
 
         /// <summary>
         /// Enable the input
@@ -143,7 +143,6 @@ namespace Tethered.Player
                 skinTransform.localScale = scale;
             }
         }
-        protected abstract void SetupStates(IdleState idleState, LocomotionState locomotionState, ClimbState climbState);
 
         /// <summary>
         /// Start climbing
