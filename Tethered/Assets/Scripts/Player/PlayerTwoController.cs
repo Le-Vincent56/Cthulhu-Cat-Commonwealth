@@ -62,9 +62,12 @@ namespace Tethered.Player
             // Define state transitions
             stateMachine.At(idleState, crawlState, new FuncPredicate(() => crawling));
             stateMachine.At(locomotionState, crawlState, new FuncPredicate(() => crawling));
+            stateMachine.At(climbState, crawlState, new FuncPredicate(() => crawling));
 
             stateMachine.At(crawlState, idleState, new FuncPredicate(() => !crawling && moveDirectionX == 0));
             stateMachine.At(crawlState, locomotionState, new FuncPredicate(() => !crawling && moveDirectionX != 0));
+            stateMachine.At(crawlState, climbState, new FuncPredicate(() => climbing));
+
         }
 
         /// <summary>

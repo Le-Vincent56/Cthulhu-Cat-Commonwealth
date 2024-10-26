@@ -28,7 +28,7 @@ namespace Tethered.Player
         [SerializeField] protected PlayerWeight weight;
 
         [Header("Climbing")]
-        [SerializeField] private bool climbing;
+        [SerializeField] protected bool climbing;
         [SerializeField] private int currentLadderPathIndex;
         [SerializeField] private List<Vector2> ladderPath;
 
@@ -90,20 +90,22 @@ namespace Tethered.Player
             // Set crawling to true
             climbing = true;
 
+            Debug.Log("I'm climbing!!");
+
             // Initialize the path
             this.ladderPath = path;
             currentLadderPathIndex = 1;
         }
 
         /// <summary>
-        /// Handle crawl logic
+        /// Handle climb logic
         /// </summary>
         public void Climb()
         {
             // Exit case - if the path list is null
             if (ladderPath == null) return;
 
-            // Exit case - if not crawling
+            // Exit case - if not climbing
             if (!climbing) return;
 
             // Get the current target point on the path
@@ -126,7 +128,7 @@ namespace Tethered.Player
                 // Move to the next point in the path
                 currentLadderPathIndex++;
 
-                // If we've reached the end of the path, stop crawling
+                // If we've reached the end of the path, stop climbing
                 if (currentLadderPathIndex >= ladderPath.Count)
                 {
                     EndClimb();

@@ -58,7 +58,7 @@ namespace Tethered.Interactables
             HideInteractSymbol();
 
             // Start climbing
-            //playerController.StartCrawl(path);
+            playerController.StartClimb(path);
         }
 
         /// <summary>
