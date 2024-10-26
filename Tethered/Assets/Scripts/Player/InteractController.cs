@@ -14,6 +14,11 @@ namespace Tethered.Player
         private PlayerInventory inventory;
         [SerializeField] private Interactable currentInteractable;
 
+        // climb
+        [SerializeField] private bool climbing;
+        [SerializeField] private int currentPathIndex;
+        [SerializeField] private List<Vector2> path;
+
         public PlayerType PlayerType { get => playerType; }
         public PlayerInventory Inventory { get => inventory; }
 

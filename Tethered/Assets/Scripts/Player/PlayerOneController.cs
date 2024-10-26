@@ -21,7 +21,7 @@ namespace Tethered.Player
         /// <summary>
         /// Set up the Older Sibling's individual states
         /// </summary>
-        protected override void SetupStates(IdleState idleState, LocomotionState locomotionState)
+        protected override void SetupStates(IdleState idleState, LocomotionState locomotionState, ClimbState climbState)
         {
             // TODO: Set up Climb State
         }
