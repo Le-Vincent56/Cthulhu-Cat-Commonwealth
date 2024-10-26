@@ -55,7 +55,6 @@ namespace Tethered.Player
             stateMachine.At(crawlState, idleState, new FuncPredicate(() => !crawling && moveDirectionX == 0));
             stateMachine.At(crawlState, locomotionState, new FuncPredicate(() => !crawling && moveDirectionX != 0));
             stateMachine.At(crawlState, climbState, new FuncPredicate(() => climbing));
-
         }
 
         /// <summary>

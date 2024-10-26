@@ -35,9 +35,11 @@ namespace Tethered.Player
         protected int moveDirectionX;
 
         [Header("Climbing")]
+        [SerializeField] protected bool reaching;
         [SerializeField] protected bool climbing;
         [SerializeField] private int currentLadderPathIndex;
         [SerializeField] private List<Vector2> ladderPath;
+        [SerializeField] private float initialGravityScale;
 
         public PlayerWeight Weight { get => weight; }
 
@@ -50,6 +52,9 @@ namespace Tethered.Player
             moveableController = GetComponent<MoveableController>();
             skinTransform = animator.transform;
 
+            // Set variables
+            initialGravityScale = rb.gravityScale;
+
             // Initialize the state machine
             stateMachine = new StateMachine();
 
@@ -58,7 +63,6 @@ namespace Tethered.Player
             LocomotionState locomotionState = new LocomotionState(this, animator);
             ClimbState climbState = new ClimbState(this, animator);
             MovingObjectState pushState = new MovingObjectState(this, animator, moveableController);
-
 
             // Set up individual states
             SetupStates(idleState, locomotionState, climbState);
@@ -145,6 +149,11 @@ namespace Tethered.Player
         }
 
         /// <summary>
+        /// Set whether or not the Player is reaching
+        /// </summary>
+        public void SetReaching(bool reaching) => this.reaching = reaching;
+
+        /// <summary>
         /// Start climbing
         /// </summary>
         public void StartClimb(List<Vector2> path)
@@ -153,9 +162,10 @@ namespace Tethered.Player
             climbing = true;
 
             // Initialize the path
-            this.ladderPath = path;
+            ladderPath = path;
             currentLadderPathIndex = 1;
             boxCollider.enabled = false;
+            rb.gravityScale = 0f;
         }
 
         /// <summary>
@@ -204,6 +214,7 @@ namespace Tethered.Player
         {
             climbing = false;
             boxCollider.enabled = true;
+            rb.gravityScale = initialGravityScale;
         }
     }
 }

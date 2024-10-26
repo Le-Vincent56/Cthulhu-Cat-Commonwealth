@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using Tethered.Interactables.Events;
+using Tethered.Patterns.EventBus;
 using Tethered.Player;
 using UnityEngine;
 
@@ -6,7 +9,24 @@ namespace Tethered.Interactables
 {
     public class Ladder : Interactable
     {
+        [SerializeField] private int hash;
+        [SerializeField] private bool mustExtend;
+        [SerializeField] private bool climable;
+
         [SerializeField] private List<Vector2> path;
+
+        private EventBinding<EnableLadder> onEnableLadder;
+
+        private void OnEnable()
+        {
+            onEnableLadder = new EventBinding<EnableLadder>(EnableLadder);
+            EventBus<EnableLadder>.Register(onEnableLadder);
+        }
+
+        private void OnDisable()
+        {
+            EventBus<EnableLadder>.Deregister(onEnableLadder);
+        }
 
         private void OnValidate()
         {
@@ -18,12 +38,18 @@ namespace Tethered.Interactables
         {
             base.Awake();
 
+            // If the ladder doesn't need to be extended, set it to climable
+            if (!mustExtend) climable = true;
+
             // Set the path
             SetPath();
         }
 
         protected override void OnTriggerEnter2D(Collider2D collision)
         {
+            // Exit case - the ladder is not climable
+            if (!climable) return;
+
             // Exit case - if a PlayerController is not found on the collision object
             if (!collision.TryGetComponent(out InteractController controller)) return;
 
@@ -36,6 +62,9 @@ namespace Tethered.Interactables
 
         protected override void OnTriggerExit2D(Collider2D collision)
         {
+            // Exit case - the ladder is not climable
+            if (!climable) return;
+
             // Exit case - if a PlayerController is not found on the collision object
             if (!collision.TryGetComponent(out InteractController controller)) return;
 
@@ -51,6 +80,9 @@ namespace Tethered.Interactables
         /// </summary>
         public override void Interact(InteractController controller)
         {
+            // Exit case - the ladder is not climable
+            if (!climable) return;
+
             // Exit case - if there is no PlayerController attached to the controller
             if (!controller.TryGetComponent(out PlayerController playerController)) return;
 
@@ -82,6 +114,23 @@ namespace Tethered.Interactables
                 path.Add(transform.GetChild(i).position);
             }
         }
+
+        /// <summary>
+        /// Enable the ladder to be climable
+        /// </summary>
+        private void EnableLadder(EnableLadder eventData)
+        {
+            // Exit case - if the hash is incorrect
+            if (hash != eventData.Hash) return;
+
+            // Set the ladder to climable
+            climable = true;
+        }
+
+        /// <summary>
+        /// Set the Ladder's hash
+        /// </summary>
+        public void SetHash(int hash) => this.hash = hash;
 
         private void OnDrawGizmosSelected()
         {

@@ -20,6 +20,5 @@ namespace Tethered.Player.States
             // Handle climbing
             controller.Climb();
         }
-
     }
 }

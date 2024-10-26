@@ -1,6 +1,7 @@
 using UnityEngine;
 using Tethered.Input;
 using Tethered.Player.States;
+using Tethered.Patterns.StateMachine;
 
 namespace Tethered.Player
 {
@@ -23,7 +24,17 @@ namespace Tethered.Player
         /// </summary>
         protected override void SetupStates(IdleState idleState, LocomotionState locomotionState, ClimbState climbState)
         {
-            // TODO: Set up Climb State
+            // Create states
+            ReachState reachState = new ReachState(this, animator);
+
+            // Define state transitions
+            stateMachine.At(idleState, reachState, new FuncPredicate(() => reaching));
+            stateMachine.At(locomotionState, reachState, new FuncPredicate(() => reaching));
+            stateMachine.At(climbState, reachState, new FuncPredicate(() => reaching));
+
+            stateMachine.At(reachState, idleState, new FuncPredicate(() => !reaching && moveDirectionX == 0));
+            stateMachine.At(reachState, locomotionState, new FuncPredicate(() => !reaching && moveDirectionX != 0));
+            stateMachine.At(reachState, climbState, new FuncPredicate(() => climbing));
         }
 
         /// <summary>

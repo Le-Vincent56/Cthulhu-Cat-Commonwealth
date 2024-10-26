@@ -242,10 +242,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sharedInteractable: 0
   multiSided: 0
+  hash: 0
   extendableLadder: {fileID: 4060368633201454826}
   targetHeight: 0
   animationDuration: 1
   extended: 0
+  verticalEnterDirection: 0
+  symbolHeightTop: 5.5
+  symbolHeightBottom: 0.47
 --- !u!1 &4394159741507200582
 GameObject:
   m_ObjectHideFlags: 0
