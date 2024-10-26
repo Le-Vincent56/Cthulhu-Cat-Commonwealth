@@ -15,6 +15,7 @@ Shader "Universal Render Pipeline/2D/Custom/FogOfWarSprite"
         Blend SrcAlpha OneMinusSrcAlpha
         Cull Off
         ZWrite Off
+        ZTest Always
 
         Pass
         {
