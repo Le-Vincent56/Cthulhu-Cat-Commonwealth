@@ -507,6 +507,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FogOfWar
       objectReference: {fileID: 0}
+    - target: {fileID: 1785189478986423159, guid: 61287ce7d94e3df419a7c81c6ce2a588, type: 3}
+      propertyPath: fogOfWar
+      value: 
+      objectReference: {fileID: 1307003035679662537}
     - target: {fileID: 5593010083940839412, guid: 61287ce7d94e3df419a7c81c6ce2a588, type: 3}
       propertyPath: m_LocalPosition.z
       value: 5
@@ -519,5 +523,10 @@ PrefabInstance:
 --- !u!4 &1107438022604371311 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 910923964287479704, guid: 61287ce7d94e3df419a7c81c6ce2a588, type: 3}
+  m_PrefabInstance: {fileID: 286587187978754807}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1307003035679662537 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1286131536620288830, guid: 61287ce7d94e3df419a7c81c6ce2a588, type: 3}
   m_PrefabInstance: {fileID: 286587187978754807}
   m_PrefabAsset: {fileID: 0}

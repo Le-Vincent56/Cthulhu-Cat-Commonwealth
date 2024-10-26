@@ -10,10 +10,12 @@ namespace Tethered.FogOfWar
     {
         private Camera _cam;
         private Camera _mainCam;
+        [SerializeField] private GameObject fogOfWar;
         
         // Set up Fog of War Camera, Render Texture, and Material Plane
         void Start()
         {
+            fogOfWar.SetActive(true);
             _cam = GetComponent<Camera>();
             // assumes main camera exists
             if (Camera.main != null)
