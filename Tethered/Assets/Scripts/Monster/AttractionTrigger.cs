@@ -16,6 +16,7 @@ namespace Tethered.Monster
         [Header("Attraction Fields")]
         [SerializeField] private PlayerWeight triggerWeight;
         [SerializeField] private float attractionAmount;
+        [SerializeField] private bool isOneTime = false;
 
         private EventBinding<ToggleTrigger> onToggleTrigger;
 
@@ -46,10 +47,17 @@ namespace Tethered.Monster
             // Check if the player's weight is as heavy or heavier than the trigger's
             // weight
             if (controller.Weight >= triggerWeight)
+            {
+                if (isOneTime)
+                {
+                    EventBus<ToggleTrigger>.Raise(new ToggleTrigger() { Hash = hash, Enabled = false });
+                }
+
                 EventBus<IncreaseAttraction>.Raise(new IncreaseAttraction()
                 {
                     GainedAttraction = attractionAmount
                 });
+            }
         }
 
         /// <summary>
