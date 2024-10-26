@@ -13,7 +13,6 @@ namespace Tethered.Player.States
         public override void OnEnter()
         {
             animator.CrossFade(ClimbHash, crossFadeDuration);
-            Debug.Log("i'm here");
         }
 
         public override void Update()

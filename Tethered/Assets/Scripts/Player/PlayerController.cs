@@ -90,11 +90,10 @@ namespace Tethered.Player
             // Set crawling to true
             climbing = true;
 
-            Debug.Log("I'm climbing!!");
-
             // Initialize the path
             this.ladderPath = path;
             currentLadderPathIndex = 1;
+            boxCollider.enabled = false;
         }
 
         /// <summary>
@@ -142,6 +141,7 @@ namespace Tethered.Player
         public void EndClimb()
         {
             climbing = false;
+            boxCollider.enabled = true;
         }
     }
 }
