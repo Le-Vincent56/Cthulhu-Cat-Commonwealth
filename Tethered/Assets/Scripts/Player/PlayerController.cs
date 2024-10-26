@@ -1,6 +1,8 @@
 using UnityEngine;
 using Tethered.Patterns.StateMachine;
 using Tethered.Player.States;
+using Tethered.Cameras;
+using Tethered.Patterns.ServiceLocator;
 using System.Collections.Generic;
 
 namespace Tethered.Player
@@ -20,12 +22,17 @@ namespace Tethered.Player
     public abstract class PlayerController : MonoBehaviour
     {
         protected Rigidbody2D rb;
-        protected Animator animator;
         protected BoxCollider2D boxCollider;
+        protected Animator animator;
         protected StateMachine stateMachine;
+        protected MoveableController moveableController;
+        protected CameraBoundary cameraBoundary;
+        private Transform skinTransform;
 
-        protected int moveDirectionX;
+        [Header("Movement")]
+        [SerializeField] protected float movementSpeed;
         [SerializeField] protected PlayerWeight weight;
+        protected int moveDirectionX;
 
         [Header("Climbing")]
         [SerializeField] protected bool climbing;
@@ -37,9 +44,11 @@ namespace Tethered.Player
         protected virtual void Awake()
         {
             // Get components
-            rb = GetComponent<Rigidbody2D>(); 
-            animator = GetComponentInChildren<Animator>();
+            rb = GetComponent<Rigidbody2D>();
             boxCollider = GetComponent<BoxCollider2D>();
+            animator = GetComponentInChildren<Animator>();
+            moveableController = GetComponent<MoveableController>();
+            skinTransform = animator.transform;
 
             // Initialize the state machine
             stateMachine = new StateMachine();
@@ -48,6 +57,7 @@ namespace Tethered.Player
             IdleState idleState = new IdleState(this, animator);
             LocomotionState locomotionState = new LocomotionState(this, animator);
             ClimbState climbState = new ClimbState(this, animator);
+            MovingObjectState pushState = new MovingObjectState(this, animator, moveableController);
 
 
             // Set up individual states
@@ -55,14 +65,27 @@ namespace Tethered.Player
 
             // Define state transitions
             stateMachine.At(idleState, locomotionState, new FuncPredicate(() => moveDirectionX != 0));
+            stateMachine.At(idleState, pushState, new FuncPredicate(() => moveableController.MovingObject));
+
             stateMachine.At(locomotionState, idleState, new FuncPredicate(() => moveDirectionX == 0));
             stateMachine.At(idleState, climbState, new FuncPredicate(() => climbing));
             stateMachine.At(locomotionState, climbState, new FuncPredicate(() => climbing));
             stateMachine.At(climbState, idleState, new FuncPredicate(() => !climbing && moveDirectionX == 0));
             stateMachine.At(climbState, locomotionState, new FuncPredicate(() => !climbing && moveDirectionX != 0));
+            stateMachine.At(locomotionState, pushState, new FuncPredicate(() => moveableController.MovingObject));
+
+            stateMachine.At(pushState, idleState, new FuncPredicate(() => !moveableController.MovingObject && moveDirectionX == 0));
+            stateMachine.At(pushState, locomotionState, new FuncPredicate(() => !moveableController.MovingObject && moveDirectionX != 0));
 
             // Set an initial state
             stateMachine.SetState(idleState);
+        }
+
+        protected virtual void Start()
+        {
+            // Retrieve the Camera boundary and register to it
+            cameraBoundary = ServiceLocator.ForSceneOf(this).Get<CameraBoundary>();
+            cameraBoundary.Register(this);
         }
 
         protected virtual void Update()
@@ -80,6 +103,46 @@ namespace Tethered.Player
         /// <summary>
         /// Setup necessary states
         /// </summary>
+        protected abstract void SetupStates(IdleState idleState, LocomotionState locomotionState,);
+
+        /// <summary>
+        /// Enable the input
+        /// </summary>
+        public abstract void EnableInput();
+
+        /// <summary>
+        /// Disable the input
+        /// </summary>
+        public abstract void DisableInput();
+
+        /// <summary>
+        /// Move the Player
+        /// </summary>
+        public void Move()
+        {
+            rb.velocity = new Vector2(moveDirectionX * movementSpeed, 0);
+            SetFacingDirection(moveDirectionX);
+        }
+
+        /// <summary>
+        /// Stop moving the Player
+        /// </summary>
+        public void EndMove() => rb.velocity = new Vector2(0, 0);
+
+        /// <summary>
+        /// Sets the facing direction of the player based on moveDirectionX.
+        /// </summary>
+        protected void SetFacingDirection(int direction)
+        {
+            // Check if direction is non-zero (player is moving)
+            if (direction != 0)
+            {
+                // Flip the sprite based on the direction
+                Vector3 scale = skinTransform.localScale;
+                scale.x = Mathf.Abs(scale.x) * Mathf.Sign(direction);
+                skinTransform.localScale = scale;
+            }
+        }
         protected abstract void SetupStates(IdleState idleState, LocomotionState locomotionState, ClimbState climbState);
 
         /// <summary>

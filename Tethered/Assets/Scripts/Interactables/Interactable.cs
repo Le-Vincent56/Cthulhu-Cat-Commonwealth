@@ -8,19 +8,22 @@ namespace Tethered.Interactables
     [RequireComponent(typeof(BoxCollider2D))]
     public abstract class Interactable : MonoBehaviour
     {
-        [SerializeField] private bool sharedInteractable;
+        [SerializeField] protected bool sharedInteractable;
+        [SerializeField] private bool multiSided;
+        protected int enterDirection;
         protected HashSet<InteractController> controllers;
 
         protected bool symbolShown;
+        protected float initialPosX;
         protected SpriteRenderer interactSymbol;
 
         private Tween fadeTween;
-        private float symbolFadeDuration;
+        protected float symbolFadeDuration;
 
         private Tween scaleTween;
-        private float scaleDuration;
-        private Vector2 symbolInitialScale;
-        private Vector2 symbolTargetScale;
+        protected float scaleDuration;
+        protected Vector2 symbolInitialScale;
+        protected Vector2 symbolTargetScale;
 
         protected virtual void Awake()
         {
@@ -32,7 +35,13 @@ namespace Tethered.Interactables
                 ? spriteRenderers[0]
                 : spriteRenderers[1];
 
+            // Set the interact symbol's position
+            Vector3 localPosition = interactSymbol.transform.localPosition;
+            localPosition.x = Mathf.Abs(localPosition.x);
+            interactSymbol.transform.localPosition = localPosition;
+
             // Set scale targets
+            initialPosX = interactSymbol.transform.localPosition.x;
             symbolInitialScale = interactSymbol.transform.localScale * 0.7f;
             symbolTargetScale = interactSymbol.transform.localScale;
 
@@ -61,6 +70,9 @@ namespace Tethered.Interactables
 
             // Exit case - if the symbol is shown
             if (symbolShown) return;
+
+            // Get the direction the controller is entering from
+            enterDirection = (int)(controller.transform.position.x - transform.position.x);
 
             // Show the interact symbol
             ShowInteractSymbol(sharedInteractable);
@@ -99,6 +111,19 @@ namespace Tethered.Interactables
         /// </summary>
         protected virtual void ShowInteractSymbol(bool notifyShown = false, TweenCallback onComplete = null)
         {
+            // Check if multi-sided
+            if(multiSided)
+            {
+                // Get the symbol's local position
+                Vector3 localPosition = interactSymbol.transform.localPosition;
+
+                // Switch the x-position based on the enter direction
+                localPosition.x = initialPosX * Mathf.Sign(enterDirection);
+
+                // Shift the symbol position to match the side
+                interactSymbol.transform.localPosition = localPosition;
+            }
+
             // Check if to notify shown
             if(notifyShown)
             {
@@ -137,7 +162,7 @@ namespace Tethered.Interactables
         /// <summary>
         /// Fade the Interact Symbol using Tweening
         /// </summary>
-        private void Fade(float endValue, float duration, TweenCallback onComplete = null)
+        protected void Fade(float endValue, float duration, TweenCallback onComplete = null)
         {
             // Kill the fade tween if it exists
             fadeTween?.Kill();
@@ -155,7 +180,7 @@ namespace Tethered.Interactables
         /// <summary>
         /// Scale the Interact Symbol using Tweening
         /// </summary>
-        private void Scale(Vector3 target, float duration, TweenCallback onComplete = null)
+        protected void Scale(Vector3 target, float duration, TweenCallback onComplete = null)
         {
             // Kill the scale tween if it exists
             scaleTween?.Kill();

@@ -9,19 +9,31 @@ EditorUserSettings:
       value: 020356535c0d51030e0c087449220b44104e4f7e2a7827347f7f4a36e3b26d3c
       flags: 0
     RecentlyUsedSceneGuid-1:
-      value: 0608560404570c030e5f5e2345730f44104e49732f2c70602f714863b5b16139
+      value: 0702555f5101500f0b5f587a49215d44424e4873282d77682c2f4f30b4e4643b
       flags: 0
     RecentlyUsedSceneGuid-2:
-      value: 5b520d0503545b0d0c0c0a2715770748154f4d2c7d7d7e627a7d4a35b4e1646a
+      value: 5057025750075e0e545e592440200d44414e1d727a7e23607f781b6bb3b03760
       flags: 0
     RecentlyUsedSceneGuid-3:
       value: 51030c5457060a03540c0a7b11740c44434f4f7f287b74617c2f1867b2b06168
       flags: 0
     RecentlyUsedSceneGuid-4:
-      value: 5703525f57025e0c5b5c0e2113715c4442161b29292e72347e7d1f37b7b06668
+      value: 5b520d0503545b0d0c0c0a2715770748154f4d2c7d7d7e627a7d4a35b4e1646a
       flags: 0
     RecentlyUsedSceneGuid-5:
-      value: 065552070651505a0e5c0e724171074415161d2e2a2d24687d2d4a65b7b5643c
+      value: 53010657510c5b0a0b595d2714775a4446164e7d292d7336292f4830b2e4306d
+      flags: 0
+    RecentlyUsedSceneGuid-6:
+      value: 545356535207080a5a5f5e20447759444415402f7a7922607c7c4964e0b4353e
+      flags: 0
+    RecentlyUsedSceneGuid-7:
+      value: 5707025651055f0f540b0870137b07441416417a792b71602f7d1b63b6b26461
+      flags: 0
+    RecentlyUsedSceneGuid-8:
+      value: 5703525f57025e0c5b5c0e2113715c4442161b29292e72347e7d1f37b7b06668
+      flags: 0
+    RecentlyUsedSceneGuid-9:
+      value: 5257510557005802585c5a2615265d4412164a287d2c2236797a4832b6b46d39
       flags: 0
     RecentlyUsedSceneGuid-6:
       value: 055702040350510d080d5f2149260744464e4f7d787824627b7e4a32e3b3326a
@@ -43,4 +55,5 @@ EditorUserSettings:
   m_VCHierarchyOverlayIcons: 1
   m_VCOtherOverlayIcons: 1
   m_VCAllowAsyncUpdate: 1
+  m_VCScanLocalPackagesOnConnect: 1
   m_ArtifactGarbageCollection: 1
