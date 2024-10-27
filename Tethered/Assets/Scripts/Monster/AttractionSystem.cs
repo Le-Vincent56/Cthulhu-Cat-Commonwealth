@@ -2,6 +2,7 @@ using Tethered.Monster.Events;
 using Tethered.Patterns.EventBus;
 using Tethered.Timers;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Tethered.Monster
 {
@@ -117,6 +118,7 @@ namespace Tethered.Monster
         {
             // TODO: End the whole game
             Debug.Log("Game ended");
+            SceneManager.LoadScene("GameOver");
         }
 
         /// <summary>
