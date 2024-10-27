@@ -226,3 +226,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4d204e658498764c85be178e2593efa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fogOfWar: {fileID: 1286131536620288830}
