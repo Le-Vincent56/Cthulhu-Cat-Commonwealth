@@ -4,6 +4,7 @@ using Tethered.Player.States;
 using Tethered.Cameras;
 using Tethered.Patterns.ServiceLocator;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Tethered.Player
 {
@@ -41,6 +42,10 @@ namespace Tethered.Player
         [SerializeField] private List<Vector2> ladderPath;
         [SerializeField] private float initialGravityScale;
 
+        [Header("Teleport")]
+        [SerializeField] private bool teleporting;
+        [SerializeField] private Vector3 targetPosition;
+
         public PlayerWeight Weight { get => weight; }
 
         protected virtual void Awake()
@@ -63,23 +68,30 @@ namespace Tethered.Player
             LocomotionState locomotionState = new LocomotionState(this, animator);
             ClimbState climbState = new ClimbState(this, animator);
             MovingObjectState pushState = new MovingObjectState(this, animator, moveableController);
+            TeleportState teleportState = new TeleportState(this, animator, skinTransform.GetComponentsInChildren<SpriteRenderer>().ToList());
 
             // Set up individual states
             SetupStates(idleState, locomotionState, climbState);
 
             // Define state transitions
             stateMachine.At(idleState, locomotionState, new FuncPredicate(() => moveDirectionX != 0));
+            stateMachine.At(idleState, climbState, new FuncPredicate(() => climbing));
             stateMachine.At(idleState, pushState, new FuncPredicate(() => moveableController.MovingObject));
+            stateMachine.At(idleState, teleportState, new FuncPredicate(() => teleporting));
 
             stateMachine.At(locomotionState, idleState, new FuncPredicate(() => moveDirectionX == 0));
-            stateMachine.At(idleState, climbState, new FuncPredicate(() => climbing));
             stateMachine.At(locomotionState, climbState, new FuncPredicate(() => climbing));
+            stateMachine.At(locomotionState, pushState, new FuncPredicate(() => moveableController.MovingObject));
+            stateMachine.At(locomotionState, teleportState, new FuncPredicate(() => teleporting));
+
             stateMachine.At(climbState, idleState, new FuncPredicate(() => !climbing && moveDirectionX == 0));
             stateMachine.At(climbState, locomotionState, new FuncPredicate(() => !climbing && moveDirectionX != 0));
-            stateMachine.At(locomotionState, pushState, new FuncPredicate(() => moveableController.MovingObject));
 
             stateMachine.At(pushState, idleState, new FuncPredicate(() => !moveableController.MovingObject && moveDirectionX == 0));
             stateMachine.At(pushState, locomotionState, new FuncPredicate(() => !moveableController.MovingObject && moveDirectionX != 0));
+
+            stateMachine.At(teleportState, idleState, new FuncPredicate(() => !teleporting && moveDirectionX == 0));
+            stateMachine.At(teleportState, locomotionState, new FuncPredicate(() => !teleporting && moveDirectionX != 0));
 
             // Set an initial state
             stateMachine.SetState(idleState);
@@ -158,6 +170,9 @@ namespace Tethered.Player
         /// </summary>
         public void StartClimb(List<Vector2> path)
         {
+            // Disable input
+            DisableInput();
+
             // Set crawling to true
             climbing = true;
 
@@ -212,9 +227,44 @@ namespace Tethered.Player
         /// </summary>
         public void EndClimb()
         {
+            // Enable input
+            EnableInput();
+
             climbing = false;
             boxCollider.enabled = true;
             rb.gravityScale = initialGravityScale;
+        }
+
+        /// <summary>
+        /// Start teleporting
+        /// </summary>
+        /// <param name="targetPosition"></param>
+        public void StartTeleport(Vector3 targetPosition)
+        {
+            // Set teleporting variables
+            teleporting = true;
+            this.targetPosition = targetPosition;
+
+            // Disable input
+            DisableInput();
+        }
+
+        /// <summary>
+        /// Teleport the Player
+        /// </summary>
+        public void TeleportToTargetPosition() => transform.position = targetPosition;
+
+        /// <summary>
+        /// End teleporting
+        /// </summary>
+        public void EndTeleport()
+        {
+            // Unset teleporting variables
+            teleporting = false;
+            targetPosition = Vector3.zero;
+
+            // Enable input
+            EnableInput();
         }
     }
 }

@@ -382,37 +382,6 @@ MonoBehaviour:
     m_Extent: {x: 0.72448516, y: 0.4096451, z: 0}
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
---- !u!1 &1400571434838937568
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 358826946897728527}
-  m_Layer: 0
-  m_Name: Sprite
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &358826946897728527
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1400571434838937568}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5720303710824505262}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1582172259093603446
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,7 +782,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0.51}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 358826946897728527}
   - {fileID: 341090924247248343}
   - {fileID: 5389242546874775945}
   - {fileID: 8747222278298825642}
@@ -2675,9 +2643,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 3
   weight: 1
+  reaching: 0
   climbing: 0
   currentLadderPathIndex: 0
   ladderPath: []
+  initialGravityScale: 0
+  teleporting: 0
+  targetPosition: {x: 0, y: 0, z: 0}
   inputReader: {fileID: 11400000, guid: ba00de9b38f7a7346876b6a02011fba0, type: 2}
 --- !u!114 &4350489695971551895
 MonoBehaviour:
@@ -3241,9 +3213,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 3
   weight: 0
+  reaching: 0
   climbing: 0
   currentLadderPathIndex: 0
   ladderPath: []
+  initialGravityScale: 0
+  teleporting: 0
+  targetPosition: {x: 0, y: 0, z: 0}
   inputReader: {fileID: 11400000, guid: 7153fba7158f2504ba608ddc970a6ed4, type: 2}
   crawling: 0
   currentPathIndex: 0

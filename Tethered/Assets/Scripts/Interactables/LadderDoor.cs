@@ -3,7 +3,6 @@ using Tethered.Interactables.Events;
 using Tethered.Patterns.EventBus;
 using Tethered.Player;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 namespace Tethered.Interactables
 {

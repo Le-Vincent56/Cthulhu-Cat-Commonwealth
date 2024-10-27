@@ -1,4 +1,5 @@
 using Tethered.Patterns.EventBus;
+using Tethered.Player;
 
 namespace Tethered.Interactables.Events
 {
@@ -12,5 +13,12 @@ namespace Tethered.Interactables.Events
     public struct EnableLadder : IEvent
     {
         public int Hash;
+    }
+
+    public struct ActivateStairs : IEvent
+    {
+        public int Hash;
+        public InteractController InteractController;
+        public PlayerController PlayerController;
     }
 }
