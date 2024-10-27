@@ -70,6 +70,7 @@ public class FOWVisionEmitter : MonoBehaviour
         {
             visionStrength = value;
             visionRadius = (maxVisionRadius - minVisionRadius) * value + minVisionRadius;
+            visionRadius = Mathf.Clamp(visionRadius, minVisionRadius, maxVisionRadius);
         }
     }
 
