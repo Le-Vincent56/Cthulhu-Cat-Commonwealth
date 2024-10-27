@@ -1,3 +1,4 @@
+using System.Collections;
 using Tethered.Monster.Events;
 using Tethered.Patterns.EventBus;
 using Tethered.Timers;
@@ -116,8 +117,14 @@ namespace Tethered.Monster
         /// </summary>
         private void EndGame()
         {
-            // TODO: End the whole game
             Debug.Log("Game ended");
+            StartCoroutine(EndGameWait());
+            
+        }
+
+        IEnumerator EndGameWait()
+        {
+            yield return new WaitForSeconds(2.0f);
             SceneManager.LoadScene("GameOver");
         }
 
