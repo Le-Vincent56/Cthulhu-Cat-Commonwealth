@@ -59,7 +59,17 @@ namespace Tethered.Player
         /// <summary>
         /// Set the current Interactable for the Player
         /// </summary>
-        public void SetInteractable(Interactable interactable) => currentInteractable = interactable;
+        public void SetInteractable(Interactable interactable)
+        {
+            // Exit case - there is no Player Controller component
+            if (!TryGetComponent(out MoveableController moveableController)) return;
+
+            // Exit case - if moving an object
+            if (moveableController.MovingObject) return;
+
+            // Set the interactable
+            currentInteractable = interactable;
+        }
 
         /// <summary>
         /// Get whether or not the Player currently has the Interactable
