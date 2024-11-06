@@ -130,37 +130,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1366459177}
     m_Modifications:
-    - target: {fileID: 3143455472349452245, guid: 8b057a94ec6e1ce49a2540c54185fc9b, type: 3}
-      propertyPath: isOneTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3143455472349452245, guid: 8b057a94ec6e1ce49a2540c54185fc9b, type: 3}
-      propertyPath: triggerWeight
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3143455472349452245, guid: 8b057a94ec6e1ce49a2540c54185fc9b, type: 3}
-      propertyPath: triggerEnabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3143455472349452245, guid: 8b057a94ec6e1ce49a2540c54185fc9b, type: 3}
-      propertyPath: attractionAmount
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 7459177337383971993, guid: 8b057a94ec6e1ce49a2540c54185fc9b, type: 3}
       propertyPath: m_Name
       value: Attraction Trigger
-      objectReference: {fileID: 0}
-    - target: {fileID: 7872661839256050573, guid: 8b057a94ec6e1ce49a2540c54185fc9b, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2.4931438
-      objectReference: {fileID: 0}
-    - target: {fileID: 7872661839256050573, guid: 8b057a94ec6e1ce49a2540c54185fc9b, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 5.3602595
-      objectReference: {fileID: 0}
-    - target: {fileID: 7872661839256050573, guid: 8b057a94ec6e1ce49a2540c54185fc9b, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2.4931438
       objectReference: {fileID: 0}
     - target: {fileID: 7872661839256050573, guid: 8b057a94ec6e1ce49a2540c54185fc9b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9700,7 +9672,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4726052453671191728, guid: 005121b64a96bcf4ea6a25e21e9ca4c5, type: 3}
       propertyPath: path.Array.data[1].x
-      value: -6.322
+      value: -4.751
       objectReference: {fileID: 0}
     - target: {fileID: 4726052453671191728, guid: 005121b64a96bcf4ea6a25e21e9ca4c5, type: 3}
       propertyPath: path.Array.data[1].y
