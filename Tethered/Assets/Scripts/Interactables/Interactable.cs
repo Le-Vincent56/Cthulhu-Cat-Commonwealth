@@ -107,6 +107,14 @@ namespace Tethered.Interactables
         public abstract void Interact(InteractController controller);
 
         /// <summary>
+        /// Callback function that can be defined and called when an Interaction ends
+        /// </summary>
+        protected virtual void OnEnd()
+        {
+            // Noop
+        }
+
+        /// <summary>
         /// Show the interact symbol
         /// </summary>
         protected virtual void ShowInteractSymbol(bool notifyShown = false, TweenCallback onComplete = null)

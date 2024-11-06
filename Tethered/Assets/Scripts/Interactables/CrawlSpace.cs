@@ -6,6 +6,7 @@ namespace Tethered.Interactables
 {
     public class CrawlSpace : Interactable
     {
+        [SerializeField] private bool oneTimeUse;
         [SerializeField] private List<Vector2> path;
 
         private void OnValidate()
@@ -65,7 +66,18 @@ namespace Tethered.Interactables
 
             // Start crawling for the Younger Sibling
             playerController.StartCrawl(path);
+
+            // Exit case - if not a one-time use
+            if (!oneTimeUse) return;
+
+            // End the interaction
+            OnEnd();
         }
+
+        /// <summary>
+        /// Deactivate the Crawl Space after going through it
+        /// </summary>
+        protected override void OnEnd() => gameObject.SetActive(false);
 
         /// <summary>
         /// Set the path using child game objects

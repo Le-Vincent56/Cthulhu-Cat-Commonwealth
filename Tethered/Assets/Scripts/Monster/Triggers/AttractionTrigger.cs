@@ -1,10 +1,9 @@
-using Tethered.Interactables.Events;
 using Tethered.Monster.Events;
 using Tethered.Patterns.EventBus;
 using Tethered.Player;
 using UnityEngine;
 
-namespace Tethered.Monster
+namespace Tethered.Monster.Triggers
 {
     [RequireComponent(typeof(BoxCollider2D))]
     public class AttractionTrigger : MonoBehaviour
@@ -12,6 +11,7 @@ namespace Tethered.Monster
         [Header("Trigger Details")]
         [SerializeField] private int hash;
         [SerializeField] private bool triggerEnabled;
+        [SerializeField] private bool hasCallback;
 
         [Header("Attraction Fields")]
         [SerializeField] private PlayerWeight triggerWeight;
@@ -58,6 +58,11 @@ namespace Tethered.Monster
                     GainedAttraction = attractionAmount
                 });
             }
+
+            // Exit case - there is no callback for entering the trigger
+            if (!hasCallback) return;
+
+            Callback();
         }
 
         /// <summary>
@@ -65,17 +70,24 @@ namespace Tethered.Monster
         /// </summary>
         private void ToggleTrigger(ToggleTrigger eventData)
         {
-            // Exit case - 
+            // Exit case - Hash mismatch
             if (eventData.Hash != hash) return;
 
             // Set whether or not the trigger is enabled
             triggerEnabled = eventData.Enabled;
-
         }
 
         /// <summary>
         /// Set the Attraction Trigger's hash
         /// </summary>
         public void SetHash(int hash) => this.hash = hash;
+
+        /// <summary>
+        /// A callback function that can be extended through child classes
+        /// </summary>
+        protected virtual void Callback()
+        {
+            // Noop
+        }
     }
 }
