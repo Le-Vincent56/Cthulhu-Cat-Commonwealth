@@ -8101,7 +8101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3957490703655534696, guid: 1ef1f7093dd77d5438967f421a0aad6b, type: 3}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 1
+      value: 0.99967235
       objectReference: {fileID: 0}
     - target: {fileID: 5046589546694436994, guid: 1ef1f7093dd77d5438967f421a0aad6b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8155,6 +8155,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 4.055417
       objectReference: {fileID: 0}
+    - target: {fileID: 8072650178291349597, guid: 1ef1f7093dd77d5438967f421a0aad6b, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8236243080832414029, guid: 1ef1f7093dd77d5438967f421a0aad6b, type: 3}
       propertyPath: m_Follow
       value: 
@@ -8163,7 +8167,8 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 303605700}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8072650178291349597, guid: 1ef1f7093dd77d5438967f421a0aad6b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
