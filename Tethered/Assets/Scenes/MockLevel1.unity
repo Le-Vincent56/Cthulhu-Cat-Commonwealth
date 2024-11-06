@@ -8085,7 +8085,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3957490703655534696, guid: 1ef1f7093dd77d5438967f421a0aad6b, type: 3}
       propertyPath: orthographic size
-      value: 5.4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3957490703655534696, guid: 1ef1f7093dd77d5438967f421a0aad6b, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
@@ -12787,6 +12787,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Curtain Window
       objectReference: {fileID: 0}
+    - target: {fileID: 8571575654145455100, guid: 63714bb56b6cac444b4bd191d3697b3c, type: 3}
+      propertyPath: m_Size.x
+      value: 10.40993
+      objectReference: {fileID: 0}
+    - target: {fileID: 8571575654145455100, guid: 63714bb56b6cac444b4bd191d3697b3c, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.011487484
+      objectReference: {fileID: 0}
     - target: {fileID: 9104944104953463630, guid: 63714bb56b6cac444b4bd191d3697b3c, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.39
@@ -12801,7 +12809,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9104944104953463630, guid: 63714bb56b6cac444b4bd191d3697b3c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.12
+      value: -3.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 9104944104953463630, guid: 63714bb56b6cac444b4bd191d3697b3c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.27
       objectReference: {fileID: 0}
     - target: {fileID: 9104944104953463630, guid: 63714bb56b6cac444b4bd191d3697b3c, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -13029,8 +13041,8 @@ Transform:
   m_GameObject: {fileID: 2058045987}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.3739996, y: 0.5, z: 0}
-  m_LocalScale: {x: 0.25833, y: 1.175, z: 1}
+  m_LocalPosition: {x: -4.3739996, y: 0.5476, z: 0}
+  m_LocalScale: {x: 0.25833, y: 1.0796661, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 750072172}

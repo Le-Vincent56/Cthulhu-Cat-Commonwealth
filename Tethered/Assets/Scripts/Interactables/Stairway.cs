@@ -28,7 +28,10 @@ namespace Tethered.Interactables
 
         protected override void OnTriggerExit2D(Collider2D collision)
         {
-            // Noop
+            // Exit case - if a PlayerTwoController is not found on the collision object
+            if (!collision.TryGetComponent(out InteractController controller)) return;
+
+            ExitStairway(controller);
         }
 
         /// <summary>
@@ -57,6 +60,9 @@ namespace Tethered.Interactables
             });
         }
 
+        /// <summary>
+        /// Exit the stairway
+        /// </summary>
         private void ExitStairway(InteractController controller)
         {
             // Set the controller's interactable

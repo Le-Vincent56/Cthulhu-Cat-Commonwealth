@@ -59,7 +59,7 @@ namespace Tethered.Interactables
 
         protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
-            // Exit case - if a PlayerTwoController is not found on the collision object
+            // Exit case - if an InteractController is not found on the collision object
             if (!collision.TryGetComponent(out InteractController controller)) return;
 
             // Set the controller's interactable
@@ -80,7 +80,7 @@ namespace Tethered.Interactables
 
         protected virtual void OnTriggerExit2D(Collider2D collision)
         {
-            // Exit case - if a PlayerTwoController is not found on the collision object
+            // Exit case - if an InteractController is not found on the collision object
             if (!collision.TryGetComponent(out InteractController controller)) return;
 
             // Set the controller's interactable
