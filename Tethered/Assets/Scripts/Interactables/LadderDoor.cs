@@ -103,7 +103,7 @@ namespace Tethered.Interactables
             // Exit case - if already extended
             if (extended) return;
 
-            // TODO: Get the direction (for when setting Reach state)
+            // Get the direction (for when setting Reach state)
             int direction = (int)Mathf.Sign(controller.transform.position.y - transform.position.y);
 
             // Check if the direction is from downward and if it is Player One

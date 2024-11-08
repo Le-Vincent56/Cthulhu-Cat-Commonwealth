@@ -137,7 +137,7 @@ namespace Tethered.Player
         /// </summary>
         public void Move()
         {
-            rb.velocity = new Vector2(moveDirectionX * movementSpeed, 0);
+            rb.velocity = new Vector2(moveDirectionX * movementSpeed, rb.velocity.y);
             SetFacingDirection(moveDirectionX);
         }
 
