@@ -26,6 +26,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-5385992501581669240
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CrawlPosition
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 40325d65090afb8439013f76cb3c1810, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-3238752555580517506
 AnimatorState:
   serializedVersion: 6
@@ -72,7 +98,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 0}
+  m_Motion: {fileID: 7400000, guid: 55b2c3f0fb6293646bd7cabbcc664b85, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -86,7 +112,13 @@ AnimatorController:
   m_PrefabAsset: {fileID: 0}
   m_Name: PlayerTwoAC
   serializedVersion: 5
-  m_AnimatorParameters: []
+  m_AnimatorParameters:
+  - m_Name: push
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 1
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -143,16 +175,19 @@ AnimatorStateMachine:
     m_Position: {x: 360, y: 150, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2569766196882661643}
-    m_Position: {x: 360, y: 200, z: 0}
+    m_Position: {x: 360, y: 250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6354881864267273822}
-    m_Position: {x: 360, y: 300, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 412124447709123490}
     m_Position: {x: 360, y: 350, z: 0}
   - serializedVersion: 1
+    m_State: {fileID: 412124447709123490}
+    m_Position: {x: 360, y: 400, z: 0}
+  - serializedVersion: 1
     m_State: {fileID: -7737068908840921578}
-    m_Position: {x: 360, y: 250, z: 0}
+    m_Position: {x: 360, y: 300, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -5385992501581669240}
+    m_Position: {x: 360, y: 200, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
