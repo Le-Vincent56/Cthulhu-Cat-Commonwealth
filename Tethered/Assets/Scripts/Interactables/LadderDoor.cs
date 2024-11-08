@@ -18,6 +18,8 @@ namespace Tethered.Interactables
         [SerializeField] private float symbolHeightTop;
         [SerializeField] private float symbolHeightBottom;
 
+        [SerializeField] private GameObject floor;
+
         protected override void Awake()
         {
             base.Awake();
@@ -118,6 +120,8 @@ namespace Tethered.Interactables
 
             // Store the initial height
             float initialWidth = extendableLadder.size.x;
+            
+            floor.SetActive(false);
 
             // Tween the height
             DOTween.To(() => extendableLadder.size,
