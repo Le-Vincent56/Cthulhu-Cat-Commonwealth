@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Tethered.Monster.Triggers
+namespace Tethered.World
 {
     public class Destructable : MonoBehaviour
     {
