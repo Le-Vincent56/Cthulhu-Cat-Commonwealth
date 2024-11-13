@@ -23,6 +23,10 @@ namespace Tethered.Player.States
         /// <summary>
         /// End the player reaching state
         /// </summary>
-        private void EndReach() => controller.SetReaching(false);
+        private void EndReach()
+        {
+            Debug.Log("Ending Reach");
+            controller.SetReaching(false);
+        }
     }
 }

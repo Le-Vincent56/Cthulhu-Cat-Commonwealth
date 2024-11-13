@@ -35,19 +35,13 @@ namespace Tethered.Inventory
             // Exit case - if the Key is not found
             if (!inventory.ContainsKey(keyhole.Hash)) return false;
 
-            // Unlock the door
-            EventBus<HandleDoor>.Raise(new HandleDoor() 
-            { 
-                Hash = keyhole.Hash, 
-                Open = true, 
-                Deactivate = true 
-            });
-
-            // Remove the key
-            inventory.RemoveKey(keyhole.Hash);
-
             return true;
         }
+
+        /// <summary>
+        /// Remove a Key from the Shared Inventory
+        /// </summary>
+        public void RemoveKey(int hash) => inventory.RemoveKey(hash);
 
         public bool CheckCurtain(Window window)
         {

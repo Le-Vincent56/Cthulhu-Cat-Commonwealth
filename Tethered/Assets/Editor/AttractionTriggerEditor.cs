@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using Tethered.Monster.Triggers;
 using Tethered.Utilities.Hash;
 using UnityEditor;
 using UnityEngine;
 
 namespace Tethered.Monster.Editors
 {
-    [CustomEditor(typeof(AttractionTrigger))]
+    [CustomEditor(typeof(AttractionTrigger), true)]
     public class AttractionTriggerEditor : Editor
     {
         private AttractionTrigger trigger;

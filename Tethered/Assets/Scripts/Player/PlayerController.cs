@@ -5,6 +5,7 @@ using Tethered.Cameras;
 using Tethered.Patterns.ServiceLocator;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 
 namespace Tethered.Player
 {
@@ -44,7 +45,7 @@ namespace Tethered.Player
 
         [Header("Teleport")]
         [SerializeField] private bool teleporting;
-        [SerializeField] private Vector3 targetPosition;
+        [SerializeField] private Vector3 teleportPosition;
 
         public PlayerWeight Weight { get => weight; }
 
@@ -136,7 +137,7 @@ namespace Tethered.Player
         /// </summary>
         public void Move()
         {
-            rb.velocity = new Vector2(moveDirectionX * movementSpeed, 0);
+            rb.velocity = new Vector2(moveDirectionX * movementSpeed, rb.velocity.y);
             SetFacingDirection(moveDirectionX);
         }
 
@@ -243,16 +244,16 @@ namespace Tethered.Player
         {
             // Set teleporting variables
             teleporting = true;
-            this.targetPosition = targetPosition;
+            this.teleportPosition = targetPosition;
 
             // Disable input
             DisableInput();
         }
 
         /// <summary>
-        /// Teleport the Player
+        /// Get the player's teleport position
         /// </summary>
-        public void TeleportToTargetPosition() => transform.position = targetPosition;
+        public Vector3 GetTeleportPosition() => teleportPosition;
 
         /// <summary>
         /// End teleporting
@@ -261,7 +262,7 @@ namespace Tethered.Player
         {
             // Unset teleporting variables
             teleporting = false;
-            targetPosition = Vector3.zero;
+            teleportPosition = Vector3.zero;
 
             // Enable input
             EnableInput();
