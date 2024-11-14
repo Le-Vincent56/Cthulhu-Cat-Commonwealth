@@ -81,7 +81,7 @@ Shader "Hidden/Distortion"
 				float4 warp = SAMPLE_TEXTURE2D(_Warp, sampler_Warp, i.uv + _Time.x);
 
 				// Get Warped Distortion
-				float4 distort = SAMPLE_TEXTURE2D(_Distortion, sampler_Distortion, i.uv + (0.01 * warp - 0.005));
+				float4 distort = SAMPLE_TEXTURE2D(_Distortion, sampler_Distortion, i.uv + (0.02 * warp - 0.005));
 
 				float tentacleMask = distort.g;
 				float shatterMask = distort.r;
@@ -93,8 +93,8 @@ Shader "Hidden/Distortion"
 				// Get Main Texture and blend in
 				float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
 
-				color = alphaBlend(float4(tentacleMask, tentacleMask, tentacleMask, tentacleMask), color);
-				color = alphaBlend(float4(shatterMask, shatterMask, shatterMask, shatterMask), color);
+				color = alphaBlend(float4(warp.rgb * 0.025f, shatterMask), color);
+				color = alphaBlend(float4(tentacleMask, 0, 0, tentacleMask), color);
 				
 				return color;
 			}
