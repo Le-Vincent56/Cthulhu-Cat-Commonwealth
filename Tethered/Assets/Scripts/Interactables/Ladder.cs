@@ -55,6 +55,15 @@ namespace Tethered.Interactables
             // Set the controller's interactable
             controller.SetInteractable(this);
 
+            // Add the controller to the hashset
+            controllers.Add(controller);
+
+            // Get the entering PlayerController
+            PlayerController enteringPlayer = controller.GetComponent<PlayerController>();
+
+            // Decide the sprite based on the entering player
+            DecideEnterSprite(enteringPlayer);
+
             // Show the interact symbol
             ShowInteractSymbol();
         }
@@ -70,8 +79,15 @@ namespace Tethered.Interactables
             // Set the controller's interactable
             controller.SetInteractable(null);
 
+            // Remove the controller from the hashset
+            controllers.Remove(controller);
+
+            // Decide the sprite based on the remaining players in range
+            DecideExitSprite();
+
             // Hide the interact symbol
-            HideInteractSymbol();
+            if(controllers.Count <= 0)
+                HideInteractSymbol();
         }
 
         /// <summary>
@@ -86,7 +102,8 @@ namespace Tethered.Interactables
             if (!controller.TryGetComponent(out PlayerController playerController)) return;
 
             // Hide the interact symbol
-            HideInteractSymbol();
+            if (controllers.Count <= 0)
+                HideInteractSymbol();
 
             // Start climbing
             playerController.StartClimb(path);

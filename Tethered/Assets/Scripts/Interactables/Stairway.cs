@@ -68,19 +68,15 @@ namespace Tethered.Interactables
             // Set the controller's interactable
             controller.SetInteractable(null);
 
-            // Exit case - if not a shared interactable
-            if (!sharedInteractable)
-            {
-                // Hide the interact symbol
-                HideInteractSymbol(sharedInteractable);
-            }
-
             // Remove the controller from the hashset
             controllers.Remove(controller);
 
+            // Decide the sprite based on the remaining players in range
+            DecideExitSprite();
+
             // Hide the interact symbol if there are no present controllers
             if (controllers.Count <= 0)
-                HideInteractSymbol(sharedInteractable);
+                HideInteractSymbol();
         }
 
         /// <summary>

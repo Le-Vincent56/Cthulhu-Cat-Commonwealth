@@ -19,7 +19,6 @@ namespace Tethered.Interactables
             base.Awake();
 
             used = false;
-            sharedInteractable = true;
         }
 
         protected override void OnTriggerEnter2D(Collider2D collision)
@@ -43,6 +42,12 @@ namespace Tethered.Interactables
             // Add the controller to the hashset
             controllers.Add(controller);
 
+            // Get the entering PlayerController
+            PlayerController enteringPlayer = controller.GetComponent<PlayerController>();
+
+            // Decide the sprite based on the entering player
+            DecideEnterSprite(enteringPlayer);
+
             // Exit case - if the symbol is shown
             if (symbolShown) return;
 
@@ -50,7 +55,7 @@ namespace Tethered.Interactables
             hasKey = true;
 
             // Show the interact symbol
-            ShowInteractSymbol(sharedInteractable);
+            ShowInteractSymbol();
         }
 
         protected override void OnTriggerExit2D(Collider2D collision)
@@ -67,9 +72,12 @@ namespace Tethered.Interactables
             // Remove the controller from the hashset
             controllers.Remove(controller);
 
+            // Decide the sprite based on the remaining players in range
+            DecideExitSprite();
+
             // Hide the interact symbol if there are no present controllers
             if (controllers.Count <= 0)
-                HideInteractSymbol(sharedInteractable);
+                HideInteractSymbol();
         }
 
         /// <summary>
@@ -115,7 +123,7 @@ namespace Tethered.Interactables
             }
 
             // Hide the interact symbol
-            HideInteractSymbol(true);
+            HideInteractSymbol();
 
             used = false;
         }

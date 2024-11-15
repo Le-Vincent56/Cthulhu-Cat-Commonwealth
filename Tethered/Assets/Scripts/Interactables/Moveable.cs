@@ -84,12 +84,12 @@ namespace Tethered.Interactables
             if(moveableControllers.Count > 0)
             {
                 // Hide the interact symbol
-                HideInteractSymbol(false);
+                HideInteractSymbol();
             }
             else if (moveableControllers.Count <= 0)
             {
                 // Show the interact symbol
-                ShowInteractSymbol(false);
+                ShowInteractSymbol();
             }
         }
 

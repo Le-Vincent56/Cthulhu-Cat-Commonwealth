@@ -26,13 +26,13 @@ namespace Tethered.Interactables
             keyFadeDuration = 0.5f;
         }
 
-        protected override void ShowInteractSymbol(bool notifyShown = false, TweenCallback onComplete = null)
+        protected override void ShowInteractSymbol(TweenCallback onComplete = null)
         {
             // Exit case - if the interact symbol is already shown
             if (symbolShown) return;
 
             // Call the parent function to handle tweening
-            base.ShowInteractSymbol(notifyShown);
+            base.ShowInteractSymbol();
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Tethered.Interactables
             }
 
             // Hide the interact symbol
-            HideInteractSymbol(true);
+            HideInteractSymbol();
 
             // Fade out the key and disable the game object
             FadeKey(0f, keyFadeDuration, () => gameObject.SetActive(false));
