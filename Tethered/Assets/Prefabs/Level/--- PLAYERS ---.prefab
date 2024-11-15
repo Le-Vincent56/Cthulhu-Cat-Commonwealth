@@ -371,6 +371,7 @@ GameObject:
   - component: {fileID: 4350489695971551895}
   - component: {fileID: 2547786396619655794}
   - component: {fileID: 1581938519961425934}
+  - component: {fileID: 2271228495641050346}
   m_Layer: 6
   m_Name: Player One
   m_TagString: Untagged
@@ -539,6 +540,72 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd0b90229140a349bac20b25b961a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2271228495641050346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7486419658652333384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52d598e3c6af85f449d30b221095d027, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footstepSounds:
+  - clip: {fileID: 8300000, guid: be0845a6ab4c8c54f92f7016d31732a2, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: 39640b05643bfea42ae6981212d60b24, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: b7af22f7190a5014888ee06f30b3c6a6, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: 91253fee9fd5afd4cade5faec7191ca6, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: 11392b33a69a5824f8c64b80c3f549d0, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  ladderSounds:
+  - clip: {fileID: 8300000, guid: 4e0739fb27829da4ba4dea8aab5d19dc, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: 03476c73b0f696d4fa15d5663c366577, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: 523074da8ce2feb48880c9e2409a6349, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: d7672121db8f72a4b84ddcfa9f009dc8, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: dbb511fa21660b2409c5a3e3bea08703, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  footstepTime: 0.5
+  ladderTime: 0.35
 --- !u!1 &8507079043187752520
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,6 +621,7 @@ GameObject:
   - component: {fileID: 8516779543812251270}
   - component: {fileID: 8965178757845242586}
   - component: {fileID: 2521436357506393999}
+  - component: {fileID: 6353264626896950533}
   m_Layer: 6
   m_Name: Player Two
   m_TagString: Untagged
@@ -727,6 +795,77 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd0b90229140a349bac20b25b961a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6353264626896950533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8507079043187752520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52d598e3c6af85f449d30b221095d027, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footstepSounds:
+  - clip: {fileID: 8300000, guid: 6f8aa0df01fc5f749b189936cc3ebeb9, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: 44c9c44a2fcaa334f8c14fe23300585c, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: f43f4ca9995184041b88ad4f98482866, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: 01890e4212516af4cbb465130c39653b, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: 861cf90e94131b34c908afba896ea60c, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: 7cfbb4d72c9eb494f81b2b8cd0cccf0f, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  ladderSounds:
+  - clip: {fileID: 8300000, guid: 4e0739fb27829da4ba4dea8aab5d19dc, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: 03476c73b0f696d4fa15d5663c366577, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: 523074da8ce2feb48880c9e2409a6349, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: d7672121db8f72a4b84ddcfa9f009dc8, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: dbb511fa21660b2409c5a3e3bea08703, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  footstepTime: 0.5
+  ladderTime: 0.35
 --- !u!1001 &2598113538419556697
 PrefabInstance:
   m_ObjectHideFlags: 0
