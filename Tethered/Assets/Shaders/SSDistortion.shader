@@ -33,6 +33,7 @@ Shader "Hidden/Distortion"
 			float4 _MainTex_TexelSize;
 
             float _Intensity;
+            float _Glow;
 
             #define _SCREEN_SPACE_OCCLUSION
             
@@ -100,7 +101,7 @@ Shader "Hidden/Distortion"
 				color = alphaBlend(float4((warp.rgb * 0.015f), saturate(shatterMask - tentacleMask)), color);
 
 				//	tentacleMask = tentacleMask - tentacleMask1;
-				//color = alphaBlend(float4(0.5f, 0.5f, 0.5f, saturate(tentacleMask - 0.1f)*0.1f), color);
+				color = alphaBlend(float4(_Glow.rrr, saturate(tentacleMask - 0.1f)*0.1f), color);
 				//return tentacleMask;
 				return color;
 			}

@@ -11,8 +11,6 @@ namespace Tethered.Monster.Events
     {
         public float AttractionLevelTotal;
         public float AttractionLevelMax;
-        public float AttractionThreshold;
-        public int AttractionTier;
     }
 
     public struct ToggleTrigger : IEvent
