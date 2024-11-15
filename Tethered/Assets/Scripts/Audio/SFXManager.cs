@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Tethered.Patterns.ServiceLocator;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -117,7 +118,7 @@ namespace Tethered.Audio
 
             // Check if the Frequent Sound Emitters queue exceeds the max amount of sound instances and 
             // if a SoundEmitter can be dequeued from the queue
-            if(FrequentSoundEmitters.Count >= maxSoundInstances && FrequentSoundEmitters.TryDequeue(out SoundEmitter soundEmitter))
+            if (FrequentSoundEmitters.Count >= maxSoundInstances && FrequentSoundEmitters.TryDequeue(out SoundEmitter soundEmitter))
             {
                 // Try/catch
                 try
@@ -125,7 +126,8 @@ namespace Tethered.Audio
                     // Stop the Sound Emitter
                     soundEmitter.Stop();
                     return true;
-                } catch
+                }
+                catch
                 {
                     Debug.Log("SoundEmitter is already released");
                 }
@@ -134,6 +136,22 @@ namespace Tethered.Audio
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Stop an active sound from playing
+        /// </summary>
+        public void StopSound(SoundData data)
+        {
+            // Iterate through each active Sound Emitter
+            foreach(SoundEmitter emitter in activeSoundEmitters)
+            {
+                // Skip if the data does not match
+                if (emitter.Data != data) continue;
+
+                // Stop the Sound Emitter
+                emitter.Stop();
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
 using DG.Tweening;
 using System.Collections.Generic;
+using Tethered.Audio;
+using Tethered.Patterns.ServiceLocator;
 using Tethered.Player;
 using UnityEngine;
 
@@ -12,6 +14,9 @@ namespace Tethered.Interactables
         [SerializeField] private bool multiSided;
         protected int enterDirection;
         protected HashSet<InteractController> controllers;
+
+        protected SFXManager sfxManager;
+        [SerializeField] protected SoundData soundData;
 
         protected bool symbolShown;
         protected float initialPosX;
@@ -55,6 +60,11 @@ namespace Tethered.Interactables
             // Hide the interact symbol
             Fade(0f, 0f);
             Scale(symbolInitialScale, 0f);
+        }
+
+        protected virtual void Start()
+        {
+            sfxManager = ServiceLocator.ForSceneOf(this).Get<SFXManager>();
         }
 
         protected virtual void OnTriggerEnter2D(Collider2D collision)
