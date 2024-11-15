@@ -1,5 +1,5 @@
 using UnityEngine;
-using Tethered.Extensions.GameObject;
+using Tethered.Extensions.GameObjects;
 
 namespace Tethered.Patterns.ServiceLocator
 {

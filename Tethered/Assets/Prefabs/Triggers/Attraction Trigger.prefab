@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7872661839256050573}
   - component: {fileID: 608608338988010812}
-  - component: {fileID: 3143455472349452245}
+  - component: {fileID: 5526285662588580770}
   m_Layer: 0
   m_Name: Attraction Trigger
   m_TagString: Untagged
@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.58, y: -3.45, z: -0.04976608}
-  m_LocalScale: {x: 1, y: 2.15, z: 1}
+  m_LocalScale: {x: 2.4931438, y: 5.3602595, z: 2.4931438}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -78,7 +78,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &3143455472349452245
+--- !u!114 &5526285662588580770
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,10 +87,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 7459177337383971993}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce0c9ce430cea524ca3229e13cc339c2, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ffa80fef57094149b7f8f0b2d7a3500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hash: 0
-  triggerEnabled: 0
-  triggerWeight: 1
+  triggerEnabled: 1
+  hasCallback: 1
+  triggerWeight: 0
   attractionAmount: 10
+  isOneTime: 1
+  soundData:
+    clip: {fileID: 0}
+    mixerGroup: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
+  destructable: {fileID: 0}
+  rb: {fileID: 0}
+  pushForce: 50

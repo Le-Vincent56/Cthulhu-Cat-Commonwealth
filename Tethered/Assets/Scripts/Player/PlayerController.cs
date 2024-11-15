@@ -5,6 +5,8 @@ using Tethered.Cameras;
 using Tethered.Patterns.ServiceLocator;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
+using Tethered.Audio;
 
 namespace Tethered.Player
 {
@@ -29,6 +31,7 @@ namespace Tethered.Player
         protected MoveableController moveableController;
         protected CameraBoundary cameraBoundary;
         private Transform skinTransform;
+        private PlayerSFX playerSFX;
 
         [Header("Movement")]
         [SerializeField] protected float movementSpeed;
@@ -44,7 +47,7 @@ namespace Tethered.Player
 
         [Header("Teleport")]
         [SerializeField] private bool teleporting;
-        [SerializeField] private Vector3 targetPosition;
+        [SerializeField] private Vector3 teleportPosition;
 
         public PlayerWeight Weight { get => weight; }
 
@@ -56,6 +59,7 @@ namespace Tethered.Player
             animator = GetComponentInChildren<Animator>();
             moveableController = GetComponent<MoveableController>();
             skinTransform = animator.transform;
+            playerSFX = GetComponent<PlayerSFX>();
 
             // Set variables
             initialGravityScale = rb.gravityScale;
@@ -65,8 +69,8 @@ namespace Tethered.Player
 
             // Create states
             IdleState idleState = new IdleState(this, animator);
-            LocomotionState locomotionState = new LocomotionState(this, animator);
-            ClimbState climbState = new ClimbState(this, animator);
+            LocomotionState locomotionState = new LocomotionState(this, animator, playerSFX);
+            ClimbState climbState = new ClimbState(this, animator, playerSFX);
             MovingObjectState pushState = new MovingObjectState(this, animator, moveableController);
             TeleportState teleportState = new TeleportState(this, animator, skinTransform.GetComponentsInChildren<SpriteRenderer>().ToList());
 
@@ -136,7 +140,7 @@ namespace Tethered.Player
         /// </summary>
         public void Move()
         {
-            rb.velocity = new Vector2(moveDirectionX * movementSpeed, 0);
+            rb.velocity = new Vector2(moveDirectionX * movementSpeed, rb.velocity.y);
             SetFacingDirection(moveDirectionX);
         }
 
@@ -243,16 +247,16 @@ namespace Tethered.Player
         {
             // Set teleporting variables
             teleporting = true;
-            this.targetPosition = targetPosition;
+            this.teleportPosition = targetPosition;
 
             // Disable input
             DisableInput();
         }
 
         /// <summary>
-        /// Teleport the Player
+        /// Get the player's teleport position
         /// </summary>
-        public void TeleportToTargetPosition() => transform.position = targetPosition;
+        public Vector3 GetTeleportPosition() => teleportPosition;
 
         /// <summary>
         /// End teleporting
@@ -261,7 +265,7 @@ namespace Tethered.Player
         {
             // Unset teleporting variables
             teleporting = false;
-            targetPosition = Vector3.zero;
+            teleportPosition = Vector3.zero;
 
             // Enable input
             EnableInput();

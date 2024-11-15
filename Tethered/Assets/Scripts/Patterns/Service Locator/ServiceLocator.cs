@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tethered.Extensions.GameObject;
+using Tethered.Extensions.GameObjects;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;

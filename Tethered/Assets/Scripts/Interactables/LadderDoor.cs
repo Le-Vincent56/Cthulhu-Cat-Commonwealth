@@ -18,6 +18,8 @@ namespace Tethered.Interactables
         [SerializeField] private float symbolHeightTop;
         [SerializeField] private float symbolHeightBottom;
 
+        [SerializeField] private GameObject floor;
+
         protected override void Awake()
         {
             base.Awake();
@@ -103,7 +105,7 @@ namespace Tethered.Interactables
             // Exit case - if already extended
             if (extended) return;
 
-            // TODO: Get the direction (for when setting Reach state)
+            // Get the direction (for when setting Reach state)
             int direction = (int)Mathf.Sign(controller.transform.position.y - transform.position.y);
 
             // Check if the direction is from downward and if it is Player One
@@ -118,6 +120,8 @@ namespace Tethered.Interactables
 
             // Store the initial height
             float initialWidth = extendableLadder.size.x;
+            
+            floor.SetActive(false);
 
             // Tween the height
             DOTween.To(() => extendableLadder.size,

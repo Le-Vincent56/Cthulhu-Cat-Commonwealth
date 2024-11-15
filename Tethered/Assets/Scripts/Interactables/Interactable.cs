@@ -1,5 +1,7 @@
 using DG.Tweening;
 using System.Collections.Generic;
+using Tethered.Audio;
+using Tethered.Patterns.ServiceLocator;
 using Tethered.Player;
 using UnityEngine;
 
@@ -12,6 +14,9 @@ namespace Tethered.Interactables
         [SerializeField] private bool multiSided;
         protected int enterDirection;
         protected HashSet<InteractController> controllers;
+
+        protected SFXManager sfxManager;
+        [SerializeField] protected SoundData soundData;
 
         protected bool symbolShown;
         protected float initialPosX;
@@ -57,9 +62,14 @@ namespace Tethered.Interactables
             Scale(symbolInitialScale, 0f);
         }
 
+        protected virtual void Start()
+        {
+            sfxManager = ServiceLocator.ForSceneOf(this).Get<SFXManager>();
+        }
+
         protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
-            // Exit case - if a PlayerTwoController is not found on the collision object
+            // Exit case - if an InteractController is not found on the collision object
             if (!collision.TryGetComponent(out InteractController controller)) return;
 
             // Set the controller's interactable
@@ -80,7 +90,7 @@ namespace Tethered.Interactables
 
         protected virtual void OnTriggerExit2D(Collider2D collision)
         {
-            // Exit case - if a PlayerTwoController is not found on the collision object
+            // Exit case - if an InteractController is not found on the collision object
             if (!collision.TryGetComponent(out InteractController controller)) return;
 
             // Set the controller's interactable
@@ -105,6 +115,14 @@ namespace Tethered.Interactables
         /// Interact with the Interactable
         /// </summary>
         public abstract void Interact(InteractController controller);
+
+        /// <summary>
+        /// Callback function that can be defined and called when an Interaction ends
+        /// </summary>
+        protected virtual void OnEnd()
+        {
+            // Noop
+        }
 
         /// <summary>
         /// Show the interact symbol

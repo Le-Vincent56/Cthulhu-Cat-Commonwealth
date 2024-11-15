@@ -1,10 +1,9 @@
-using Tethered.Interactables.Events;
 using Tethered.Monster.Events;
 using Tethered.Patterns.EventBus;
 using Tethered.Player;
 using UnityEngine;
 
-namespace Tethered.Monster
+namespace Tethered.Monster.Triggers
 {
     [RequireComponent(typeof(BoxCollider2D))]
     public class AttractionTrigger : MonoBehaviour
@@ -12,6 +11,7 @@ namespace Tethered.Monster
         [Header("Trigger Details")]
         [SerializeField] private int hash;
         [SerializeField] private bool triggerEnabled;
+        [SerializeField] private bool hasCallback;
 
         [Header("Attraction Fields")]
         [SerializeField] private PlayerWeight triggerWeight;
@@ -36,7 +36,7 @@ namespace Tethered.Monster
             EventBus<ToggleTrigger>.Deregister(onToggleTrigger);
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
             // Exit case - the trigger is disabled
             if (!triggerEnabled) return;
@@ -65,12 +65,11 @@ namespace Tethered.Monster
         /// </summary>
         private void ToggleTrigger(ToggleTrigger eventData)
         {
-            // Exit case - 
+            // Exit case - Hash mismatch
             if (eventData.Hash != hash) return;
 
             // Set whether or not the trigger is enabled
             triggerEnabled = eventData.Enabled;
-
         }
 
         /// <summary>

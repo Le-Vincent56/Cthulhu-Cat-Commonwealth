@@ -40,6 +40,17 @@ namespace Tethered.Interactables
         /// </summary>
         public override void Interact(InteractController controller)
         {
+            // Get the direction (for when setting Reach state)
+            int direction = (int)Mathf.Sign(controller.transform.position.y - transform.position.y);
+            Debug.Log(direction);
+
+            // Check if the direction is from downward and if it is Player One
+            if (direction == -1 && controller.TryGetComponent(out PlayerOneController playerController))
+            {
+                // Set reaching
+                playerController.SetReaching(true);
+            }
+
             // Add the key to the Players' inventory
             controller.Inventory.StoreKey(hash);
 

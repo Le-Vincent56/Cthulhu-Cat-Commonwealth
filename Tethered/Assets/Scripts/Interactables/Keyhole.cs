@@ -1,3 +1,5 @@
+using Tethered.Interactables.Events;
+using Tethered.Patterns.EventBus;
 using Tethered.Player;
 using UnityEngine;
 
@@ -8,6 +10,7 @@ namespace Tethered.Interactables
         [Header("Identifier")]
         [SerializeField] private int hash;
         private bool used;
+        private bool hasKey;
 
         public int Hash { get => hash; }
 
@@ -27,6 +30,13 @@ namespace Tethered.Interactables
             // Exit case - if a PlayerTwoController is not found on the collision object
             if (!collision.TryGetComponent(out InteractController controller)) return;
 
+            // Exit case - if the Player does not have the key, do not show the symbol
+            if (!controller.Inventory.CheckKey(this))
+            {
+                hasKey = false;
+                return;
+            }
+
             // Set the controller's interactable
             controller.SetInteractable(this);
 
@@ -35,6 +45,9 @@ namespace Tethered.Interactables
 
             // Exit case - if the symbol is shown
             if (symbolShown) return;
+
+            // Set that the Player has the key
+            hasKey = true;
 
             // Show the interact symbol
             ShowInteractSymbol(sharedInteractable);
@@ -64,11 +77,25 @@ namespace Tethered.Interactables
         /// </summary>
         public override void Interact(InteractController controller)
         {
-            // Check the InteractController for the correct key
-            if (controller.Inventory.CheckKey(this))
+            // Exit case - the Player does not have the key
+            if (!hasKey) return;
+
+            // Unlock the door
+            EventBus<HandleDoor>.Raise(new HandleDoor()
             {
-                DisableKeyhole();
-            }
+                Hash = hash,
+                Open = true,
+                Deactivate = true
+            });
+
+            // Remove the key
+            controller.Inventory.RemoveKey(hash);
+
+            // Play the sound
+            sfxManager.CreateSound().WithSoundData(soundData).Play();
+
+            // Disable the keyhole
+            DisableKeyhole();
         }
 
         /// <summary>

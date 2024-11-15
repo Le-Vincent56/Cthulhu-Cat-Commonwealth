@@ -23,6 +23,8 @@ namespace Tethered.Interactables
         [SerializeField] private float translateDuration;
         private Tween translateTween;
 
+        private bool playingSound;
+
         protected override void Awake()
         {
             // Call parent Awake
@@ -151,6 +153,12 @@ namespace Tethered.Interactables
                 // Update the MoveableController's position
                 controller.transform.position = newControllerPosition;
             }
+
+            // If moving, play the sound
+            if (rb.velocity.x > 0) PlaySound();
+
+            // If not moving, stop the sound
+            if (rb.velocity.x == 0) StopSound();
         }
         
         /// <summary>
@@ -196,7 +204,7 @@ namespace Tethered.Interactables
             );
 
             // Move to the position
-            Translate(newPosition, translateDuration);
+            Translate(newPosition, translateDuration, () => StopSound());
 
             // Lock the Moveable
             canMove = false;
@@ -218,6 +226,36 @@ namespace Tethered.Interactables
 
             // Set callbacks
             translateTween.onComplete += onComplete;
+        }
+
+        /// <summary>
+        /// Play the moving sound
+        /// </summary>
+        private void PlaySound()
+        {
+            // Exit case - the sound is already playing
+            if (playingSound) return;
+
+            // Play the sound
+            sfxManager.CreateSound().WithSoundData(soundData).Play();
+
+            // Notify playing
+            playingSound = true;
+        }
+
+        /// <summary>
+        /// Stop the moving sound
+        /// </summary>
+        private void StopSound()
+        {
+            // Exit case - the sound is not playing
+            if (!playingSound) return;
+
+            // Stop the sound
+            sfxManager.StopSound(soundData);
+
+            // Notify not playing
+            playingSound = false;
         }
     }
 }
