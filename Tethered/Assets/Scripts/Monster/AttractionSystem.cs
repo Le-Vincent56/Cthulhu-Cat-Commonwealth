@@ -49,7 +49,7 @@ namespace Tethered.Monster
         private void Awake()
         {
             // Set the current threshold
-            currentThreshold = 20f;
+            currentThreshold = thresholdBuffer;
 
             // Set the attraction level to 0
             AttractionLevel = 0f;

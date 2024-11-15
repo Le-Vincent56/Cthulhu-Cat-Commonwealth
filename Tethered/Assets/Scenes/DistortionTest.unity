@@ -12628,7 +12628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentThreshold: 0
-  thresholdBuffer: 15
+  thresholdBuffer: 25
   attractionLevel: 0
   attractionLevelMax: 100
   decreaseAttractionRate: 10
