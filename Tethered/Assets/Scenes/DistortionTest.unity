@@ -146,6 +146,10 @@ PrefabInstance:
       propertyPath: attractionAmount
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 5526285662588580770, guid: 8b057a94ec6e1ce49a2540c54185fc9b, type: 3}
+      propertyPath: isOneTime
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7459177337383971993, guid: 8b057a94ec6e1ce49a2540c54185fc9b, type: 3}
       propertyPath: m_Name
       value: Attraction Trigger

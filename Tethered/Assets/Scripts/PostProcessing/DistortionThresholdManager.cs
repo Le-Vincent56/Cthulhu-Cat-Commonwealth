@@ -29,6 +29,12 @@ public class DistortionThresholdManager : MonoBehaviour
         
         // change tween to tweening a separate variable, for better consolidation, fewer Tweens running.
         DOTween.To(() => distortion.intensity.value, x => distortion.intensity.value = x, ratio, 1);
+
+        if (!(ratio > 1))
+        {
+            DOTween.To(() => distortion.glow.value, x => distortion.glow.value = x, 1, 0.5f)
+                .OnComplete(() => DOTween.To(() => distortion.glow.value, x => distortion.glow.value = x, 0.1f, 0.5f));
+        }
     }
 
     private float RescaleByTier(AttractionChanged eventData)
@@ -78,4 +84,6 @@ public class DistortionThresholdManager : MonoBehaviour
     public static float RemapRange (float value, float from1, float to1, float from2, float to2) {
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
+    
+    
 }

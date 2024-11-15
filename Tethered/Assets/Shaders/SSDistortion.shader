@@ -89,8 +89,10 @@ Shader "Hidden/Distortion"
 
 				tentacleMask = 1 - tentacleMask;
 				//tentacleMask = smoothstep(0, 1, _Intensity - tentacleMask);
-				float tentacleMask1 = smoothstep(0, 1, _Intensity - tentacleMask);
+				float tentacleMask1 = smoothstep(0, 1.f, _Intensity - tentacleMask);
 				tentacleMask = tentacleMask< _Intensity ? 1 : 0;
+
+				float subMask = tentacleMask;
 				
 				tentacleMask = tentacleMask * 0.5f + tentacleMask1;
 				shatterMask = shatterMask < _Intensity ? 1 : 0;
@@ -100,9 +102,12 @@ Shader "Hidden/Distortion"
 
 				color = alphaBlend(float4((warp.rgb * 0.015f), saturate(shatterMask - tentacleMask)), color);
 
-				//	tentacleMask = tentacleMask - tentacleMask1;
-				color = alphaBlend(float4(_Glow.rrr, saturate(tentacleMask - 0.1f)*0.1f), color);
-				//return tentacleMask;
+				tentacleMask1 = subMask - (tentacleMask1 * 2);
+				tentacleMask1 = tentacleMask1 * tentacleMask1 * tentacleMask1 * tentacleMask1;
+				float4 tentacleColor =  float4(_Glow.rrr, tentacleMask1);
+
+				color += tentacleColor * tentacleColor.a;
+				//return tentacleMask1;
 				return color;
 			}
 			
