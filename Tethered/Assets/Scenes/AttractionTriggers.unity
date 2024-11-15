@@ -430,10 +430,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: -- SYSTEMS --
       objectReference: {fileID: 0}
-    - target: {fileID: 5043442319740680263, guid: 3e21173e0465ff947839b1a22be28c9b, type: 3}
-      propertyPath: decreaseAttractionRate
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
