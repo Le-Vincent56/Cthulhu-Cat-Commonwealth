@@ -41,7 +41,7 @@ namespace Tethered.Monster
                 EventBus<AttractionChanged>.Raise(new AttractionChanged()
                 {
                     AttractionLevelTotal = attractionLevel,
-                    AttractionLevelMax = attractionLevelMax
+                    AttractionLevelMax = attractionLevelMax,
                 });
             }
         }
