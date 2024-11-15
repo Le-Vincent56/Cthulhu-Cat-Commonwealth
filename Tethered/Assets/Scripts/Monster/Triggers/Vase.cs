@@ -18,12 +18,10 @@ namespace Tethered.Monster.Triggers
 
         private void OnEnable()
         {
-            destructable.OnDestruct += PlaySound;
-        }
+            // Exit case - there is no Destructable
+            if (destructable == null) return;
 
-        private void OnDisable()
-        {
-            destructable.OnDestruct -= PlaySound;
+            destructable.OnDestruct += PlaySound;
         }
 
         private void Start()
@@ -69,6 +67,7 @@ namespace Tethered.Monster.Triggers
         private void PlaySound()
         {
             sfxManager.CreateSound().WithSoundData(soundData).Play();
+            destructable.OnDestruct -= PlaySound;
         }
     }
 }
