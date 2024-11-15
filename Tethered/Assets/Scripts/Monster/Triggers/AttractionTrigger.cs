@@ -36,7 +36,7 @@ namespace Tethered.Monster.Triggers
             EventBus<ToggleTrigger>.Deregister(onToggleTrigger);
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
             // Exit case - the trigger is disabled
             if (!triggerEnabled) return;
@@ -58,11 +58,6 @@ namespace Tethered.Monster.Triggers
                     GainedAttraction = attractionAmount
                 });
             }
-
-            // Exit case - there is no callback for entering the trigger
-            if (!hasCallback) return;
-
-            Callback();
         }
 
         /// <summary>
@@ -81,13 +76,5 @@ namespace Tethered.Monster.Triggers
         /// Set the Attraction Trigger's hash
         /// </summary>
         public void SetHash(int hash) => this.hash = hash;
-
-        /// <summary>
-        /// A callback function that can be extended through child classes
-        /// </summary>
-        protected virtual void Callback()
-        {
-            // Noop
-        }
     }
 }

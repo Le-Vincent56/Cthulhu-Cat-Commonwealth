@@ -96,3 +96,12 @@ MonoBehaviour:
   triggerWeight: 0
   attractionAmount: 10
   isOneTime: 1
+  soundData:
+    clip: {fileID: 0}
+    mixerGroup: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
+  destructable: {fileID: 0}
+  rb: {fileID: 0}
+  pushForce: 50
