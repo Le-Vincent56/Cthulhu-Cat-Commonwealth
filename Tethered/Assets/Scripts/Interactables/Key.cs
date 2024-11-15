@@ -42,7 +42,6 @@ namespace Tethered.Interactables
         {
             // Get the direction (for when setting Reach state)
             int direction = (int)Mathf.Sign(controller.transform.position.y - transform.position.y);
-            Debug.Log(direction);
 
             // Check if the direction is from downward and if it is Player One
             if (direction == -1 && controller.TryGetComponent(out PlayerOneController playerController))
