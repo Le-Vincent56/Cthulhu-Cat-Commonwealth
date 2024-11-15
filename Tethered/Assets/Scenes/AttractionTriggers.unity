@@ -529,7 +529,7 @@ MonoBehaviour:
   triggerEnabled: 1
   hasCallback: 0
   triggerWeight: 0
-  attractionAmount: 10
+  attractionAmount: 100
   isOneTime: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

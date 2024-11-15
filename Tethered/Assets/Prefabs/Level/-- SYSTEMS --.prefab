@@ -320,3 +320,24 @@ MonoBehaviour:
   decreaseAttractionRate: 5
   decreaseBufferTime: 5
   decreaseAttractionTime: 2
+  thresholdSFX:
+  - clip: {fileID: 8300000, guid: 99070a4862c80df4f8e644ec1e263139, type: 3}
+    mixerGroup: {fileID: 9058435672566029244, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: 5f0916ca51df65641a8731fc57d995df, type: 3}
+    mixerGroup: {fileID: 9058435672566029244, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: 54b65f8fe7bdd6c46a05a07665d53bac, type: 3}
+    mixerGroup: {fileID: 9058435672566029244, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+  - clip: {fileID: 8300000, guid: 1265515bc6d4ccb43b4166fdaa98676d, type: 3}
+    mixerGroup: {fileID: 9058435672566029244, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1

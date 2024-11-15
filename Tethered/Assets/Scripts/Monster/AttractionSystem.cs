@@ -1,6 +1,9 @@
 using System.Collections;
+using System.Collections.Generic;
+using Tethered.Audio;
 using Tethered.Monster.Events;
 using Tethered.Patterns.EventBus;
+using Tethered.Patterns.ServiceLocator;
 using Tethered.Timers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,12 +20,17 @@ namespace Tethered.Monster
         [SerializeField] private float attractionLevel; //don't reference directly use property
         [SerializeField] private float attractionLevelMax;
         [SerializeField] private float decreaseAttractionRate;
+        private bool canGainAttraction;
 
         [Header("Timers")]
         [SerializeField] private float decreaseBufferTime;
         [SerializeField] private float decreaseAttractionTime;
         private CountdownTimer decreaseBufferTimer;
         private FrequencyTimer decreaseAttractionTimer;
+
+        [Header("SFX")]
+        [SerializeField] private SoundData[] thresholdSFX;
+        private SFXManager sfxManager;
 
         private EventBinding<IncreaseAttraction> onIncreaseAttraction;
         
@@ -57,6 +65,9 @@ namespace Tethered.Monster
             // Set the attraction level to 0
             AttractionLevel = 0f;
 
+            // Allow the players to gain attraction
+            canGainAttraction = true;
+
             // Initialize the Timer
             InitializeTimers();
         }
@@ -70,6 +81,11 @@ namespace Tethered.Monster
         private void OnDisable()
         {
             EventBus<IncreaseAttraction>.Deregister(onIncreaseAttraction);
+        }
+
+        private void Start()
+        {
+            sfxManager = ServiceLocator.ForSceneOf(this).Get<SFXManager>();
         }
 
         /// <summary>
@@ -91,17 +107,11 @@ namespace Tethered.Monster
         /// </summary>
         private void RaiseAttractionLevel(IncreaseAttraction eventData)
         {
+            // Exit case - Attraction cannot be gained
+            if (!canGainAttraction) return;
+
             // Raise the attraction level
             AttractionLevel += eventData.GainedAttraction;
-
-            // Check if the attraction level has exceeded the max level
-            if (AttractionLevel >= attractionLevelMax)
-            {
-                // If so, end the game
-                EndGame();
-
-                return;
-            }
 
             // Check if the decrease buffer timer is running
             if (decreaseBufferTimer.IsRunning)
@@ -113,6 +123,16 @@ namespace Tethered.Monster
 
             // Check threshold buffers
             BufferThreshold();
+
+            // Check if the attraction level has exceeded the max level
+            if (AttractionLevel >= attractionLevelMax)
+            {
+                // Prevent the player from gaining any more attraction
+                canGainAttraction = false;
+
+                // If so, end the game
+                EndGame();
+            }
         }
 
         /// <summary>
@@ -127,7 +147,7 @@ namespace Tethered.Monster
 
         IEnumerator EndGameWait()
         {
-            yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds(5.0f);
             SceneManager.LoadScene("GameOver");
         }
 
@@ -136,14 +156,28 @@ namespace Tethered.Monster
         /// </summary>
         private void BufferThreshold()
         {
-            foreach(int point in bufferPoints)
-            {
-                // Skip if the attraction level is smaller than the buffer point
-                if (attractionLevel < point) continue;
+            int thresholdIndex = 0;
+            float newThreshold = currentThreshold;
 
-                // Set the new threshold
-                currentThreshold = point;
+            for(int i = 0; i < bufferPoints.Length; i++)
+            {
+                if (attractionLevel < bufferPoints[i]) continue;
+
+                // Set the threshold index
+                thresholdIndex = i;
+                
+                // Set the current threshold
+                newThreshold = bufferPoints[i];
             }
+
+            // Exit case - the threshold hasn't changed
+            if (newThreshold == currentThreshold) return;
+
+            // Set the new threshold
+            currentThreshold = newThreshold;
+
+            // Play the corresponding SFX
+            sfxManager.CreateSound().WithSoundData(thresholdSFX[thresholdIndex - 1]).Play();
         }
 
         /// <summary>
