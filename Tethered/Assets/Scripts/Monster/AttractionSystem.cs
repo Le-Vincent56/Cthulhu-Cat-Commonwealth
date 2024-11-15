@@ -11,7 +11,7 @@ namespace Tethered.Monster
     {
         [Header("Thresholds")]
         [SerializeField] private float currentThreshold;
-        [SerializeField] private float thresholdBuffer;
+        [SerializeField] private int[] bufferPoints;
 
         [Header("Attraction Level")]
         [SerializeField] private float attractionLevel; //don't reference directly use property
@@ -48,8 +48,11 @@ namespace Tethered.Monster
 
         private void Awake()
         {
-            // Set the current threshold
-            currentThreshold = thresholdBuffer;
+            // Set the current threshold to the first buffer point
+            currentThreshold = bufferPoints[0];
+
+            // Set the max to the last buffer point
+            attractionLevelMax = bufferPoints[bufferPoints.Length - 1];
 
             // Set the attraction level to 0
             AttractionLevel = 0f;
@@ -133,11 +136,14 @@ namespace Tethered.Monster
         /// </summary>
         private void BufferThreshold()
         {
-            // Exit case - if the attractionl level is below the current threshold
-            if (AttractionLevel < currentThreshold) return;
+            foreach(int point in bufferPoints)
+            {
+                // Skip if the attraction level is smaller than the buffer point
+                if (attractionLevel < point) continue;
 
-            // Add the buffer to the current threshold
-            currentThreshold += thresholdBuffer;
+                // Set the new threshold
+                currentThreshold = point;
+            }
         }
 
         /// <summary>
@@ -151,7 +157,12 @@ namespace Tethered.Monster
         private void DecreaseAttraction()
         {
             // Exit case - if the attraction level has reached the current threshold
-            if (AttractionLevel == currentThreshold) return;
+            if (AttractionLevel == currentThreshold)
+            {
+                decreaseAttractionTimer.Reset();
+                decreaseAttractionTimer.Stop();
+                return;
+            }
 
             // Decrease the attraction level by the attraction rate
             AttractionLevel -= decreaseAttractionRate;

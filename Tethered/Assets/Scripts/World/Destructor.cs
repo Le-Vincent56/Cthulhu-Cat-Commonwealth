@@ -1,5 +1,4 @@
 using UnityEngine;
-
 namespace Tethered.World
 {
     public class Destructor : MonoBehaviour

@@ -11,6 +11,7 @@ namespace Tethered.Monster.Triggers
         [Header("Trigger Details")]
         [SerializeField] private int hash;
         [SerializeField] private bool triggerEnabled;
+        [SerializeField] private bool hasCallback;
 
         [Header("Attraction Fields")]
         [SerializeField] private PlayerWeight triggerWeight;
@@ -19,7 +20,7 @@ namespace Tethered.Monster.Triggers
 
         private EventBinding<ToggleTrigger> onToggleTrigger;
 
-        protected virtual void Awake()
+        private void Awake()
         {
             triggerEnabled = true;
         }

@@ -91,6 +91,9 @@ namespace Tethered.Interactables
             // Remove the key
             controller.Inventory.RemoveKey(hash);
 
+            // Play the sound
+            sfxManager.CreateSound().WithSoundData(soundData).Play();
+
             // Disable the keyhole
             DisableKeyhole();
         }

@@ -6,6 +6,7 @@ using Tethered.Patterns.ServiceLocator;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using Tethered.Audio;
 
 namespace Tethered.Player
 {
@@ -30,6 +31,7 @@ namespace Tethered.Player
         protected MoveableController moveableController;
         protected CameraBoundary cameraBoundary;
         private Transform skinTransform;
+        private PlayerSFX playerSFX;
 
         [Header("Movement")]
         [SerializeField] protected float movementSpeed;
@@ -57,6 +59,7 @@ namespace Tethered.Player
             animator = GetComponentInChildren<Animator>();
             moveableController = GetComponent<MoveableController>();
             skinTransform = animator.transform;
+            playerSFX = GetComponent<PlayerSFX>();
 
             // Set variables
             initialGravityScale = rb.gravityScale;
@@ -66,8 +69,8 @@ namespace Tethered.Player
 
             // Create states
             IdleState idleState = new IdleState(this, animator);
-            LocomotionState locomotionState = new LocomotionState(this, animator);
-            ClimbState climbState = new ClimbState(this, animator);
+            LocomotionState locomotionState = new LocomotionState(this, animator, playerSFX);
+            ClimbState climbState = new ClimbState(this, animator, playerSFX);
             MovingObjectState pushState = new MovingObjectState(this, animator, moveableController);
             TeleportState teleportState = new TeleportState(this, animator, skinTransform.GetComponentsInChildren<SpriteRenderer>().ToList());
 

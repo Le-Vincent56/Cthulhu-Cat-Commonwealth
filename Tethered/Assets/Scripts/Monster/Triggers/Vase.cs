@@ -1,15 +1,34 @@
 using DG.Tweening;
+using Tethered.Audio;
+using Tethered.Patterns.ServiceLocator;
 using Tethered.Player;
+using Tethered.World;
 using UnityEngine;
-
 namespace Tethered.Monster.Triggers
 {
     public class Vase : AttractionTrigger
     {
+        private SFXManager sfxManager;
+        [SerializeField] private SoundData soundData;
+
+        [SerializeField] private Destructable destructable;
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private float pushForce;
-
         private Tween rotateTween;
+
+        private void OnEnable()
+        {
+            // Exit case - there is no Destructable
+            if (destructable == null) return;
+
+            destructable.OnDestruct += PlaySound;
+        }
+
+        private void Start()
+        {
+            sfxManager = ServiceLocator.ForSceneOf(this).Get<SFXManager>();
+        }
+
 
         protected override void OnTriggerEnter2D(Collider2D collision)
         {
@@ -40,6 +59,15 @@ namespace Tethered.Monster.Triggers
             rb.AddForce(totalForce);
             rb.gravityScale = 0.5f;
             rotateTween = rb.DORotate(-pushDirection * 45f, 0.2f);
+        }
+
+        /// <summary>
+        /// Play the Vase sound on destroy
+        /// </summary>
+        private void PlaySound()
+        {
+            sfxManager.CreateSound().WithSoundData(soundData).Play();
+            destructable.OnDestruct -= PlaySound;
         }
     }
 }

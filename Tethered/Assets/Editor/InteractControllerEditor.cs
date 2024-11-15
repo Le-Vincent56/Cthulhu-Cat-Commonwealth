@@ -11,6 +11,7 @@ namespace Tethered.Player.Editors
         private SerializedProperty playerTwoInputReaderProp;
         private SerializedProperty playerTypeProp;
         private SerializedProperty currentInteractableProp;
+        private SerializedProperty soundDataProp;
 
         private void OnEnable()
         {
@@ -19,6 +20,7 @@ namespace Tethered.Player.Editors
             playerTwoInputReaderProp = serializedObject.FindProperty("playerTwoInputReader");
             playerTypeProp = serializedObject.FindProperty("playerType");
             currentInteractableProp = serializedObject.FindProperty("currentInteractable");
+            soundDataProp = serializedObject.FindProperty("sfx");
         }
 
         public override void OnInspectorGUI()
@@ -52,6 +54,10 @@ namespace Tethered.Player.Editors
             // Show the current Interactable field
             EditorGUILayout.LabelField("Interactables", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(currentInteractableProp, new GUIContent("Current Interactable"));
+
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("SFX", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(soundDataProp);
 
             // Apply any modified properties
             serializedObject.ApplyModifiedProperties();
