@@ -14355,14 +14355,20 @@ MonoBehaviour:
   bothHands: {fileID: 21300000, guid: c76ebc26bee9ad4448be8edf338fde33, type: 3}
   multiSided: 0
   soundData:
-    clip: {fileID: 0}
-    mixerGroup: {fileID: 0}
+    clip: {fileID: 8300000, guid: 777b2daeb936a6a428cd7b29af9a2181, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
     loop: 0
     playOnAwake: 0
     frequentSound: 0
   hash: 886476504
   toHash: 2138639574
   teleportPosition: {fileID: 7392174608889160563}
+  secondSoundData:
+    clip: {fileID: 8300000, guid: 6b8af325ad3b9984799853d671c1f552, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
 --- !u!4 &1521195208436528181
 Transform:
   m_ObjectHideFlags: 0
@@ -14486,14 +14492,20 @@ MonoBehaviour:
   bothHands: {fileID: 21300000, guid: c76ebc26bee9ad4448be8edf338fde33, type: 3}
   multiSided: 0
   soundData:
-    clip: {fileID: 0}
-    mixerGroup: {fileID: 0}
+    clip: {fileID: 8300000, guid: 777b2daeb936a6a428cd7b29af9a2181, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
     loop: 0
     playOnAwake: 0
     frequentSound: 0
   hash: 2138639574
   toHash: 886476504
   teleportPosition: {fileID: 141824255523763495}
+  secondSoundData:
+    clip: {fileID: 8300000, guid: 6b8af325ad3b9984799853d671c1f552, type: 3}
+    mixerGroup: {fileID: 4097934172408672423, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
 --- !u!1 &3635042393052779642
 GameObject:
   m_ObjectHideFlags: 0

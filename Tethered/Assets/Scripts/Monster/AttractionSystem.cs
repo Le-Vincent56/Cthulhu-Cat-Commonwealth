@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using Tethered.Audio;
 using Tethered.Monster.Events;
 using Tethered.Patterns.EventBus;

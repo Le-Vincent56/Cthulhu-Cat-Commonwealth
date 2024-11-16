@@ -53,6 +53,9 @@ namespace Tethered.Interactables
             // Add the key to the Players' inventory
             controller.Inventory.StoreKey(hash);
 
+            // Play the sound effect
+            sfxManager.CreateSound().WithSoundData(soundData).Play();
+
             // Disable the key
             DisableKey();
         }

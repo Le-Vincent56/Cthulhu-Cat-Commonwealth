@@ -101,6 +101,9 @@ namespace Tethered.Interactables
                 controller.SetInteractable(null);
             }
 
+            // Play the SFX
+            sfxManager.CreateSound().WithSoundData(soundData).Play();
+
             // Hide the interact symbol
             HideInteractSymbol();
 

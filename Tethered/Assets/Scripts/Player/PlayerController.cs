@@ -5,7 +5,6 @@ using Tethered.Cameras;
 using Tethered.Patterns.ServiceLocator;
 using System.Collections.Generic;
 using System.Linq;
-using DG.Tweening;
 using Tethered.Audio;
 
 namespace Tethered.Player
@@ -247,7 +246,7 @@ namespace Tethered.Player
         {
             // Set teleporting variables
             teleporting = true;
-            this.teleportPosition = targetPosition;
+            teleportPosition = targetPosition;
 
             // Disable input
             DisableInput();

@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Tethered.Audio;
 using Tethered.Interactables.Events;
 using Tethered.Patterns.EventBus;
 using Tethered.Player;
@@ -19,6 +20,8 @@ namespace Tethered.Interactables
         [SerializeField] private float symbolHeightBottom;
 
         [SerializeField] private GameObject floor;
+
+        [SerializeField] private SoundData extensionSound;
 
         protected override void Awake()
         {
@@ -119,6 +122,10 @@ namespace Tethered.Interactables
             float initialWidth = extendableLadder.size.x;
             
             floor.SetActive(false);
+
+            // Play sound effects
+            sfxManager.CreateSound().WithSoundData(soundData).Play();
+            sfxManager.CreateSound().WithSoundData(extensionSound).Play();
 
             // Tween the height
             DOTween.To(() => extendableLadder.size,
