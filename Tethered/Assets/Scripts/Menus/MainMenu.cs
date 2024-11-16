@@ -27,7 +27,7 @@ namespace Tethered.Menus
         // Opens the game scene
        void OpenGame()
         {
-            SceneManager.LoadScene(sceneName:"MockLevel1");
+            SceneManager.LoadScene(sceneName:"IntroCutscene");
         }
 
         // Closes the game
