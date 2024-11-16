@@ -51,7 +51,7 @@ namespace Tethered.Interactables
             }
 
             // Hide the interact symbol
-            HideInteractSymbol(true);
+            HideInteractSymbol();
 
             // Fade out the key and disable the game object
             FadeCurtain(0f, curtainFadeDuration, () => gameObject.SetActive(false));

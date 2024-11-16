@@ -26,13 +26,13 @@ namespace Tethered.Interactables
             keyFadeDuration = 0.5f;
         }
 
-        protected override void ShowInteractSymbol(bool notifyShown = false, TweenCallback onComplete = null)
+        protected override void ShowInteractSymbol(TweenCallback onComplete = null)
         {
             // Exit case - if the interact symbol is already shown
             if (symbolShown) return;
 
             // Call the parent function to handle tweening
-            base.ShowInteractSymbol(notifyShown);
+            base.ShowInteractSymbol();
         }
 
         /// <summary>
@@ -42,7 +42,6 @@ namespace Tethered.Interactables
         {
             // Get the direction (for when setting Reach state)
             int direction = (int)Mathf.Sign(controller.transform.position.y - transform.position.y);
-            Debug.Log(direction);
 
             // Check if the direction is from downward and if it is Player One
             if (direction == -1 && controller.TryGetComponent(out PlayerOneController playerController))
@@ -75,7 +74,7 @@ namespace Tethered.Interactables
             }
 
             // Hide the interact symbol
-            HideInteractSymbol(true);
+            HideInteractSymbol();
 
             // Fade out the key and disable the game object
             FadeKey(0f, keyFadeDuration, () => gameObject.SetActive(false));

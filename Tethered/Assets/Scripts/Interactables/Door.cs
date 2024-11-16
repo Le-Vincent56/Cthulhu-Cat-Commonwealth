@@ -1,7 +1,6 @@
 using DG.Tweening;
 using Tethered.Interactables.Events;
 using Tethered.Patterns.EventBus;
-using Tethered.Player;
 using UnityEngine;
 
 namespace Tethered.Interactables
@@ -52,6 +51,9 @@ namespace Tethered.Interactables
                 if (deactivate)
                     gameObject.SetActive(false);
             });
+
+            // Disable linked Interactables
+            EventBus<DisableInteractables>.Raise(new DisableInteractables() { Hash = hash });
         }
 
         /// <summary>

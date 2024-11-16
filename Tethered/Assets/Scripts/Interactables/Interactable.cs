@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections.Generic;
+using System.Linq;
 using Tethered.Audio;
 using Tethered.Patterns.ServiceLocator;
 using Tethered.Player;
@@ -10,7 +11,12 @@ namespace Tethered.Interactables
     [RequireComponent(typeof(BoxCollider2D))]
     public abstract class Interactable : MonoBehaviour
     {
-        [SerializeField] protected bool sharedInteractable;
+        [SerializeField] protected bool playerTypeRestricted;
+        [SerializeField] protected PlayerType allowedType;
+
+        [SerializeField] protected Sprite olderHand;
+        [SerializeField] protected Sprite youngerHand;
+        [SerializeField] protected Sprite bothHands;
         [SerializeField] private bool multiSided;
         protected int enterDirection;
         protected HashSet<InteractController> controllers;
@@ -78,14 +84,28 @@ namespace Tethered.Interactables
             // Add the controller to the hashset
             controllers.Add(controller);
 
+            // Get the entering player
+            PlayerController enteringPlayer = controller.GetComponent<PlayerController>();
+
+            // Decide the sprite based on the entering player
+            DecideEnterSprite(enteringPlayer);
+
             // Exit case - if the symbol is shown
             if (symbolShown) return;
+
+            // Check if the Interactable is restricted to a player type
+            if (playerTypeRestricted)
+            {
+                // Exit case - based on which type is allowed
+                if (enteringPlayer is PlayerOneController && allowedType != PlayerType.Older) return;
+                if (enteringPlayer is PlayerTwoController && allowedType != PlayerType.Younger) return;
+            }
 
             // Get the direction the controller is entering from
             enterDirection = (int)(controller.transform.position.x - transform.position.x);
 
             // Show the interact symbol
-            ShowInteractSymbol(sharedInteractable);
+            ShowInteractSymbol();
         }
 
         protected virtual void OnTriggerExit2D(Collider2D collision)
@@ -96,19 +116,15 @@ namespace Tethered.Interactables
             // Set the controller's interactable
             controller.SetInteractable(null);
 
-            // Exit case - if not a shared interactable
-            if(!sharedInteractable)
-            {
-                // Hide the interact symbol
-                HideInteractSymbol(sharedInteractable);
-            }
-
             // Remove the controller from the hashset
             controllers.Remove(controller);
 
+            // Decide the sprite based on the remaining players in range
+            DecideExitSprite();
+
             // Hide the interact symbol if there are no present controllers
             if(controllers.Count <= 0)
-                HideInteractSymbol(sharedInteractable);
+                HideInteractSymbol();
         }
 
         /// <summary>
@@ -127,7 +143,7 @@ namespace Tethered.Interactables
         /// <summary>
         /// Show the interact symbol
         /// </summary>
-        protected virtual void ShowInteractSymbol(bool notifyShown = false, TweenCallback onComplete = null)
+        protected virtual void ShowInteractSymbol(TweenCallback onComplete = null)
         {
             // Check if multi-sided
             if(multiSided)
@@ -142,16 +158,8 @@ namespace Tethered.Interactables
                 interactSymbol.transform.localPosition = localPosition;
             }
 
-            // Check if to notify shown
-            if(notifyShown)
-            {
-                // Fade in and notify that the symbol is shown
-                Fade(1f, symbolFadeDuration , () => symbolShown = true);
-            } else
-            {
-                // Fade in
-                Fade(1f, symbolFadeDuration);
-            }
+            // Fade in
+            Fade(1f, symbolFadeDuration, () => symbolShown = true);
 
             // Scale to target
             Scale(symbolTargetScale, scaleDuration, onComplete);
@@ -160,18 +168,10 @@ namespace Tethered.Interactables
         /// <summary>
         /// Hide the interact symbol
         /// </summary>
-        protected virtual void HideInteractSymbol(bool notifyHidden = false, TweenCallback onComplete = null)
+        protected virtual void HideInteractSymbol(TweenCallback onComplete = null)
         {
-            // Check if to notify hidden
-            if(notifyHidden)
-            {
-                // Fade out and notify that the symbol is hidden
-                Fade(0f, symbolFadeDuration, () => symbolShown = false);
-            } else
-            {
-                // Fade out
-                Fade(0f, symbolFadeDuration);
-            }
+            // Fade out and notify that the symbol is hidden
+            Fade(0f, symbolFadeDuration, () => symbolShown = false);
 
             // Scale to initial
             Scale(symbolInitialScale, scaleDuration, onComplete);
@@ -212,6 +212,49 @@ namespace Tethered.Interactables
 
             // Add completion listeners
             scaleTween.onComplete += onComplete;
+        }
+
+        protected void DecideEnterSprite(PlayerController enteringPlayer)
+        {
+            // Check if only a single player is within range
+            if (controllers.Count < 2)
+            {
+                // Check if the entering player is the Older Sibling
+                if (enteringPlayer is PlayerOneController)
+                {
+                    interactSymbol.sprite = olderHand;
+                }
+                // Check if the entering player is the Younger Sibling
+                else if (enteringPlayer is PlayerTwoController)
+                {
+                    interactSymbol.sprite = youngerHand;
+                }
+            }
+            // Check if both players are within the count
+            else if (controllers.Count >= 2)
+            {
+                interactSymbol.sprite = bothHands;
+            }
+        }
+
+        protected void DecideExitSprite()
+        {
+            // Exit case - there are no controllers currently in range
+            if (controllers.Count <= 0) return;
+
+            // Get the remaining player
+            PlayerController remainingPlayer = controllers.ElementAt(0).GetComponent<PlayerController>();
+
+            // Check if the entering player is the Older Sibling
+            if (remainingPlayer is PlayerOneController)
+            {
+                interactSymbol.sprite = olderHand;
+            }
+            // Check if the entering player is the Younger Sibling
+            else if (remainingPlayer is PlayerTwoController)
+            {
+                interactSymbol.sprite = youngerHand;
+            }
         }
     }
 

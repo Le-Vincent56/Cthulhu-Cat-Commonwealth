@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Tethered.Level
 {
     [RequireComponent(typeof(BoxCollider2D))]
-    public class PushableTrigger : MonoBehaviour
+    public class MovableTrigger : MonoBehaviour
     {
         [SerializeField] private float lockDistance;
 

@@ -207,8 +207,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a637328e2061fe4b9664604f14f403f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedInteractable: 0
+  playerTypeRestricted: 1
+  allowedType: 1
+  olderHand: {fileID: 21300000, guid: 0ef09fc306c44fe408c5403e89479bca, type: 3}
+  youngerHand: {fileID: 21300000, guid: 4506ef91523105545920e3a37f7b786d, type: 3}
+  bothHands: {fileID: 21300000, guid: c76ebc26bee9ad4448be8edf338fde33, type: 3}
   multiSided: 0
+  soundData:
+    clip: {fileID: 0}
+    mixerGroup: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
+  hash: 1220391318
+  oneTimeUse: 0
   path:
   - {x: -3.17, y: -4.06}
   - {x: 2.52, y: -4.06}
