@@ -55,7 +55,7 @@ namespace Monster
             // Exit case - if the entity is not a Player Controller
             if (!other.TryGetComponent(out PlayerController controller)) return;
 
-            var head = controller.transform.Find("Sprite").Find("Head");
+            var head = controller.transform.Find("Vision");
 
             if (target == null)
             {
