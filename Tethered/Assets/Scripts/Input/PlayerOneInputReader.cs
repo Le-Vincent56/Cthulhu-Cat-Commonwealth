@@ -10,6 +10,7 @@ namespace Tethered.Input
     {
         public event UnityAction<Vector2, bool> Move = delegate { };
         public event UnityAction Interact = delegate { };
+        public event UnityAction Pause = delegate { };
 
         public int NormMoveX { get; private set; }
         public int NormMoveY { get; private set; }
@@ -63,6 +64,15 @@ namespace Tethered.Input
         {
             // If the button has been lifted, invoke the event
             if (context.canceled) Interact.Invoke();
+        }
+
+        // <summary>
+        /// Callback function to handle open pause menu input
+        /// </summary>
+        public void OnPause(InputAction.CallbackContext context)
+        {
+            // If the button has been lifted, invoke the event
+            if (context.canceled) Pause.Invoke();
         }
     }
 }

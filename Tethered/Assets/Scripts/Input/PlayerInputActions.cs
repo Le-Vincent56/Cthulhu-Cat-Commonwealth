@@ -46,6 +46,15 @@ namespace Tethered.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""28af0aa7-5e9c-457e-b99f-a22e9321bbcb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,6 +121,17 @@ namespace Tethered.Input
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ecafd8d0-7836-433d-bf24-429e3f793c7c"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -216,6 +236,7 @@ namespace Tethered.Input
             m_PlayerOne = asset.FindActionMap("Player One", throwIfNotFound: true);
             m_PlayerOne_Move = m_PlayerOne.FindAction("Move", throwIfNotFound: true);
             m_PlayerOne_Interact = m_PlayerOne.FindAction("Interact", throwIfNotFound: true);
+            m_PlayerOne_Pause = m_PlayerOne.FindAction("Pause", throwIfNotFound: true);
             // Player Two
             m_PlayerTwo = asset.FindActionMap("Player Two", throwIfNotFound: true);
             m_PlayerTwo_Move = m_PlayerTwo.FindAction("Move", throwIfNotFound: true);
@@ -283,12 +304,14 @@ namespace Tethered.Input
         private List<IPlayerOneActions> m_PlayerOneActionsCallbackInterfaces = new List<IPlayerOneActions>();
         private readonly InputAction m_PlayerOne_Move;
         private readonly InputAction m_PlayerOne_Interact;
+        private readonly InputAction m_PlayerOne_Pause;
         public struct PlayerOneActions
         {
             private @PlayerInputActions m_Wrapper;
             public PlayerOneActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_PlayerOne_Move;
             public InputAction @Interact => m_Wrapper.m_PlayerOne_Interact;
+            public InputAction @Pause => m_Wrapper.m_PlayerOne_Pause;
             public InputActionMap Get() { return m_Wrapper.m_PlayerOne; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -304,6 +327,9 @@ namespace Tethered.Input
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
 
             private void UnregisterCallbacks(IPlayerOneActions instance)
@@ -314,6 +340,9 @@ namespace Tethered.Input
                 @Interact.started -= instance.OnInteract;
                 @Interact.performed -= instance.OnInteract;
                 @Interact.canceled -= instance.OnInteract;
+                @Pause.started -= instance.OnPause;
+                @Pause.performed -= instance.OnPause;
+                @Pause.canceled -= instance.OnPause;
             }
 
             public void RemoveCallbacks(IPlayerOneActions instance)
@@ -389,6 +418,7 @@ namespace Tethered.Input
         {
             void OnMove(InputAction.CallbackContext context);
             void OnInteract(InputAction.CallbackContext context);
+            void OnPause(InputAction.CallbackContext context);
         }
         public interface IPlayerTwoActions
         {
