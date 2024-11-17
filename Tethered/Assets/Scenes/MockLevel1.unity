@@ -8207,7 +8207,7 @@ MonoBehaviour:
     loop: 0
     playOnAwake: 0
     frequentSound: 0
-  levelIndex: 2
+  levelIndex: 4
 --- !u!61 &973190048
 BoxCollider2D:
   m_ObjectHideFlags: 0
