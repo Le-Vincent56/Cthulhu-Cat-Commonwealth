@@ -54,6 +54,8 @@ namespace Tethered.Audio
         /// </summary>
         private void OnTakeFromPool(SoundEmitter soundEmitter)
         {
+            if (soundEmitter == null) return;
+
             // Set the Sound Emitter as active
             soundEmitter.gameObject.SetActive(true);
 
