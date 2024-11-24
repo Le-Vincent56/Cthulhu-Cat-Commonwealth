@@ -1,18 +1,15 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using PostProcessing;
 using Tethered.Monster.Events;
 using Tethered.Patterns.EventBus;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 
 public class DistortionThresholdManager : MonoBehaviour
 {
     private EventBinding<AttractionChanged> onAttractionChanged;
     private DistortionEffect distortion;
+    private HeartbeatEffect heartbeat;
 
     private void Start()
     {
@@ -21,6 +18,7 @@ public class DistortionThresholdManager : MonoBehaviour
         
         Volume volume = gameObject.GetComponent<Volume>();
         volume.profile.TryGet<DistortionEffect>(out distortion);
+        volume.profile.TryGet<HeartbeatEffect>(out heartbeat);
     }
     
     private void OnAttractionChanged(AttractionChanged eventData)
@@ -29,6 +27,9 @@ public class DistortionThresholdManager : MonoBehaviour
         
         // change tween to tweening a separate variable, for better consolidation, fewer Tweens running.
         DOTween.To(() => distortion.intensity.value, x => distortion.intensity.value = x, ratio, 1);
+
+        heartbeat.flow.value = -1;
+        DOTween.To(() => heartbeat.flow.value, x => heartbeat.flow.value = x, 3, 0.5f);
 
         if (!(ratio > 1))
         {

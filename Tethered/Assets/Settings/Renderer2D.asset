@@ -32,7 +32,8 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: -2354986205502763529}
   - {fileID: 74016973230782178}
-  m_RendererFeatureMap: f70d10fa856851dfe236c5840bf60601
+  - {fileID: 3702630214007385956}
+  m_RendererFeatureMap: f70d10fa856851dfe236c5840bf6060164ef89f08f626233
   m_UseNativeRenderPass: 0
   m_TransparencySortMode: 0
   m_TransparencySortAxis: {x: 0, y: 1, z: 0}
@@ -91,3 +92,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   material: {fileID: 2100000, guid: 89d4c46565919e442adbfc0b5887c3e3, type: 2}
+--- !u!114 &3702630214007385956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e5203cd7f406894bb9b398b6f819f43, type: 3}
+  m_Name: HeartbeatRenderFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  material: {fileID: 2100000, guid: 624105d011876604bad87b0322b920bd, type: 2}
