@@ -98,11 +98,23 @@ namespace Tethered.Interactables
         /// </summary>
         public void Move(float moveSpeed)
         {
+            Debug.Log("Trying to Move");
+
             // Exit case - there is no attached Player or the HashSet is not initialized
-            if (moveableControllers == null || moveableControllers.Count <= 0) return;
+            if (moveableControllers == null || moveableControllers.Count <= 0)
+            {
+                rb.velocity = Vector2.zero;
+                StopSound();
+                return;
+            }
 
             // Exit case - there's not enough Players to move the Moveable
-            if (moveableControllers.Count < numofPlayersRequired) return;
+            if (moveableControllers.Count < numofPlayersRequired)
+            {
+                rb.velocity = Vector2.zero;
+                StopSound();
+                return;
+            }
 
             // Create a container for the final movement direction
             float xInputDirection = 0;
@@ -154,8 +166,14 @@ namespace Tethered.Interactables
                 controller.transform.position = newControllerPosition;
             }
 
+            Debug.Log("Moving!");
+
             // If moving, play the sound
-            if (rb.velocity.x > 0) PlaySound();
+            if (rb.velocity.x != 0)
+            {
+                PlaySound();
+                return;
+            }
 
             // If not moving, stop the sound
             if (rb.velocity.x == 0) StopSound();

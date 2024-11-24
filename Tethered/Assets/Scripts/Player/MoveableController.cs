@@ -13,6 +13,7 @@ namespace Tethered.Player
 
         private Rigidbody2D rb;
         private BoxCollider2D boxCollider;
+        [SerializeField] private Transform spriteTransform;
 
         private Bounds playerBounds;
         private Bounds moveableBounds;
@@ -21,7 +22,7 @@ namespace Tethered.Player
         [SerializeField] protected bool movingObject;
         [SerializeField] private float moveSpeed;
         [SerializeField] private Moveable objectToMove;
-        private float moveDistance;
+        private float directionOfMoveable;
         private int moveInputX;
 
         [SerializeField] private float positionToMoveableDuration;
@@ -69,6 +70,9 @@ namespace Tethered.Player
             // Exit case - if the object to move is null
             if (objectToMove == null) return;
 
+            // Get the direction of the moveable from the player
+            directionOfMoveable = Mathf.Sign((objectToMove.transform.position - transform.position).normalized.x);
+
             // Get the Moveable's bounds
             moveableBounds = objectToMove.GetComponent<BoxCollider2D>().bounds;
             moveableSpriteBounds = objectToMove.GetComponent<SpriteRenderer>().bounds;
@@ -81,6 +85,15 @@ namespace Tethered.Player
         {
             // Exit case - there is no Moveable
             if (objectToMove == null) return;
+
+            Debug.Log($"Before: {spriteTransform.localScale}");
+
+            // Face the player towards the Moveable
+            Vector3 localScale = spriteTransform.localScale;
+            localScale.x = directionOfMoveable;
+            spriteTransform.localScale = localScale;
+
+            Debug.Log($"After: {spriteTransform.localScale}");
 
             // Kill the existing Tween
             translatePositionForMoveable?.Kill();

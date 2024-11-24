@@ -524,6 +524,7 @@ MonoBehaviour:
   playerType: 0
   playerOneInputReader: {fileID: 11400000, guid: ba00de9b38f7a7346876b6a02011fba0, type: 2}
   playerTwoInputReader: {fileID: 0}
+  spriteTransform: {fileID: 8057986130401083495}
   movingObject: 0
   moveSpeed: 1.5
   objectToMove: {fileID: 0}
@@ -779,6 +780,7 @@ MonoBehaviour:
   playerType: 1
   playerOneInputReader: {fileID: 0}
   playerTwoInputReader: {fileID: 11400000, guid: 7153fba7158f2504ba608ddc970a6ed4, type: 2}
+  spriteTransform: {fileID: 6559034414864409667}
   movingObject: 0
   moveSpeed: 1.5
   objectToMove: {fileID: 0}
