@@ -70,6 +70,7 @@ Shader "Hidden/Heartbeat"
 			float4 frag(Varyings i) : SV_Target
 			{
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+				
 				// Get Noise
 				float2 warp = 2*(i.uv - 0.5f);
 				float dist = sqrt(warp.x * warp.x + warp.y * warp.y);
@@ -89,7 +90,7 @@ Shader "Hidden/Heartbeat"
 				// Get Main Texture and blend in
 				float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, warp);
 				
-				//return tentacleMask1;
+				
 				return color;
 			}
 			

@@ -98,7 +98,7 @@ Shader "Hidden/Distortion"
 				shatterMask = shatterMask < _Intensity ? 1 : 0;
 
 				// Get Main Texture and blend in
-				float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, lerp(i.uv, (0.5f-(i.uv - 0.5f)), tentacleMask));
+				float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, lerp(i.uv, (0.5f-(i.uv - 0.5f)), saturate(tentacleMask)));
 
 				color = alphaBlend(float4((warp.rgb * 0.015f), saturate(shatterMask - tentacleMask)), color);
 
@@ -106,7 +106,13 @@ Shader "Hidden/Distortion"
 				tentacleMask1 = tentacleMask1 * tentacleMask1 * tentacleMask1 * tentacleMask1;
 				float4 tentacleColor =  float4(_Glow.rrr, tentacleMask1);
 
+				//color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, 0.5f-(i.uv - 0.5f));
+
 				color += tentacleColor * tentacleColor.a;
+
+				float alpha = smoothstep(0, 0.5f, _Intensity - 1.5f) * 2;
+				color = alphaBlend(float4(0, 0, 0, alpha), color);
+				
 				//return tentacleMask1;
 				return color;
 			}

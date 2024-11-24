@@ -36,6 +36,10 @@ public class DistortionThresholdManager : MonoBehaviour
             DOTween.To(() => distortion.glow.value, x => distortion.glow.value = x, 1, 0.5f)
                 .OnComplete(() => DOTween.To(() => distortion.glow.value, x => distortion.glow.value = x, 0.1f, 0.5f));
         }
+        else
+        {
+            DOTween.To(() => distortion.glow.value, x => distortion.glow.value = x, 0f, 0.2f);
+        }
     }
 
     private float RescaleByTier(AttractionChanged eventData)
