@@ -229,7 +229,7 @@ MonoBehaviour:
   m_MaximumDistance: 5000
   m_MinimumFOV: 3
   m_MaximumFOV: 60
-  m_MinimumOrthoSize: 5
+  m_MinimumOrthoSize: 3
   m_MaximumOrthoSize: 5000
 --- !u!1001 &161261619
 PrefabInstance:
@@ -8582,7 +8582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3957490703655534696, guid: 1ef1f7093dd77d5438967f421a0aad6b, type: 3}
       propertyPath: orthographic size
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3957490703655534696, guid: 1ef1f7093dd77d5438967f421a0aad6b, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
@@ -8698,7 +8698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8236243080832414029, guid: 1ef1f7093dd77d5438967f421a0aad6b, type: 3}
       propertyPath: m_Lens.OrthographicSize
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8072650178291349597, guid: 1ef1f7093dd77d5438967f421a0aad6b, type: 3}
@@ -14306,8 +14306,9 @@ MonoBehaviour:
   triggerEnabled: 0
   hasCallback: 0
   triggerWeight: 0
-  attractionAmount: 60
+  attractionAmount: 10
   isOneTime: 0
+  isOverTime: 1
 --- !u!4 &2132657470 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8971763090973016728, guid: 4bdd59e48e909cb43961d18ab54f8dae, type: 3}
