@@ -23,6 +23,7 @@ namespace Tethered.Player
         [SerializeField] private float moveSpeed;
         [SerializeField] private Moveable objectToMove;
         private float directionOfMoveable;
+        private bool canMoveObject;
         private int moveInputX;
 
         [SerializeField] private float positionToMoveableDuration;
@@ -30,6 +31,7 @@ namespace Tethered.Player
 
         public bool MovingObject { get => movingObject; }
         public int MoveInputX { get => moveInputX; }
+        public bool CanMoveObject { get => canMoveObject; set => canMoveObject = value; }
 
         private void Awake()
         {
@@ -39,6 +41,8 @@ namespace Tethered.Player
 
             // Get the player's bounds
             playerBounds = boxCollider.bounds;
+
+            canMoveObject = false;
         }
 
         private void Update()
@@ -86,14 +90,10 @@ namespace Tethered.Player
             // Exit case - there is no Moveable
             if (objectToMove == null) return;
 
-            Debug.Log($"Before: {spriteTransform.localScale}");
-
             // Face the player towards the Moveable
             Vector3 localScale = spriteTransform.localScale;
             localScale.x = directionOfMoveable;
             spriteTransform.localScale = localScale;
-
-            Debug.Log($"After: {spriteTransform.localScale}");
 
             // Kill the existing Tween
             translatePositionForMoveable?.Kill();

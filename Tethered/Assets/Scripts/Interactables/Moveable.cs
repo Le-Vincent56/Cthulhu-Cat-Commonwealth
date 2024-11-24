@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Tethered.Player;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
@@ -115,6 +116,19 @@ namespace Tethered.Interactables
                 StopSound();
                 return;
             }
+
+            // Default true to being able to move an object
+            bool playersCanMoveObject = true;
+
+            // Iterate through the Moveable Controllers
+            foreach(MoveableController controller in moveableControllers)
+            {
+                // Check if any Player cannot move the object
+                if (!controller.CanMoveObject) playersCanMoveObject = false;
+            }
+
+            // Exit case - one of the players cannot move the object
+            if (!playersCanMoveObject) return;
 
             // Create a container for the final movement direction
             float xInputDirection = 0;
