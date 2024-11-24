@@ -107,7 +107,7 @@ namespace Tethered.Interactables
             // Hide the interact symbol
             HideInteractSymbol();
 
-            used = false;
+            used = true;
         }
 
         /// <summary>
