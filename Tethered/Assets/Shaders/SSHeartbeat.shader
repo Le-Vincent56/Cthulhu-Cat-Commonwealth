@@ -1,10 +1,8 @@
-Shader "Hidden/Distortion"
+Shader "Hidden/Heartbeat"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-    	_Distortion ("Distortion Texture", 2D) = "black" {}
-    	_Warp ("Warp Texture", 2D) = "black" {}
     }
     SubShader 
 	{
@@ -22,18 +20,12 @@ Shader "Hidden/Distortion"
 			
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
-
-            TEXTURE2D(_Distortion);
-            SAMPLER(sampler_Distortion);
-
-            TEXTURE2D(_Warp);
-            SAMPLER(sampler_Warp);
 			
             
 			float4 _MainTex_TexelSize;
 
             float _Intensity;
-            float _Glow;
+            float _Flow;
 
             #define _SCREEN_SPACE_OCCLUSION
             
@@ -78,42 +70,27 @@ Shader "Hidden/Distortion"
 			float4 frag(Varyings i) : SV_Target
 			{
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
-				// Get Noise
-				float4 warp = SAMPLE_TEXTURE2D(_Warp, sampler_Warp, i.uv + _Time.x);
-
-				// Get Warped Distortion
-				float4 distort = SAMPLE_TEXTURE2D(_Distortion, sampler_Distortion, i.uv + (0.02f * warp - 0.005));
-
-				float tentacleMask = distort.g;
-				float shatterMask = distort.r;
-
-				tentacleMask = 1 - tentacleMask;
-				//tentacleMask = smoothstep(0, 1, _Intensity - tentacleMask);
-				float tentacleMask1 = smoothstep(0, 1.f, _Intensity - tentacleMask);
-				tentacleMask = tentacleMask< _Intensity ? 1 : 0;
-
-				float subMask = tentacleMask;
 				
-				tentacleMask = tentacleMask * 0.5f + tentacleMask1;
-				shatterMask = shatterMask < _Intensity ? 1 : 0;
+				// Get Noise
+				float2 warp = 2*(i.uv - 0.5f);
+				float dist = sqrt(warp.x * warp.x + warp.y * warp.y);
+				float angle = atan2(warp.y, warp.x);
+
+				dist *=  (1 - _Intensity) + _Intensity * smoothstep(0, 1, abs(-distance(_Flow, dist)));
+
+				//dist = smoothstep(0, 1, dist);
+
+				//warp += dist * sign(warp.x) * sign(warp.y);
+
+				warp.x = dist * cos(angle);
+				warp.y = dist * sin(angle);
+
+				warp = (warp * 0.5f) + 0.5f;
 
 				// Get Main Texture and blend in
-				float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, lerp(i.uv, (0.5f-(i.uv - 0.5f)), saturate(tentacleMask)));
-
-				color = alphaBlend(float4((warp.rgb * 0.015f), saturate(shatterMask - tentacleMask)), color);
-
-				tentacleMask1 = subMask - (tentacleMask1 * 2);
-				tentacleMask1 = tentacleMask1 * tentacleMask1 * tentacleMask1 * tentacleMask1;
-				float4 tentacleColor =  float4(_Glow.rrr, tentacleMask1);
-
-				//color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, 0.5f-(i.uv - 0.5f));
-
-				color += tentacleColor * tentacleColor.a;
-
-				float alpha = smoothstep(0, 0.5f, _Intensity - 1.5f) * 2;
-				color = alphaBlend(float4(0, 0, 0, alpha), color);
+				float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, warp);
 				
-				//return tentacleMask1;
+				
 				return color;
 			}
 			
