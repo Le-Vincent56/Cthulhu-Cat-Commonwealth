@@ -19,7 +19,7 @@ namespace Tethered.Player.States
             // Set variables
             this.spriteRenderers = spriteRenderers;
             fadeDuration = 0.5f;
-            translateDuration = 0.3f;
+            translateDuration = 1.5f;
             targetPosition = Vector3.zero;
         }
 

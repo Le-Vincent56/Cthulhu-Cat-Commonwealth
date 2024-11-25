@@ -29,8 +29,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.527, y: 0.172, z: -0.066409975}
-  m_LocalScale: {x: 0.28111, y: 0.28111, z: 0.28111}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2577974914726530069}
   m_Father: {fileID: 0}
@@ -76,8 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0.6392157, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: d35b48ce68e8cd24086f97ddb90900fb, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -144,8 +144,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f416c924c481a4288d22dc153b4f80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  olderHand: {fileID: 21300000, guid: 0ef09fc306c44fe408c5403e89479bca, type: 3}
+  youngerHand: {fileID: 21300000, guid: 4506ef91523105545920e3a37f7b786d, type: 3}
+  bothHands: {fileID: 21300000, guid: c76ebc26bee9ad4448be8edf338fde33, type: 3}
   sharedInteractable: 0
   multiSided: 0
+  soundData:
+    clip: {fileID: 8300000, guid: 5d3ab1b9df50c8c4695164b6c8131e73, type: 3}
+    mixerGroup: {fileID: -6469665509054313997, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
   hash: 1220391318
 --- !u!1 &8703001053733699782
 GameObject:
@@ -173,8 +182,8 @@ Transform:
   m_GameObject: {fileID: 8703001053733699782}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.68, z: -0.1941516}
-  m_LocalScale: {x: 0.87819713, y: 0.87819713, z: 0.87819713}
+  m_LocalPosition: {x: 0, y: 0.82, z: -0.1941516}
+  m_LocalScale: {x: 0.4021089, y: 0.4021089, z: 0.4021089}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3948725578115318685}

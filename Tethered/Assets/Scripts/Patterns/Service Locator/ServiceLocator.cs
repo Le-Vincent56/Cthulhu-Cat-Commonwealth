@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tethered.Extensions.GameObject;
+using Tethered.Extensions.GameObjects;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -140,6 +140,8 @@ namespace Tethered.Patterns.ServiceLocator
                 }
             }
 
+            Debug.Log("Setting as global");
+            
             // If nothing was found, return the global Service Locator
             return Global;
         }

@@ -1,9 +1,8 @@
-using System;
+using Tethered.Audio;
 using Tethered.Interactables.Events;
 using Tethered.Patterns.EventBus;
 using Tethered.Player;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 namespace Tethered.Interactables
 {
@@ -12,6 +11,7 @@ namespace Tethered.Interactables
         [SerializeField] private int hash;
         [SerializeField] private int toHash;
         [SerializeField] private Transform teleportPosition;
+        [SerializeField] private SoundData secondSoundData;
 
         private EventBinding<ActivateStairs> onActivateStairs;
 
@@ -52,6 +52,18 @@ namespace Tethered.Interactables
             // Exit the stairway
             ExitStairway(controller);
 
+            // Try to get a PlayerController component
+            if(controller.TryGetComponent(out PlayerController playerController)) 
+            {
+                // Check if successful and the Player is the Older Sibling
+                if (playerController is PlayerOneController)
+                    // Play the Older Sibling stair sound
+                    sfxManager.CreateSound().WithSoundData(soundData).Play();
+                else if (playerController is PlayerTwoController)
+                    // Play the Young Sibling stair sound
+                    sfxManager.CreateSound().WithSoundData(secondSoundData).Play();
+            }
+
             // Activate the stairs
             EventBus<ActivateStairs>.Raise(new ActivateStairs()
             {
@@ -68,19 +80,15 @@ namespace Tethered.Interactables
             // Set the controller's interactable
             controller.SetInteractable(null);
 
-            // Exit case - if not a shared interactable
-            if (!sharedInteractable)
-            {
-                // Hide the interact symbol
-                HideInteractSymbol(sharedInteractable);
-            }
-
             // Remove the controller from the hashset
             controllers.Remove(controller);
 
+            // Decide the sprite based on the remaining players in range
+            DecideExitSprite();
+
             // Hide the interact symbol if there are no present controllers
             if (controllers.Count <= 0)
-                HideInteractSymbol(sharedInteractable);
+                HideInteractSymbol();
         }
 
         /// <summary>

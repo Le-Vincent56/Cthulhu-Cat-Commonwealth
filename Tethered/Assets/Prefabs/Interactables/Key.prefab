@@ -144,8 +144,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d87e0e153008ecc44be6ad5fc0635d4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedInteractable: 1
+  playerTypeRestricted: 0
+  allowedType: 0
+  olderHand: {fileID: 21300000, guid: 0ef09fc306c44fe408c5403e89479bca, type: 3}
+  youngerHand: {fileID: 21300000, guid: 4506ef91523105545920e3a37f7b786d, type: 3}
+  bothHands: {fileID: 21300000, guid: c76ebc26bee9ad4448be8edf338fde33, type: 3}
   multiSided: 0
+  soundData:
+    clip: {fileID: 8300000, guid: d2d1fb48805f66f46b47b67b85a4149c, type: 3}
+    mixerGroup: {fileID: -6469665509054313997, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
   hash: 1220391318
 --- !u!1 &6867612053609484702
 GameObject:

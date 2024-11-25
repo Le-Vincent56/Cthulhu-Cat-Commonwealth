@@ -59,7 +59,7 @@ namespace Tethered.Interactables
             cooldownTimer.Start();
 
             // Toggle the interact symbol
-            HideInteractSymbol(false, () => ShowInteractSymbol());
+            HideInteractSymbol(() => ShowInteractSymbol());
         }
 
         /// <summary>

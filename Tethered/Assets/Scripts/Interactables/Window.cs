@@ -24,7 +24,6 @@ namespace Tethered.Interactables
 
             // Set variables
             used = false;
-            sharedInteractable = true;
             curtainFadeDuration = 0.5f;
         }
 
@@ -42,6 +41,12 @@ namespace Tethered.Interactables
             // Add the controller to the hashset
             controllers.Add(controller);
 
+            // Get the entering PlayerController
+            PlayerController enteringPlayer = controller.GetComponent<PlayerController>();
+
+            // Decide the sprite based on the entering player
+            DecideEnterSprite(enteringPlayer);
+
             // Exit case - if the symbol is shown
             if (symbolShown) return;
 
@@ -49,7 +54,7 @@ namespace Tethered.Interactables
             enterDirection = (int)(controller.transform.position.x - transform.position.x);
 
             // Show the interact symbol
-            ShowInteractSymbol(sharedInteractable);
+            ShowInteractSymbol();
         }
 
         protected override void OnTriggerExit2D(Collider2D collision)
@@ -66,9 +71,12 @@ namespace Tethered.Interactables
             // Remove the controller from the hashset
             controllers.Remove(controller);
 
+            // Decide the sprite based on the remaining players in range
+            DecideExitSprite();
+
             // Hide the interact symbol if there are no present controllers
             if (controllers.Count <= 0)
-                HideInteractSymbol(sharedInteractable);
+                HideInteractSymbol();
         }
 
         public override void Interact(InteractController controller)
@@ -93,10 +101,13 @@ namespace Tethered.Interactables
                 controller.SetInteractable(null);
             }
 
-            // Hide the interact symbol
-            HideInteractSymbol(true);
+            // Play the SFX
+            sfxManager.CreateSound().WithSoundData(soundData).Play();
 
-            used = false;
+            // Hide the interact symbol
+            HideInteractSymbol();
+
+            used = true;
         }
 
         /// <summary>

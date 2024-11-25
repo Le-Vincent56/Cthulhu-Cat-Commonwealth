@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using Tethered.Monster.Events;
 using Tethered.Patterns.EventBus;
 using Tethered.Player;
@@ -17,12 +19,17 @@ namespace Tethered.Monster.Triggers
         [SerializeField] private PlayerWeight triggerWeight;
         [SerializeField] private float attractionAmount;
         [SerializeField] private bool isOneTime = false;
+        [SerializeField] private bool isOverTime = false; // turns attraction amount to rate per second
 
         private EventBinding<ToggleTrigger> onToggleTrigger;
+        private IEnumerator coroutine;
+        private int overTimeTick;
 
         private void Awake()
         {
             triggerEnabled = true;
+            overTimeTick = 0;
+            coroutine = RaiseAttractionOverTime();
         }
 
         private void OnEnable()
@@ -36,7 +43,7 @@ namespace Tethered.Monster.Triggers
             EventBus<ToggleTrigger>.Deregister(onToggleTrigger);
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
             // Exit case - the trigger is disabled
             if (!triggerEnabled) return;
@@ -48,21 +55,58 @@ namespace Tethered.Monster.Triggers
             // weight
             if (controller.Weight >= triggerWeight)
             {
+                // Disable the Attraction trigger it is a one time trigger.
                 if (isOneTime)
                 {
                     EventBus<ToggleTrigger>.Raise(new ToggleTrigger() { Hash = hash, Enabled = false });
                 }
 
+                // Increase Attraction
+                EventBus<IncreaseAttraction>.Raise(new IncreaseAttraction()
+                {
+                    GainedAttraction = attractionAmount
+                });
+
+                // Start over time coroutine if it is an over time trigger.
+                if (isOverTime)
+                {
+                    if(overTimeTick <= 0) StartCoroutine(coroutine);
+                    overTimeTick++;
+                    
+                }
+            }
+        }
+
+        protected void OnTriggerExit2D (Collider2D collision)
+        {
+            // Logic for removing players from the overtime trigger.
+            if (isOverTime)
+            {
+                overTimeTick--;
+                
+                // If no players remain inside the trigger, stop the attraction increase over time.
+                if (overTimeTick <= 0)
+                {
+                    overTimeTick = 0;
+                    StopCoroutine(coroutine);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Coroutine that triggers if attraction should increase over time.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator RaiseAttractionOverTime()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(1f);
                 EventBus<IncreaseAttraction>.Raise(new IncreaseAttraction()
                 {
                     GainedAttraction = attractionAmount
                 });
             }
-
-            // Exit case - there is no callback for entering the trigger
-            if (!hasCallback) return;
-
-            Callback();
         }
 
         /// <summary>
@@ -75,19 +119,17 @@ namespace Tethered.Monster.Triggers
 
             // Set whether or not the trigger is enabled
             triggerEnabled = eventData.Enabled;
+            
+            if (isOverTime && !eventData.Enabled)
+            {
+                overTimeTick = 0;
+                StopCoroutine(coroutine);
+            }
         }
 
         /// <summary>
         /// Set the Attraction Trigger's hash
         /// </summary>
         public void SetHash(int hash) => this.hash = hash;
-
-        /// <summary>
-        /// A callback function that can be extended through child classes
-        /// </summary>
-        protected virtual void Callback()
-        {
-            // Noop
-        }
     }
 }

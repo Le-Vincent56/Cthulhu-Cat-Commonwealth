@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Tethered.Player;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
@@ -22,6 +23,8 @@ namespace Tethered.Interactables
         [Header("Tweening Variables")]
         [SerializeField] private float translateDuration;
         private Tween translateTween;
+
+        private bool playingSound;
 
         protected override void Awake()
         {
@@ -82,12 +85,12 @@ namespace Tethered.Interactables
             if(moveableControllers.Count > 0)
             {
                 // Hide the interact symbol
-                HideInteractSymbol(false);
+                HideInteractSymbol();
             }
             else if (moveableControllers.Count <= 0)
             {
                 // Show the interact symbol
-                ShowInteractSymbol(false);
+                ShowInteractSymbol();
             }
         }
 
@@ -96,11 +99,36 @@ namespace Tethered.Interactables
         /// </summary>
         public void Move(float moveSpeed)
         {
+            Debug.Log("Trying to Move");
+
             // Exit case - there is no attached Player or the HashSet is not initialized
-            if (moveableControllers == null || moveableControllers.Count <= 0) return;
+            if (moveableControllers == null || moveableControllers.Count <= 0)
+            {
+                rb.velocity = Vector2.zero;
+                StopSound();
+                return;
+            }
 
             // Exit case - there's not enough Players to move the Moveable
-            if (moveableControllers.Count < numofPlayersRequired) return;
+            if (moveableControllers.Count < numofPlayersRequired)
+            {
+                rb.velocity = Vector2.zero;
+                StopSound();
+                return;
+            }
+
+            // Default true to being able to move an object
+            bool playersCanMoveObject = true;
+
+            // Iterate through the Moveable Controllers
+            foreach(MoveableController controller in moveableControllers)
+            {
+                // Check if any Player cannot move the object
+                if (!controller.CanMoveObject) playersCanMoveObject = false;
+            }
+
+            // Exit case - one of the players cannot move the object
+            if (!playersCanMoveObject) return;
 
             // Create a container for the final movement direction
             float xInputDirection = 0;
@@ -151,6 +179,18 @@ namespace Tethered.Interactables
                 // Update the MoveableController's position
                 controller.transform.position = newControllerPosition;
             }
+
+            Debug.Log("Moving!");
+
+            // If moving, play the sound
+            if (rb.velocity.x != 0)
+            {
+                PlaySound();
+                return;
+            }
+
+            // If not moving, stop the sound
+            if (rb.velocity.x == 0) StopSound();
         }
         
         /// <summary>
@@ -196,7 +236,7 @@ namespace Tethered.Interactables
             );
 
             // Move to the position
-            Translate(newPosition, translateDuration);
+            Translate(newPosition, translateDuration, () => StopSound());
 
             // Lock the Moveable
             canMove = false;
@@ -218,6 +258,36 @@ namespace Tethered.Interactables
 
             // Set callbacks
             translateTween.onComplete += onComplete;
+        }
+
+        /// <summary>
+        /// Play the moving sound
+        /// </summary>
+        private void PlaySound()
+        {
+            // Exit case - the sound is already playing
+            if (playingSound) return;
+
+            // Play the sound
+            sfxManager.CreateSound().WithSoundData(soundData).Play();
+
+            // Notify playing
+            playingSound = true;
+        }
+
+        /// <summary>
+        /// Stop the moving sound
+        /// </summary>
+        private void StopSound()
+        {
+            // Exit case - the sound is not playing
+            if (!playingSound) return;
+
+            // Stop the sound
+            sfxManager.StopSound(soundData);
+
+            // Notify not playing
+            playingSound = false;
         }
     }
 }

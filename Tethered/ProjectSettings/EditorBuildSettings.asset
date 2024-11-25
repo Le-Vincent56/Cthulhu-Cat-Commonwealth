@@ -6,12 +6,19 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: d38accd24d0aabb4aa2c50595411258d
+  - enabled: 1
     path: Assets/Scenes/MockLevel1.unity
     guid: 1fec2519526deeb4da2b1ddf435a449a
+  - enabled: 1
+    path: Assets/Scenes/IntroCutscene.unity
+    guid: 26ddf25f44f87b3479e161e6143a9927
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: fa320abf615760d47936a75aeb787abe
   - enabled: 1
     path: Assets/Scenes/LevelComplete.unity
     guid: 00ac3c3cfac3d7e42a800146dd3bb177
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: b1a17d72410c9ee4db7a097269f52a37, type: 2}

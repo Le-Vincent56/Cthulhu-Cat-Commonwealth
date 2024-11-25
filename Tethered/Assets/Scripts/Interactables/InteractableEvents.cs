@@ -10,6 +10,11 @@ namespace Tethered.Interactables.Events
         public bool Deactivate;
     }
 
+    public struct DisableInteractables : IEvent
+    {
+        public int Hash;
+    }
+
     public struct EnableLadder : IEvent
     {
         public int Hash;

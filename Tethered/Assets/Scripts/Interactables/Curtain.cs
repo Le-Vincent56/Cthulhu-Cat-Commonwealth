@@ -1,6 +1,4 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using Tethered.Player;
 using UnityEngine;
 
@@ -30,6 +28,9 @@ namespace Tethered.Interactables
             // Store a curtain
             controller.Inventory.StoreCurtain();
 
+            // Play the sound effect
+            sfxManager.CreateSound().WithSoundData(soundData).Play();
+
             // Disable the curtain
             DisableCurtain();
         }
@@ -51,7 +52,7 @@ namespace Tethered.Interactables
             }
 
             // Hide the interact symbol
-            HideInteractSymbol(true);
+            HideInteractSymbol();
 
             // Fade out the key and disable the game object
             FadeCurtain(0f, curtainFadeDuration, () => gameObject.SetActive(false));

@@ -98,6 +98,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaaf2d118b58dba46b23869aca95ff48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attractionAmount: 0
+  soundData:
+    clip: {fileID: 8300000, guid: 8a29ec60ae3e2104db1bd829a980b5c4, type: 3}
+    mixerGroup: {fileID: -6469665509054313997, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
 --- !u!61 &2770785199377998750
 BoxCollider2D:
   m_ObjectHideFlags: 0

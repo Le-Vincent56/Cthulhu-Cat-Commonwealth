@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Tethered.Audio;
 using Tethered.Interactables.Events;
 using Tethered.Patterns.EventBus;
 using Tethered.Player;
@@ -19,6 +20,8 @@ namespace Tethered.Interactables
         [SerializeField] private float symbolHeightBottom;
 
         [SerializeField] private GameObject floor;
+
+        [SerializeField] private SoundData extensionSound;
 
         protected override void Awake()
         {
@@ -47,6 +50,12 @@ namespace Tethered.Interactables
             // Add the controller to the hashset
             controllers.Add(controller);
 
+            // Get the entering PlayerController
+            PlayerController enteringPlayer = controller.GetComponent<PlayerController>();
+
+            // Decide the sprite based on the entering player
+            DecideEnterSprite(enteringPlayer);
+
             // Exit case - if the symbol is shown
             if (symbolShown) return;
 
@@ -54,7 +63,7 @@ namespace Tethered.Interactables
             verticalEnterDirection = (int)Mathf.Sign(controller.transform.position.y - transform.position.y);
 
             // Show the interact symbol
-            ShowInteractSymbol(sharedInteractable);
+            ShowInteractSymbol();
         }
 
         protected override void OnTriggerExit2D(Collider2D collision)
@@ -65,7 +74,7 @@ namespace Tethered.Interactables
             base.OnTriggerExit2D(collision);
         }
 
-        protected override void ShowInteractSymbol(bool notifyShown = false, TweenCallback onComplete = null)
+        protected override void ShowInteractSymbol(TweenCallback onComplete = null)
         {
             // Check the enter direction
             if(verticalEnterDirection == 1)
@@ -84,17 +93,8 @@ namespace Tethered.Interactables
                 );
             }
 
-            // Check if to notify shown
-            if (notifyShown)
-            {
-                // Fade in and notify that the symbol is shown
-                Fade(1f, symbolFadeDuration, () => symbolShown = true);
-            }
-            else
-            {
-                // Fade in
-                Fade(1f, symbolFadeDuration);
-            }
+            // Fade in and notify that the symbol is shown
+            Fade(1f, symbolFadeDuration, () => symbolShown = true);
 
             // Scale to target
             Scale(symbolTargetScale, scaleDuration, onComplete);
@@ -123,6 +123,10 @@ namespace Tethered.Interactables
             
             floor.SetActive(false);
 
+            // Play sound effects
+            sfxManager.CreateSound().WithSoundData(soundData).Play();
+            sfxManager.CreateSound().WithSoundData(extensionSound).Play();
+
             // Tween the height
             DOTween.To(() => extendableLadder.size,
                 x => extendableLadder.size = x,
@@ -146,7 +150,7 @@ namespace Tethered.Interactables
             });
 
             // Hide the interact symbol
-            HideInteractSymbol(true);
+            HideInteractSymbol();
         }
     }
 }

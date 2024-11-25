@@ -371,8 +371,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3a8fa6b5f074b54ca7b22cce8f3f105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedInteractable: 0
+  playerTypeRestricted: 0
+  allowedType: 0
+  olderHand: {fileID: 21300000, guid: 0ef09fc306c44fe408c5403e89479bca, type: 3}
+  youngerHand: {fileID: 21300000, guid: 4506ef91523105545920e3a37f7b786d, type: 3}
+  bothHands: {fileID: 21300000, guid: c76ebc26bee9ad4448be8edf338fde33, type: 3}
   multiSided: 0
+  soundData:
+    clip: {fileID: 8300000, guid: 90182ee26af28cf438781a44b4732cb7, type: 3}
+    mixerGroup: {fileID: -6469665509054313997, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
   hash: 0
   extendableLadder: {fileID: 4060368633201454826}
   targetHeight: 0
@@ -382,6 +392,12 @@ MonoBehaviour:
   symbolHeightTop: 5.5
   symbolHeightBottom: 0.47
   floor: {fileID: 2858522234611506355}
+  extensionSound:
+    clip: {fileID: 8300000, guid: 237b49c800a5cdf4594c099b94a4cd45, type: 3}
+    mixerGroup: {fileID: -6469665509054313997, guid: a4c9aab1c0f1abf48a25f1b2dcb365b5, type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
 --- !u!1 &4394159741507200582
 GameObject:
   m_ObjectHideFlags: 0
