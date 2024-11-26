@@ -6439,6 +6439,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1652861253990698148, guid: 344dbe8e99133f2488348026274c1557, type: 3}
+      propertyPath: distanceToBreak
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1652861253990698148, guid: 344dbe8e99133f2488348026274c1557, type: 3}
       propertyPath: attractionAmount
       value: 20
       objectReference: {fileID: 0}
@@ -8585,6 +8589,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3957490703655534696, guid: 1ef1f7093dd77d5438967f421a0aad6b, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 3957490703655534696, guid: 1ef1f7093dd77d5438967f421a0aad6b, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
       value: 0
       objectReference: {fileID: 0}
@@ -10401,6 +10409,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1367462472622288826, guid: aaf26476795f0ed43946601312ea937d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 145.8792
+      objectReference: {fileID: 0}
     - target: {fileID: 3730928803521616450, guid: aaf26476795f0ed43946601312ea937d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.66
@@ -10464,6 +10476,18 @@ PrefabInstance:
     - target: {fileID: 4624366491912484661, guid: aaf26476795f0ed43946601312ea937d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945566797083765417, guid: aaf26476795f0ed43946601312ea937d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 112.56739
+      objectReference: {fileID: 0}
+    - target: {fileID: 6103629836491956905, guid: aaf26476795f0ed43946601312ea937d, type: 3}
+      propertyPath: castAdjustment
+      value: -0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128591365072791571, guid: aaf26476795f0ed43946601312ea937d, type: 3}
+      propertyPath: castAdjustment
+      value: -0.1175
       objectReference: {fileID: 0}
     - target: {fileID: 6691898266231270709, guid: aaf26476795f0ed43946601312ea937d, type: 3}
       propertyPath: m_LocalPosition.x

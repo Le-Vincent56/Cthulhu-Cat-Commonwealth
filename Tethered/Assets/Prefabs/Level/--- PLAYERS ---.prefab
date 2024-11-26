@@ -489,6 +489,13 @@ MonoBehaviour:
   initialGravityScale: 0
   teleporting: 0
   teleportPosition: {x: 0, y: 0, z: 0}
+  cowering: 0
+  grounded: 0
+  castAdjustment: 0.1175
+  castLength: 0.25
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 1
   inputReader: {fileID: 11400000, guid: ba00de9b38f7a7346876b6a02011fba0, type: 2}
 --- !u!114 &4350489695971551895
 MonoBehaviour:
@@ -740,6 +747,13 @@ MonoBehaviour:
   initialGravityScale: 0
   teleporting: 0
   teleportPosition: {x: 0, y: 0, z: 0}
+  cowering: 0
+  grounded: 0
+  castAdjustment: 0
+  castLength: 0.25
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 1
   inputReader: {fileID: 11400000, guid: 7153fba7158f2504ba608ddc970a6ed4, type: 2}
   crawling: 0
   currentPathIndex: 0
