@@ -8,6 +8,8 @@ using System.Linq;
 using Tethered.Audio;
 using static UnityEditor.FilePathAttribute;
 using UnityEngine.InputSystem.XR;
+using Tethered.Patterns.EventBus;
+using Tethered.Monster.Events;
 
 namespace Tethered.Player
 {
@@ -60,6 +62,8 @@ namespace Tethered.Player
         [SerializeField] private LayerMask groundLayers;
         [SerializeField] private bool landing;
 
+        private EventBinding<IncreaseAttraction> onIncreaseAttraction;
+
         public PlayerWeight Weight { get => weight; }
         private Vector2 Up { get; set; }
 
@@ -97,15 +101,15 @@ namespace Tethered.Player
             stateMachine.At(idleState, climbState, new FuncPredicate(() => climbing));
             stateMachine.At(idleState, pushState, new FuncPredicate(() => moveableController.MovingObject));
             stateMachine.At(idleState, teleportState, new FuncPredicate(() => teleporting));
-            stateMachine.At(idleState, cowerState, new FuncPredicate(() => cowering));
-            stateMachine.At(idleState, fallState, new FuncPredicate(() => !grounded && rb.velocity.y < 0f));
+            stateMachine.At(idleState, cowerState, new FuncPredicate(() => grounded && cowering));
+            stateMachine.At(idleState, fallState, new FuncPredicate(() => !grounded && rb.velocity.y < -0.05f));
 
             stateMachine.At(locomotionState, idleState, new FuncPredicate(() => moveDirectionX == 0));
             stateMachine.At(locomotionState, climbState, new FuncPredicate(() => climbing));
             stateMachine.At(locomotionState, pushState, new FuncPredicate(() => moveableController.MovingObject));
             stateMachine.At(locomotionState, teleportState, new FuncPredicate(() => teleporting));
-            stateMachine.At(locomotionState, cowerState, new FuncPredicate(() => cowering));
-            stateMachine.At(locomotionState, fallState, new FuncPredicate(() => !grounded && rb.velocity.y < 0f));
+            stateMachine.At(locomotionState, cowerState, new FuncPredicate(() => grounded && cowering));
+            stateMachine.At(locomotionState, fallState, new FuncPredicate(() => !grounded && rb.velocity.y < -0.05f));
 
             stateMachine.At(climbState, idleState, new FuncPredicate(() => !climbing && moveDirectionX == 0));
             stateMachine.At(climbState, locomotionState, new FuncPredicate(() => !climbing && moveDirectionX != 0));
@@ -126,6 +130,17 @@ namespace Tethered.Player
 
             // Set an initial state
             stateMachine.SetState(idleState);
+        }
+
+        private void OnEnable()
+        {
+            onIncreaseAttraction = new EventBinding<IncreaseAttraction>(StartCowering);
+            EventBus<IncreaseAttraction>.Register(onIncreaseAttraction);
+        }
+
+        private void OnDisable()
+        {
+            EventBus<IncreaseAttraction>.Deregister(onIncreaseAttraction);
         }
 
         protected virtual void Start()
@@ -326,8 +341,13 @@ namespace Tethered.Player
         public void SetLanding(bool landing) => this.landing = landing;
 
         /// <summary>
-        /// Set whether or not the Player is cowering
+        /// Start the Player cower
         /// </summary>
-        public void SetCowering(bool cowering) => this.cowering = cowering;
+        public void StartCowering() => cowering = true;
+
+        /// <summary>
+        /// Stop the Player from cowering
+        /// </summary>
+        public void StopCowering() => cowering = false;
     }
 }

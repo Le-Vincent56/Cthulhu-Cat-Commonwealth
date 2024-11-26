@@ -14,7 +14,7 @@ namespace Tethered.Player.States
             cowerTimer = new CountdownTimer(1f);
 
             // Hook up events to stop cowering when the Countdown Timer ends
-            cowerTimer.OnTimerStop += () => controller.SetCowering(false);
+            cowerTimer.OnTimerStop += () => controller.StopCowering();
         }
 
         public override void OnEnter()
