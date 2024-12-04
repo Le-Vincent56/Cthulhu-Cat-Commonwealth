@@ -5,6 +5,7 @@ using Tethered.Audio;
 using Tethered.Patterns.ServiceLocator;
 using Tethered.Player;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Tethered.Interactables
 {
@@ -45,6 +46,11 @@ namespace Tethered.Interactables
         protected Vector2 interactTargetScale;
         protected Vector2 itemInitialScale;
         protected Vector2 itemTargetScale;
+
+        private Sequence shakeItemSequence;
+        protected float shakeAngle;
+        protected float shakeDuration;
+        protected int shakeRepetitions;
 
         protected virtual void Awake()
         {
@@ -123,6 +129,11 @@ namespace Tethered.Interactables
                 itemInitialScale = itemSymbol.transform.localScale * 0.7f;
                 itemTargetScale = itemSymbol.transform.localScale;
 
+                // Set shake variables
+                shakeAngle = 25f;
+                shakeDuration = 0.1f;
+                shakeRepetitions = 3;
+
                 // Hide the item symbol
                 FadeItem(0f, 0f);
                 ScaleItem(itemInitialScale, 0f);
@@ -199,6 +210,34 @@ namespace Tethered.Interactables
         protected virtual void OnEnd()
         {
             // Noop
+        }
+
+        protected virtual void ShakeItemSymbol()
+        {
+            // Kill the Shake Item Sequence if it exists
+            shakeItemSequence?.Kill();
+
+            // Create the Sequence
+            shakeItemSequence = DOTween.Sequence();
+
+            // Add the amount of shake cycles per given repetitions
+            for(int i = 0; i < shakeRepetitions; i++)
+            {
+                // Rotate left
+                shakeItemSequence.Append(itemSymbol.transform.DOLocalRotate(Vector3.forward * shakeAngle, shakeDuration / 2))
+                    .SetEase(Ease.InOutQuad);
+
+                // Rotate right
+                shakeItemSequence.Append(itemSymbol.transform.DOLocalRotate(Vector3.forward * -shakeAngle, shakeDuration))
+                    .SetEase(Ease.InOutQuad);
+
+                // Return to center
+                shakeItemSequence.Append(itemSymbol.transform.DOLocalRotate(Vector3.zero, shakeDuration / 2)
+                    .SetEase(Ease.InOutQuad));
+            }
+
+            // Play the shake item sequence
+            shakeItemSequence.Play();
         }
 
         /// <summary>

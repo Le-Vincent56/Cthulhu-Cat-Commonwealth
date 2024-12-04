@@ -87,6 +87,12 @@ namespace Tethered.Interactables
                 // Set that the Player does not have the key
                 hasKey = false;
 
+                // Set the controller's interactable
+                controller.SetInteractable(this);
+
+                // Add the controller to the hashset
+                controllers.Add(controller);
+
                 // Exit case - if the Item symbol is shown
                 if (itemSymbolShown) return;
 
@@ -95,12 +101,6 @@ namespace Tethered.Interactables
 
                 return;
             }
-
-            // Set the controller's interactable
-            controller.SetInteractable(this);
-
-            // Add the controller to the hashset
-            controllers.Add(controller);
 
             // Get the entering PlayerController
             PlayerController enteringPlayer = controller.GetComponent<PlayerController>();
@@ -161,7 +161,13 @@ namespace Tethered.Interactables
         public override void Interact(InteractController controller)
         {
             // Exit case - the Player does not have the key
-            if (!hasKey) return;
+            if (!hasKey)
+            {
+                // Shake the Item symbol
+                ShakeItemSymbol();
+
+                return;
+            }
 
             // Unlock the door
             EventBus<HandleDoor>.Raise(new HandleDoor()
