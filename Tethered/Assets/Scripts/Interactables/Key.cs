@@ -29,7 +29,7 @@ namespace Tethered.Interactables
         protected override void ShowInteractSymbol(TweenCallback onComplete = null)
         {
             // Exit case - if the interact symbol is already shown
-            if (symbolShown) return;
+            if (interactSymbolShown) return;
 
             // Call the parent function to handle tweening
             base.ShowInteractSymbol();

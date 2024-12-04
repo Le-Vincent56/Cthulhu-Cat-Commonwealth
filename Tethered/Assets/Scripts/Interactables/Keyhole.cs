@@ -29,10 +29,18 @@ namespace Tethered.Interactables
             // Exit case - if a PlayerTwoController is not found on the collision object
             if (!collision.TryGetComponent(out InteractController controller)) return;
 
-            // Exit case - if the Player does not have the key, do not show the symbol
+            // Exit case - if the Player does not have the key
             if (!controller.Inventory.CheckKey(this))
             {
+                // Set that the Player does not have the key
                 hasKey = false;
+
+                // Exit case - if the Item symbol is shown
+                if (itemSymbolShown) return;
+
+                // Show the Item symbol
+                ShowItemSymbol();
+
                 return;
             }
 
@@ -48,13 +56,76 @@ namespace Tethered.Interactables
             // Decide the sprite based on the entering player
             DecideEnterSprite(enteringPlayer);
 
-            // Exit case - if the symbol is shown
-            if (symbolShown) return;
+            // Exit case - if the Interact symbol is shown
+            if (interactSymbolShown) return;
 
             // Set that the Player has the key
             hasKey = true;
 
-            // Show the interact symbol
+            // Set full item opacity
+            currentItemOpacity = 1f;
+
+            // Show the interact symbol and item symbol
+            ShowItemSymbol();
+            ShowInteractSymbol();
+        }
+
+        protected void OnTriggerStay2D(Collider2D collision)
+        {
+            // Exit case - if the keyhole has already been used
+            if (used) return;
+
+            // Exit case - already set to HasKey
+            if (hasKey) return;
+
+            // Exit case - if a PlayerTwoController is not found on the collision object
+            if (!collision.TryGetComponent(out InteractController controller)) return;
+
+            // Exit case - if the Player does not have the key, do not show the symbol
+            if (!controller.Inventory.CheckKey(this))
+            {
+                // Set that the Player does not have the key
+                hasKey = false;
+
+                // Exit case - if the Item symbol is shown
+                if (itemSymbolShown) return;
+
+                // Show the Item symbol
+                ShowItemSymbol();
+
+                return;
+            }
+
+            // Set the controller's interactable
+            controller.SetInteractable(this);
+
+            // Add the controller to the hashset
+            controllers.Add(controller);
+
+            // Get the entering PlayerController
+            PlayerController enteringPlayer = controller.GetComponent<PlayerController>();
+
+            // Decide the sprite based on the entering player
+            DecideEnterSprite(enteringPlayer);
+
+            // Exit case - if the Interact symbol is shown
+            if (interactSymbolShown) return;
+
+            // Set that the Player has the key
+            hasKey = true;
+
+            // Set full item opacity
+            currentItemOpacity = 1f;
+
+            // Check if the Item symbol is shown
+            if (itemSymbolShown)
+                // If so, update the Item opacity
+                UpdateItemOpacity();
+            else
+                // Otherwise, show the Item symbol
+                ShowItemSymbol();
+
+            // Show the Interact symbol
             ShowInteractSymbol();
         }
 
@@ -77,7 +148,11 @@ namespace Tethered.Interactables
 
             // Hide the interact symbol if there are no present controllers
             if (controllers.Count <= 0)
+            {
+                // Hide symbols
                 HideInteractSymbol();
+                HideItemSymbol();
+            }
         }
 
         /// <summary>
@@ -125,7 +200,11 @@ namespace Tethered.Interactables
             // Hide the interact symbol
             HideInteractSymbol();
 
-            used = false;
+            // Hide the item symbol
+            HideItemSymbol();
+
+            // Set to used
+            used = true;
         }
     }
 }

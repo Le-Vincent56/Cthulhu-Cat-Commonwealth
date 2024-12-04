@@ -14,6 +14,7 @@ namespace Tethered.Interactables
         [Header("General")]
         [SerializeField] private int hash;
         [SerializeField] private bool used;
+        private bool hasCurtain;
 
         private Tween fadeTween;
         private float curtainFadeDuration;
@@ -35,6 +36,24 @@ namespace Tethered.Interactables
             // Exit case - if a PlayerTwoController is not found on the collision object
             if (!collision.TryGetComponent(out InteractController controller)) return;
 
+            // Exit case - if the Player does not have a curtain
+            if(!controller.Inventory.CheckCurtain())
+            {
+                // Set that the Player does not have the curtain
+                hasCurtain = false;
+
+                // Exit case - if the Item symbol is shown
+                if (itemSymbolShown) return;
+
+                // Get the direction the controller is entering from
+                enterDirection = (int)(controller.transform.position.x - transform.position.x);
+
+                // Show the Item symbol
+                ShowItemSymbol();
+
+                return;
+            }
+
             // Set the controller's interactable
             controller.SetInteractable(this);
 
@@ -48,12 +67,81 @@ namespace Tethered.Interactables
             DecideEnterSprite(enteringPlayer);
 
             // Exit case - if the symbol is shown
-            if (symbolShown) return;
+            if (interactSymbolShown) return;
 
             // Get the direction the controller is entering from
             enterDirection = (int)(controller.transform.position.x - transform.position.x);
 
-            // Show the interact symbol
+            // Set that the Player has the curtain
+            hasCurtain = true;
+
+            // Set full item opacity
+            currentItemOpacity = 1f;
+
+            // Show the interact symbol and the item symbol
+            ShowItemSymbol();
+            ShowInteractSymbol();
+        }
+
+        protected void OnTriggerStay2D(Collider2D collision)
+        {
+            // Exit case - if the Widnow has already been used
+            if (used) return;
+
+            // Exit case - Curtain is already checked
+            if (hasCurtain) return;
+
+            // Exit case - if a PlayerTwoController is not found on the collision object
+            if (!collision.TryGetComponent(out InteractController controller)) return;
+
+            // Exit case - if the Player does not have a curtain
+            if (!controller.Inventory.CheckCurtain())
+            {
+                // Set that the Player does not have the curtain
+                hasCurtain = false;
+
+                // Exit case - if the Item symbol is shown
+                if (itemSymbolShown) return;
+
+                // Show the Item symbol
+                ShowItemSymbol();
+
+                return;
+            }
+
+            // Set the controller's interactable
+            controller.SetInteractable(this);
+
+            // Add the controller to the hashset
+            controllers.Add(controller);
+
+            // Get the entering PlayerController
+            PlayerController enteringPlayer = controller.GetComponent<PlayerController>();
+
+            // Decide the sprite based on the entering player
+            DecideEnterSprite(enteringPlayer);
+
+            // Exit case - if the symbol is shown
+            if (interactSymbolShown) return;
+
+            // Get the direction the controller is entering from
+            enterDirection = (int)(controller.transform.position.x - transform.position.x);
+
+            // Set that the Player has the curtain
+            hasCurtain = true;
+
+            // Set full item opacity
+            currentItemOpacity = 1f;
+
+            // Check if the Item symbol is shown
+            if (itemSymbolShown)
+                // If so, update the Item opacity
+                UpdateItemOpacity();
+            else
+                // Otherwise, show the Item symbol
+                ShowItemSymbol();
+
+            // Show the Interact symbol
             ShowInteractSymbol();
         }
 
@@ -76,13 +164,26 @@ namespace Tethered.Interactables
 
             // Hide the interact symbol if there are no present controllers
             if (controllers.Count <= 0)
+            {
+                // Hide symbols
                 HideInteractSymbol();
+                HideItemSymbol();
+            }
         }
 
         public override void Interact(InteractController controller)
         {
-            if (controller.Inventory.CheckCurtain(this))
-                DisableWindow();
+            // Exit case - the Player does not have a curtain
+            if (!hasCurtain) return;
+
+            // Cover the window
+            CoverWindow();
+
+            // Remove the Curtain from the inventory
+            controller.Inventory.RemoveCurtain();
+
+            // Disable the Window
+            DisableWindow();
         }
 
         /// <summary>
@@ -104,8 +205,9 @@ namespace Tethered.Interactables
             // Play the SFX
             sfxManager.CreateSound().WithSoundData(soundData).Play();
 
-            // Hide the interact symbol
+            // Hide the Interact symbol and the Item symbol
             HideInteractSymbol();
+            HideItemSymbol();
 
             used = true;
         }

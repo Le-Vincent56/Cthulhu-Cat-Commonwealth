@@ -57,7 +57,7 @@ namespace Tethered.Interactables
             DecideEnterSprite(enteringPlayer);
 
             // Exit case - if the symbol is shown
-            if (symbolShown) return;
+            if (interactSymbolShown) return;
 
             // Set the vertical enter direction
             verticalEnterDirection = (int)Mathf.Sign(controller.transform.position.y - transform.position.y);
@@ -94,10 +94,10 @@ namespace Tethered.Interactables
             }
 
             // Fade in and notify that the symbol is shown
-            Fade(1f, symbolFadeDuration, () => symbolShown = true);
+            Fade(1f, symbolFadeDuration, () => interactSymbolShown = true);
 
             // Scale to target
-            Scale(symbolTargetScale, scaleDuration, onComplete);
+            Scale(interactTargetScale, scaleDuration, onComplete);
         }
 
         public override void Interact(InteractController controller)

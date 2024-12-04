@@ -93,7 +93,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -195,8 +195,8 @@ MonoBehaviour:
     y: 0
     width: 526
     height: 684.6667
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 6}
   m_Panes:
   - {fileID: 6}
@@ -239,10 +239,10 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 60}
-      m_SelectedIDs: 42f9ffff
-      m_LastClickedID: -1726
-      m_ExpandedIDs: 56f8ffff9cf8fffff8f8ffff06f9ffff44f9ffff02faffff0cfaffff10faffff5efaffff68faffff347500007a750000ee750000
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: d0f8ffff
+      m_LastClickedID: -1840
+      m_ExpandedIDs: 56f8ffff9cf8ffffb6f8ffffd0f8fffff8f8ffff06f9ffff44f9ffff02faffff0cfaffff10faffff5efaffff68fafffffafaffffb0740000f6740000347500006a7500007a750000ee750000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -832,9 +832,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -2.5367682, y: 1.629989, z: -4.427066}
+    m_Target: {x: -1.6856878, y: -2.7517827, z: -4.4293656}
     speed: 2
-    m_Value: {x: -2.5367682, y: 1.629989, z: -4.427066}
+    m_Value: {x: -1.6856878, y: -2.7517827, z: -4.4293656}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -884,9 +884,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 2.208831
+    m_Target: 2.4389284
     speed: 2
-    m_Value: 2.208831
+    m_Value: 2.4389284
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -921,7 +921,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectBrowser
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -930,15 +930,15 @@ MonoBehaviour:
     y: 684.6667
     width: 1966.6666
     height: 614.6667
-  m_MinSize: {x: 231, y: 271}
-  m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 11}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 11}
   - {fileID: 12}
   - {fileID: 13}
-  m_Selected: 0
-  m_LastSelected: 2
+  m_Selected: 2
+  m_LastSelected: 1
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -984,7 +984,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Player
+    - Assets/Sprites/Environment
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -992,16 +992,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 81
   m_LastFolders:
-  - Assets/Scripts/Player
+  - Assets/Sprites/Environment
   m_LastFoldersGridSize: 81
   m_LastProjectPath: C:\Users\levin\source\repos\Cthulhu-Cat-Commonwealth\Tethered
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 171}
-    m_SelectedIDs: c47d0000
-    m_LastClickedID: 32196
-    m_ExpandedIDs: 00000000bc7d0000be7d0000c07d0000c27d0000c47d0000c67d0000c87d0000ca7d0000cc7d0000ce7d0000d07d0000d27d0000d47d0000d67d0000d87d0000da7d000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 242.33331}
+    m_SelectedIDs: a07d0000
+    m_LastClickedID: 32160
+    m_ExpandedIDs: 000000008c7d00008e7d0000907d0000927d0000947d0000967d0000987d00009a7d00009c7d00009e7d0000a07d0000a27d0000a47d0000a67d0000a87d0000aa7d000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1029,7 +1029,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000bc7d0000be7d0000c07d0000c27d0000c47d0000c67d0000c87d0000ca7d0000cc7d0000ce7d0000d07d0000d27d0000d47d0000d67d0000d87d0000da7d000000ca9a3bffffff7f
+    m_ExpandedIDs: 000000008c7d00008e7d0000907d0000927d0000947d0000967d0000987d00009a7d00009c7d00009e7d0000a07d0000a27d0000a47d0000a67d0000a87d0000aa7d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1054,10 +1054,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 42f9ffff
-    m_LastClickedInstanceID: -1726
-    m_HadKeyboardFocusLastEvent: 0
-    m_ExpandedInstanceIDs: c623000074a700002cc10000ca9800005acc0000468a0000008b0000e08e000022480200c6740000566f0000ca6c00005c02000000000000247d0000be7400002e7600008c740000e47d0000
+    m_SelectedInstanceIDs: 7cd5ffff
+    m_LastClickedInstanceID: -10884
+    m_HadKeyboardFocusLastEvent: 1
+    m_ExpandedInstanceIDs: c623000074a700002cc10000ca9800005acc0000468a0000008b0000e08e000022480200c6740000566f0000ca6c00005c02000000000000247d0000be7400002e7600008c740000e47d0000647b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1106,7 +1106,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 765.3334
+    y: 757.3334
     width: 1965.6666
     height: 593.6667
   m_SerializedDataModeController:
@@ -1121,7 +1121,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -1726
+  m_LastSelectedObjectID: -1840
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1143,7 +1143,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 765.3334
+    y: 757.3334
     width: 1965.6666
     height: 593.6667
   m_SerializedDataModeController:
@@ -1175,8 +1175,8 @@ MonoBehaviour:
     y: 0
     width: 593.3334
     height: 1299.3334
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
