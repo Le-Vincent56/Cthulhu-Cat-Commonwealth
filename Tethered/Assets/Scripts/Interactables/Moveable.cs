@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Tethered.Player;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
@@ -98,11 +99,36 @@ namespace Tethered.Interactables
         /// </summary>
         public void Move(float moveSpeed)
         {
+            Debug.Log("Trying to Move");
+
             // Exit case - there is no attached Player or the HashSet is not initialized
-            if (moveableControllers == null || moveableControllers.Count <= 0) return;
+            if (moveableControllers == null || moveableControllers.Count <= 0)
+            {
+                rb.velocity = Vector2.zero;
+                StopSound();
+                return;
+            }
 
             // Exit case - there's not enough Players to move the Moveable
-            if (moveableControllers.Count < numofPlayersRequired) return;
+            if (moveableControllers.Count < numofPlayersRequired)
+            {
+                rb.velocity = Vector2.zero;
+                StopSound();
+                return;
+            }
+
+            // Default true to being able to move an object
+            bool playersCanMoveObject = true;
+
+            // Iterate through the Moveable Controllers
+            foreach(MoveableController controller in moveableControllers)
+            {
+                // Check if any Player cannot move the object
+                if (!controller.CanMoveObject) playersCanMoveObject = false;
+            }
+
+            // Exit case - one of the players cannot move the object
+            if (!playersCanMoveObject) return;
 
             // Create a container for the final movement direction
             float xInputDirection = 0;
@@ -154,8 +180,14 @@ namespace Tethered.Interactables
                 controller.transform.position = newControllerPosition;
             }
 
+            Debug.Log("Moving!");
+
             // If moving, play the sound
-            if (rb.velocity.x > 0) PlaySound();
+            if (rb.velocity.x != 0)
+            {
+                PlaySound();
+                return;
+            }
 
             // If not moving, stop the sound
             if (rb.velocity.x == 0) StopSound();

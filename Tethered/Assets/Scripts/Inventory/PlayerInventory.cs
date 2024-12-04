@@ -39,22 +39,24 @@ namespace Tethered.Inventory
         }
 
         /// <summary>
-        /// Remove a Key from the Shared Inventory
+        /// Check a Curtain in the Player's Curtain set
         /// </summary>
-        public void RemoveKey(int hash) => inventory.RemoveKey(hash);
-
-        public bool CheckCurtain(Window window)
+        public bool CheckCurtain()
         {
             // Exit case - if a Curtain is not stored
             if (!inventory.ContainsCurtain()) return false;
 
-            // Cover the window
-            window.CoverWindow();
-
-            // Remove the Curtain from the inventory
-            inventory.RemoveCurtain();
-
             return true;
         }
+
+        /// <summary>
+        /// Remove a Key from the Shared Inventory
+        /// </summary>
+        public void RemoveKey(int hash) => inventory.RemoveKey(hash);
+
+        /// <summary>
+        /// Remove a Curtain from the Shared Inventory
+        /// </summary>
+        public void RemoveCurtain() => inventory.RemoveCurtain();
     }
 }

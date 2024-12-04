@@ -9,13 +9,13 @@ namespace Tethered.Player.Editors
         private SerializedProperty playerOneInputReaderProp;
         private SerializedProperty playerTwoInputReaderProp;
         private SerializedProperty playerTypeProp;
+        private SerializedProperty spriteTransformProp;
 
         private SerializedProperty movingObjectProp;
         private SerializedProperty objectToMoveProp;
         private SerializedProperty moveSpeedProp;
 
         private SerializedProperty positionToMoveableDurationProp;
-        
 
         private MoveableController moveableController;
 
@@ -25,6 +25,7 @@ namespace Tethered.Player.Editors
             playerOneInputReaderProp = serializedObject.FindProperty("playerOneInputReader");
             playerTwoInputReaderProp = serializedObject.FindProperty("playerTwoInputReader");
             playerTypeProp = serializedObject.FindProperty("playerType");
+            spriteTransformProp = serializedObject.FindProperty("spriteTransform");
 
             movingObjectProp = serializedObject.FindProperty("movingObject");
             objectToMoveProp = serializedObject.FindProperty("objectToMove");
@@ -60,6 +61,9 @@ namespace Tethered.Player.Editors
                 // Otherwise, show the PlayerTwoInputReader field
                 EditorGUILayout.PropertyField(playerTwoInputReaderProp, new GUIContent("Input Reader"));
             }
+
+            // Get the Player's Sprite Transform
+            EditorGUILayout.PropertyField(spriteTransformProp, new GUIContent("Sprite Transform"));
 
             // Create space
             EditorGUILayout.Space();

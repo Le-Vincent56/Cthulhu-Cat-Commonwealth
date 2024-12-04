@@ -14,6 +14,9 @@ namespace Tethered.Player.States
         protected static readonly int ClimbHash = Animator.StringToHash("Climb");
         protected static readonly int MoveObjectHash = Animator.StringToHash("MoveObject");
         protected static readonly int ReachHash = Animator.StringToHash("Reach");
+        protected static readonly int FallHash = Animator.StringToHash("Fall");
+        protected static readonly int LandHash = Animator.StringToHash("Land");
+        protected static readonly int CowerHash = Animator.StringToHash("Cower");
 
         protected const float crossFadeDuration = 0.1f;
 

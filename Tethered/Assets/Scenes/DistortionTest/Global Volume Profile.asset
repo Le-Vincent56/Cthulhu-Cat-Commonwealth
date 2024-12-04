@@ -46,7 +46,7 @@ MonoBehaviour:
     m_Value: 1.48
   intensity:
     m_OverrideState: 1
-    m_Value: 0.2
+    m_Value: 0.01
 --- !u!114 &-314857909167585450
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -83,6 +83,7 @@ MonoBehaviour:
   - {fileID: -7815797832611873670}
   - {fileID: 5019669557118552052}
   - {fileID: -8580862793452186106}
+  - {fileID: 7063241094449230801}
 --- !u!114 &5019669557118552052
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -99,3 +100,22 @@ MonoBehaviour:
   intensity:
     m_OverrideState: 1
     m_Value: 0.16
+--- !u!114 &7063241094449230801
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd1d2c7e53c41e45a8488fbff04d171, type: 3}
+  m_Name: HeartbeatEffect
+  m_EditorClassIdentifier: 
+  active: 1
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0.1
+  flow:
+    m_OverrideState: 1
+    m_Value: -1

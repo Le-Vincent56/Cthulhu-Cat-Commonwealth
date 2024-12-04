@@ -116,7 +116,7 @@ namespace Tethered.Input
                 {
                     ""name"": """",
                     ""id"": ""479e62f3-abea-4e47-9321-d50f6322fa9b"",
-                    ""path"": ""<Keyboard>/leftShift"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -164,7 +164,7 @@ namespace Tethered.Input
                 {
                     ""name"": """",
                     ""id"": ""f74c55c4-b3b4-4941-9153-c13ac6e1c6ae"",
-                    ""path"": ""<Keyboard>/rightShift"",
+                    ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

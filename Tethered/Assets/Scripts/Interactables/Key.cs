@@ -29,7 +29,7 @@ namespace Tethered.Interactables
         protected override void ShowInteractSymbol(TweenCallback onComplete = null)
         {
             // Exit case - if the interact symbol is already shown
-            if (symbolShown) return;
+            if (interactSymbolShown) return;
 
             // Call the parent function to handle tweening
             base.ShowInteractSymbol();
@@ -52,6 +52,9 @@ namespace Tethered.Interactables
 
             // Add the key to the Players' inventory
             controller.Inventory.StoreKey(hash);
+
+            // Play the sound effect
+            sfxManager.CreateSound().WithSoundData(soundData).Play();
 
             // Disable the key
             DisableKey();

@@ -54,6 +54,8 @@ namespace Tethered.Audio
         /// </summary>
         private void OnTakeFromPool(SoundEmitter soundEmitter)
         {
+            if (soundEmitter == null) return;
+
             // Set the Sound Emitter as active
             soundEmitter.gameObject.SetActive(true);
 
@@ -143,14 +145,23 @@ namespace Tethered.Audio
         /// </summary>
         public void StopSound(SoundData data)
         {
-            // Iterate through each active Sound Emitter
-            foreach(SoundEmitter emitter in activeSoundEmitters)
+            // Create a list to store indexes
+            List<int> soundsToStopIndexes = new List<int>();
+
+            for(int i = 0; i < activeSoundEmitters.Count; i++)
             {
                 // Skip if the data does not match
-                if (emitter.Data != data) continue;
+                if (activeSoundEmitters[i].Data != data) continue;
 
-                // Stop the Sound Emitter
-                emitter.Stop();
+                // Add the index
+                soundsToStopIndexes.Add(i);
+            }
+
+            // Iterate through each index
+            foreach(int index in soundsToStopIndexes)
+            {
+                // Stop the Sound Emitter at that index
+                activeSoundEmitters[index].Stop();
             }
         }
     }

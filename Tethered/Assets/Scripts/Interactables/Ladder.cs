@@ -12,6 +12,8 @@ namespace Tethered.Interactables
         [SerializeField] private bool mustExtend;
         [SerializeField] private bool climable;
 
+        private BoxCollider2D boxCollider;
+
         [SerializeField] private List<Vector2> path;
 
         private EventBinding<EnableLadder> onEnableLadder;
@@ -37,8 +39,14 @@ namespace Tethered.Interactables
         {
             base.Awake();
 
+            // Get components
+            boxCollider = GetComponent<BoxCollider2D>();
+
             // If the ladder doesn't need to be extended, set it to climable
-            if (!mustExtend) climable = true;
+            if (!mustExtend)
+                climable = true;
+            else
+                boxCollider.enabled = false;
 
             // Set the path
             SetPath();
@@ -141,6 +149,9 @@ namespace Tethered.Interactables
 
             // Set the ladder to climable
             climable = true;
+
+            // Enable the BoxCollider2D
+            boxCollider.enabled = true;
         }
 
         /// <summary>

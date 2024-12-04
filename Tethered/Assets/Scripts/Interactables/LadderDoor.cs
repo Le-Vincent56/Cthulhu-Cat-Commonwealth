@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Tethered.Audio;
 using Tethered.Interactables.Events;
 using Tethered.Patterns.EventBus;
 using Tethered.Player;
@@ -19,6 +20,8 @@ namespace Tethered.Interactables
         [SerializeField] private float symbolHeightBottom;
 
         [SerializeField] private GameObject floor;
+
+        [SerializeField] private SoundData extensionSound;
 
         protected override void Awake()
         {
@@ -54,7 +57,7 @@ namespace Tethered.Interactables
             DecideEnterSprite(enteringPlayer);
 
             // Exit case - if the symbol is shown
-            if (symbolShown) return;
+            if (interactSymbolShown) return;
 
             // Set the vertical enter direction
             verticalEnterDirection = (int)Mathf.Sign(controller.transform.position.y - transform.position.y);
@@ -91,10 +94,10 @@ namespace Tethered.Interactables
             }
 
             // Fade in and notify that the symbol is shown
-            Fade(1f, symbolFadeDuration, () => symbolShown = true);
+            Fade(1f, symbolFadeDuration, () => interactSymbolShown = true);
 
             // Scale to target
-            Scale(symbolTargetScale, scaleDuration, onComplete);
+            Scale(interactTargetScale, scaleDuration, onComplete);
         }
 
         public override void Interact(InteractController controller)
@@ -119,6 +122,10 @@ namespace Tethered.Interactables
             float initialWidth = extendableLadder.size.x;
             
             floor.SetActive(false);
+
+            // Play sound effects
+            sfxManager.CreateSound().WithSoundData(soundData).Play();
+            sfxManager.CreateSound().WithSoundData(extensionSound).Play();
 
             // Tween the height
             DOTween.To(() => extendableLadder.size,

@@ -5,8 +5,11 @@ using Tethered.Cameras;
 using Tethered.Patterns.ServiceLocator;
 using System.Collections.Generic;
 using System.Linq;
-using DG.Tweening;
 using Tethered.Audio;
+using static UnityEditor.FilePathAttribute;
+using UnityEngine.InputSystem.XR;
+using Tethered.Patterns.EventBus;
+using Tethered.Monster.Events;
 
 namespace Tethered.Player
 {
@@ -49,7 +52,20 @@ namespace Tethered.Player
         [SerializeField] private bool teleporting;
         [SerializeField] private Vector3 teleportPosition;
 
+        [Header("Cowering")]
+        [SerializeField] private bool cowering;
+
+        [Header("Ground Detection")]
+        [SerializeField] private bool grounded;
+        [SerializeField] private float castAdjustment;
+        [SerializeField] private float castLength;
+        [SerializeField] private LayerMask groundLayers;
+        [SerializeField] private bool landing;
+
+        private EventBinding<IncreaseAttraction> onIncreaseAttraction;
+
         public PlayerWeight Weight { get => weight; }
+        private Vector2 Up { get; set; }
 
         protected virtual void Awake()
         {
@@ -73,6 +89,9 @@ namespace Tethered.Player
             ClimbState climbState = new ClimbState(this, animator, playerSFX);
             MovingObjectState pushState = new MovingObjectState(this, animator, moveableController);
             TeleportState teleportState = new TeleportState(this, animator, skinTransform.GetComponentsInChildren<SpriteRenderer>().ToList());
+            FallState fallState = new FallState(this, animator);
+            LandState landState = new LandState(this, animator);
+            CowerState cowerState = new CowerState(this, animator);
 
             // Set up individual states
             SetupStates(idleState, locomotionState, climbState);
@@ -82,11 +101,15 @@ namespace Tethered.Player
             stateMachine.At(idleState, climbState, new FuncPredicate(() => climbing));
             stateMachine.At(idleState, pushState, new FuncPredicate(() => moveableController.MovingObject));
             stateMachine.At(idleState, teleportState, new FuncPredicate(() => teleporting));
+            stateMachine.At(idleState, cowerState, new FuncPredicate(() => grounded && cowering));
+            stateMachine.At(idleState, fallState, new FuncPredicate(() => !grounded && rb.velocity.y < -0.05f));
 
             stateMachine.At(locomotionState, idleState, new FuncPredicate(() => moveDirectionX == 0));
             stateMachine.At(locomotionState, climbState, new FuncPredicate(() => climbing));
             stateMachine.At(locomotionState, pushState, new FuncPredicate(() => moveableController.MovingObject));
             stateMachine.At(locomotionState, teleportState, new FuncPredicate(() => teleporting));
+            stateMachine.At(locomotionState, cowerState, new FuncPredicate(() => grounded && cowering));
+            stateMachine.At(locomotionState, fallState, new FuncPredicate(() => !grounded && rb.velocity.y < -0.05f));
 
             stateMachine.At(climbState, idleState, new FuncPredicate(() => !climbing && moveDirectionX == 0));
             stateMachine.At(climbState, locomotionState, new FuncPredicate(() => !climbing && moveDirectionX != 0));
@@ -97,8 +120,27 @@ namespace Tethered.Player
             stateMachine.At(teleportState, idleState, new FuncPredicate(() => !teleporting && moveDirectionX == 0));
             stateMachine.At(teleportState, locomotionState, new FuncPredicate(() => !teleporting && moveDirectionX != 0));
 
+            stateMachine.At(fallState, landState, new FuncPredicate(() => grounded));
+
+            stateMachine.At(landState, idleState, new FuncPredicate(() => !landing && moveDirectionX == 0));
+            stateMachine.At(landState, locomotionState, new FuncPredicate(() => !landing && moveDirectionX != 0));
+
+            stateMachine.At(cowerState, idleState, new FuncPredicate(() => !cowering && !moveableController.MovingObject && moveDirectionX == 0));
+            stateMachine.At(cowerState, locomotionState, new FuncPredicate(() => !cowering && !moveableController.MovingObject && moveDirectionX != 0));
+
             // Set an initial state
             stateMachine.SetState(idleState);
+        }
+
+        private void OnEnable()
+        {
+            onIncreaseAttraction = new EventBinding<IncreaseAttraction>(StartCowering);
+            EventBus<IncreaseAttraction>.Register(onIncreaseAttraction);
+        }
+
+        private void OnDisable()
+        {
+            EventBus<IncreaseAttraction>.Deregister(onIncreaseAttraction);
         }
 
         protected virtual void Start()
@@ -110,6 +152,8 @@ namespace Tethered.Player
 
         protected virtual void Update()
         {
+            CheckGround();
+
             // Update the state machine
             stateMachine.Update();
         }
@@ -134,6 +178,25 @@ namespace Tethered.Player
         /// Disable the input
         /// </summary>
         public abstract void DisableInput();
+
+        /// <summary>
+        /// Check if the Player is grounded
+        /// </summary>
+        private void CheckGround()
+        {
+            // Get the upward direction
+            float rotation = rb.rotation * Mathf.Deg2Rad;
+            Up = new Vector2(-Mathf.Sin(rotation), Mathf.Cos(rotation));
+
+            // Get the cast position
+            Vector2 castPosition = transform.position - new Vector3(0f, castAdjustment, 0f);
+
+            // Raycast downward
+            RaycastHit2D groundHit = Physics2D.Raycast(castPosition, -Up, castLength, groundLayers);
+            Debug.DrawRay(castPosition, -Up * castLength, Color.red);
+
+            grounded = groundHit;
+        }
 
         /// <summary>
         /// Move the Player
@@ -247,7 +310,7 @@ namespace Tethered.Player
         {
             // Set teleporting variables
             teleporting = true;
-            this.teleportPosition = targetPosition;
+            teleportPosition = targetPosition;
 
             // Disable input
             DisableInput();
@@ -270,5 +333,21 @@ namespace Tethered.Player
             // Enable input
             EnableInput();
         }
+
+        /// <summary>
+        /// Set whether or not the Player is landing
+        /// </summary>
+        /// <param name="landing"></param>
+        public void SetLanding(bool landing) => this.landing = landing;
+
+        /// <summary>
+        /// Start the Player cower
+        /// </summary>
+        public void StartCowering() => cowering = true;
+
+        /// <summary>
+        /// Stop the Player from cowering
+        /// </summary>
+        public void StopCowering() => cowering = false;
     }
 }

@@ -140,6 +140,8 @@ namespace Tethered.Patterns.ServiceLocator
                 }
             }
 
+            Debug.Log("Setting as global");
+            
             // If nothing was found, return the global Service Locator
             return Global;
         }

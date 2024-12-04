@@ -1,6 +1,4 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using Tethered.Player;
 using UnityEngine;
 
@@ -29,6 +27,9 @@ namespace Tethered.Interactables
         {
             // Store a curtain
             controller.Inventory.StoreCurtain();
+
+            // Play the sound effect
+            sfxManager.CreateSound().WithSoundData(soundData).Play();
 
             // Disable the curtain
             DisableCurtain();
