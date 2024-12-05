@@ -79,6 +79,13 @@ namespace Tethered.Player
         /// <summary>
         /// Interact with the current interactable
         /// </summary>
-        protected void Interact() => currentInteractable?.Interact(this);
+        protected void Interact(bool startedOrPerformed)
+        {
+            // Exit case - if not started or performed, return
+            if (!startedOrPerformed) return;
+
+            // Interact with the current Interactable
+            currentInteractable?.Interact(this);
+        }
     }
 }

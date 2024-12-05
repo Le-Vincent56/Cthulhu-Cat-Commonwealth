@@ -48,6 +48,9 @@ namespace Tethered.Player
         [SerializeField] private List<Vector2> ladderPath;
         [SerializeField] private float initialGravityScale;
 
+        [Header("Pushing")]
+        protected bool canPush;
+
         [Header("Teleport")]
         [SerializeField] private bool teleporting;
         [SerializeField] private Vector3 teleportPosition;
@@ -87,7 +90,8 @@ namespace Tethered.Player
             IdleState idleState = new IdleState(this, animator);
             LocomotionState locomotionState = new LocomotionState(this, animator, playerSFX);
             ClimbState climbState = new ClimbState(this, animator, playerSFX);
-            MovingObjectState pushState = new MovingObjectState(this, animator, moveableController);
+            MovingObjectPrepState moveObjectPrepState = new MovingObjectPrepState(this, animator, moveableController);
+            MovingObjectLocomotionState moveObjectState = new MovingObjectLocomotionState(this, animator, moveableController);
             TeleportState teleportState = new TeleportState(this, animator, skinTransform.GetComponentsInChildren<SpriteRenderer>().ToList());
             FallState fallState = new FallState(this, animator);
             LandState landState = new LandState(this, animator);
@@ -99,23 +103,25 @@ namespace Tethered.Player
             // Define state transitions
             stateMachine.At(idleState, locomotionState, new FuncPredicate(() => moveDirectionX != 0));
             stateMachine.At(idleState, climbState, new FuncPredicate(() => climbing));
-            stateMachine.At(idleState, pushState, new FuncPredicate(() => moveableController.MovingObject));
+            stateMachine.At(idleState, moveObjectPrepState, new FuncPredicate(() => moveableController.MovingObject));
             stateMachine.At(idleState, teleportState, new FuncPredicate(() => teleporting));
             stateMachine.At(idleState, cowerState, new FuncPredicate(() => grounded && cowering));
             stateMachine.At(idleState, fallState, new FuncPredicate(() => !grounded && rb.velocity.y < -0.05f));
 
             stateMachine.At(locomotionState, idleState, new FuncPredicate(() => moveDirectionX == 0));
             stateMachine.At(locomotionState, climbState, new FuncPredicate(() => climbing));
-            stateMachine.At(locomotionState, pushState, new FuncPredicate(() => moveableController.MovingObject));
+            stateMachine.At(locomotionState, moveObjectPrepState, new FuncPredicate(() => moveableController.MovingObject));
             stateMachine.At(locomotionState, teleportState, new FuncPredicate(() => teleporting));
             stateMachine.At(locomotionState, cowerState, new FuncPredicate(() => grounded && cowering));
             stateMachine.At(locomotionState, fallState, new FuncPredicate(() => !grounded && rb.velocity.y < -0.05f));
 
             stateMachine.At(climbState, idleState, new FuncPredicate(() => !climbing && moveDirectionX == 0));
             stateMachine.At(climbState, locomotionState, new FuncPredicate(() => !climbing && moveDirectionX != 0));
+            
+            stateMachine.At(moveObjectPrepState, moveObjectState, new FuncPredicate(() => moveableController.CanMoveObject));
 
-            stateMachine.At(pushState, idleState, new FuncPredicate(() => !moveableController.MovingObject && moveDirectionX == 0));
-            stateMachine.At(pushState, locomotionState, new FuncPredicate(() => !moveableController.MovingObject && moveDirectionX != 0));
+            stateMachine.At(moveObjectState, idleState, new FuncPredicate(() => !moveableController.MovingObject && moveDirectionX == 0));
+            stateMachine.At(moveObjectState, locomotionState, new FuncPredicate(() => !moveableController.MovingObject && moveDirectionX != 0));
 
             stateMachine.At(teleportState, idleState, new FuncPredicate(() => !teleporting && moveDirectionX == 0));
             stateMachine.At(teleportState, locomotionState, new FuncPredicate(() => !teleporting && moveDirectionX != 0));

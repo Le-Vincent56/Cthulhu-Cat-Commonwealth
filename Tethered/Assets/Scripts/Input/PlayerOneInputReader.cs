@@ -9,7 +9,7 @@ namespace Tethered.Input
     public class PlayerOneInputReader : ScriptableObject, IPlayerOneActions, IInputReader
     {
         public event UnityAction<Vector2, bool> Move = delegate { };
-        public event UnityAction Interact = delegate { };
+        public event UnityAction<bool> Interact = delegate { };
 
         public int NormMoveX { get; private set; }
         public int NormMoveY { get; private set; }
@@ -61,8 +61,20 @@ namespace Tethered.Input
         /// </summary>
         public void OnInteract(InputAction.CallbackContext context)
         {
-            // If the button has been lifted, invoke the event
-            if (context.canceled) Interact.Invoke();
+            switch(context.phase)
+            {
+                case InputActionPhase.Started:
+                    Interact.Invoke(true);
+                    break;
+
+                case InputActionPhase.Performed:
+                    Interact.Invoke(true);
+                    break;
+
+                case InputActionPhase.Canceled:
+                    Interact.Invoke(false);
+                    break;
+            }
         }
     }
 }
