@@ -67,10 +67,6 @@ namespace Tethered.Input
                     Interact.Invoke(true);
                     break;
 
-                case InputActionPhase.Performed:
-                    Interact.Invoke(true);
-                    break;
-
                 case InputActionPhase.Canceled:
                     Interact.Invoke(false);
                     break;

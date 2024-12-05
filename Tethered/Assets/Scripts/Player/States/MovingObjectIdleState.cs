@@ -17,7 +17,17 @@ namespace Tethered.Player.States
 
         public override void OnEnter()
         {
+            // Allow the Player to move objects
+            moveableController.CanMoveObject = true;
 
+            // Cross fade into the animation
+            animator.CrossFade(MoveObjectIdleHash, crossFadeDuration);
+        }
+
+        public override void OnExit()
+        {
+            // Don't allow the Player to move objects
+            moveableController.CanMoveObject = false;
         }
     }
 }

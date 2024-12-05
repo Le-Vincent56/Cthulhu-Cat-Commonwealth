@@ -13,6 +13,7 @@ namespace Tethered.Player.States
         protected static readonly int CrawlHash = Animator.StringToHash("Crawl");
         protected static readonly int ClimbHash = Animator.StringToHash("Climb");
         protected static readonly int MoveObjectPrepHash = Animator.StringToHash("MoveObjectPrep");
+        protected static readonly int MoveObjectIdleHash = Animator.StringToHash("MoveObjectIdle");
         protected static readonly int MoveObjectLocomotion = Animator.StringToHash("MoveObjectLocomotion");
         protected static readonly int ReachHash = Animator.StringToHash("Reach");
         protected static readonly int FallHash = Animator.StringToHash("Fall");

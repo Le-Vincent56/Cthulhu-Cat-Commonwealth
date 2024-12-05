@@ -91,7 +91,8 @@ namespace Tethered.Player
             LocomotionState locomotionState = new LocomotionState(this, animator, playerSFX);
             ClimbState climbState = new ClimbState(this, animator, playerSFX);
             MovingObjectPrepState moveObjectPrepState = new MovingObjectPrepState(this, animator, moveableController);
-            MovingObjectLocomotionState moveObjectState = new MovingObjectLocomotionState(this, animator, moveableController);
+            MovingObjectIdleState moveObjectIdleState = new MovingObjectIdleState(this, animator, moveableController);
+            MovingObjectLocomotionState moveObjectLocomotionState = new MovingObjectLocomotionState(this, animator, moveableController);
             TeleportState teleportState = new TeleportState(this, animator, skinTransform.GetComponentsInChildren<SpriteRenderer>().ToList());
             FallState fallState = new FallState(this, animator);
             LandState landState = new LandState(this, animator);
@@ -117,11 +118,17 @@ namespace Tethered.Player
 
             stateMachine.At(climbState, idleState, new FuncPredicate(() => !climbing && moveDirectionX == 0));
             stateMachine.At(climbState, locomotionState, new FuncPredicate(() => !climbing && moveDirectionX != 0));
-            
-            stateMachine.At(moveObjectPrepState, moveObjectState, new FuncPredicate(() => moveableController.CanMoveObject));
 
-            stateMachine.At(moveObjectState, idleState, new FuncPredicate(() => !moveableController.MovingObject && moveDirectionX == 0));
-            stateMachine.At(moveObjectState, locomotionState, new FuncPredicate(() => !moveableController.MovingObject && moveDirectionX != 0));
+            stateMachine.At(moveObjectPrepState, moveObjectIdleState, new FuncPredicate(() => moveableController.CanMoveObject && moveDirectionX == 0));
+            stateMachine.At(moveObjectPrepState, moveObjectLocomotionState, new FuncPredicate(() => moveableController.CanMoveObject && moveDirectionX != 0));
+
+            stateMachine.At(moveObjectIdleState, moveObjectLocomotionState, new FuncPredicate(() => moveableController.MovingObject && moveDirectionX != 0));
+            stateMachine.At(moveObjectIdleState, idleState, new FuncPredicate(() => !moveableController.MovingObject && moveDirectionX == 0));
+            stateMachine.At(moveObjectIdleState, locomotionState, new FuncPredicate(() => !moveableController.MovingObject && moveDirectionX != 0));
+
+            stateMachine.At(moveObjectLocomotionState, moveObjectIdleState, new FuncPredicate(() => moveableController.MovingObject && moveDirectionX == 0));
+            stateMachine.At(moveObjectLocomotionState, idleState, new FuncPredicate(() => !moveableController.MovingObject && moveDirectionX == 0));
+            stateMachine.At(moveObjectLocomotionState, locomotionState, new FuncPredicate(() => !moveableController.MovingObject && moveDirectionX != 0));
 
             stateMachine.At(teleportState, idleState, new FuncPredicate(() => !teleporting && moveDirectionX == 0));
             stateMachine.At(teleportState, locomotionState, new FuncPredicate(() => !teleporting && moveDirectionX != 0));
