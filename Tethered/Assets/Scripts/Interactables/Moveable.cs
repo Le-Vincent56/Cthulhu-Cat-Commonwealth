@@ -99,8 +99,6 @@ namespace Tethered.Interactables
         /// </summary>
         public void Move(float moveSpeed)
         {
-            Debug.Log("Trying to Move");
-
             // Exit case - there is no attached Player or the HashSet is not initialized
             if (moveableControllers == null || moveableControllers.Count <= 0)
             {
@@ -160,6 +158,7 @@ namespace Tethered.Interactables
 
                 // Calculate the horizontal direction
                 float directionX = controllerPosition.x - currentPosition.x;
+                controller.SetMoveDirectionX((int)rb.velocity.x);
 
                 // Adjust the controller's X position based on which side it's on
                 Vector2 newControllerPosition = controllerPosition;
@@ -179,8 +178,6 @@ namespace Tethered.Interactables
                 // Update the MoveableController's position
                 controller.transform.position = newControllerPosition;
             }
-
-            Debug.Log("Moving!");
 
             // If moving, play the sound
             if (rb.velocity.x != 0)

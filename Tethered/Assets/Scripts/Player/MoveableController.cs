@@ -26,12 +26,15 @@ namespace Tethered.Player
         private bool canMoveObject;
         private int moveInputX;
 
+        private int moveDirectionX;
+
         [SerializeField] private float positionToMoveableDuration;
         private Tween translatePositionForMoveable;
 
         public bool MovingObject { get => movingObject; }
         public int MoveInputX { get => moveInputX; }
         public bool CanMoveObject { get => canMoveObject; set => canMoveObject = value; }
+        public int MoveDirectionX { get => moveDirectionX; }
 
         private void Awake()
         {
@@ -124,9 +127,9 @@ namespace Tethered.Player
         }
 
         /// <summary>
-        /// Set the velocity of the MoveableController
+        /// Set the x-direction of movement the MoveableController
         /// </summary>
-        public void SetVelocity(Vector2 velocity) => rb.velocity = velocity;
+        public void SetMoveDirectionX(int moveDirectionX) => this.moveDirectionX = moveDirectionX;
 
         /// <summary>
         /// Align the Moveable with the player

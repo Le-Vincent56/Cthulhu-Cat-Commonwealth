@@ -24,6 +24,15 @@ namespace Tethered.Player.States
             animator.CrossFade(MoveObjectIdleHash, crossFadeDuration);
         }
 
+        public override void FixedUpdate()
+        {
+            // Exit case - if the Player can;t move objects
+            if (!moveableController.CanMoveObject) return;
+
+            // Move the object
+            moveableController.MoveObject();
+        }
+
         public override void OnExit()
         {
             // Don't allow the Player to move objects
