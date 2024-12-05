@@ -1913,6 +1913,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1898048893}
   - component: {fileID: 1898048894}
+  - component: {fileID: 1898048895}
   m_Layer: 5
   m_Name: Skip Area
   m_TagString: Untagged
@@ -1957,14 +1958,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerOneInputReader: {fileID: 11400000, guid: ba00de9b38f7a7346876b6a02011fba0, type: 2}
   playerTwoInputReader: {fileID: 11400000, guid: 7153fba7158f2504ba608ddc970a6ed4, type: 2}
+  canvasGroup: {fileID: 0}
   radialImage: {fileID: 1341621952}
   wKey: {fileID: 460018179}
   upKey: {fileID: 1377355331}
   playerOneHolding: 0
   playerTwoHolding: 0
   tryingToSkip: 0
+  fadeCanvasDuration: 0.3
   fadeRadialDuration: 0.2
   fadeKeyDuration: 0.4
+--- !u!225 &1898048895
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898048892}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1954420384
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,6 +46,15 @@ namespace Tethered.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TryToSkip"",
+                    ""type"": ""Button"",
+                    ""id"": ""4a861472-2156-41ab-abef-025c93901cad"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -114,6 +123,17 @@ namespace Tethered.Input
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""94f6b518-4b86-4590-9dec-5f8b4fd2efe4"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TryToSkip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -134,6 +154,15 @@ namespace Tethered.Input
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""433446df-da6d-480d-9b81-3d0ad3e35497"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TryToSkip"",
+                    ""type"": ""Button"",
+                    ""id"": ""a78bf411-e4c0-42bd-bcaa-3e52bcdeab51"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -206,6 +235,17 @@ namespace Tethered.Input
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76df3553-e34a-465c-aa3a-bcd90949f89d"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TryToSkip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -216,10 +256,12 @@ namespace Tethered.Input
             m_PlayerOne = asset.FindActionMap("Player One", throwIfNotFound: true);
             m_PlayerOne_Move = m_PlayerOne.FindAction("Move", throwIfNotFound: true);
             m_PlayerOne_Interact = m_PlayerOne.FindAction("Interact", throwIfNotFound: true);
+            m_PlayerOne_TryToSkip = m_PlayerOne.FindAction("TryToSkip", throwIfNotFound: true);
             // Player Two
             m_PlayerTwo = asset.FindActionMap("Player Two", throwIfNotFound: true);
             m_PlayerTwo_Move = m_PlayerTwo.FindAction("Move", throwIfNotFound: true);
             m_PlayerTwo_Interact = m_PlayerTwo.FindAction("Interact", throwIfNotFound: true);
+            m_PlayerTwo_TryToSkip = m_PlayerTwo.FindAction("TryToSkip", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -283,12 +325,14 @@ namespace Tethered.Input
         private List<IPlayerOneActions> m_PlayerOneActionsCallbackInterfaces = new List<IPlayerOneActions>();
         private readonly InputAction m_PlayerOne_Move;
         private readonly InputAction m_PlayerOne_Interact;
+        private readonly InputAction m_PlayerOne_TryToSkip;
         public struct PlayerOneActions
         {
             private @PlayerInputActions m_Wrapper;
             public PlayerOneActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_PlayerOne_Move;
             public InputAction @Interact => m_Wrapper.m_PlayerOne_Interact;
+            public InputAction @TryToSkip => m_Wrapper.m_PlayerOne_TryToSkip;
             public InputActionMap Get() { return m_Wrapper.m_PlayerOne; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -304,6 +348,9 @@ namespace Tethered.Input
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @TryToSkip.started += instance.OnTryToSkip;
+                @TryToSkip.performed += instance.OnTryToSkip;
+                @TryToSkip.canceled += instance.OnTryToSkip;
             }
 
             private void UnregisterCallbacks(IPlayerOneActions instance)
@@ -314,6 +361,9 @@ namespace Tethered.Input
                 @Interact.started -= instance.OnInteract;
                 @Interact.performed -= instance.OnInteract;
                 @Interact.canceled -= instance.OnInteract;
+                @TryToSkip.started -= instance.OnTryToSkip;
+                @TryToSkip.performed -= instance.OnTryToSkip;
+                @TryToSkip.canceled -= instance.OnTryToSkip;
             }
 
             public void RemoveCallbacks(IPlayerOneActions instance)
@@ -337,12 +387,14 @@ namespace Tethered.Input
         private List<IPlayerTwoActions> m_PlayerTwoActionsCallbackInterfaces = new List<IPlayerTwoActions>();
         private readonly InputAction m_PlayerTwo_Move;
         private readonly InputAction m_PlayerTwo_Interact;
+        private readonly InputAction m_PlayerTwo_TryToSkip;
         public struct PlayerTwoActions
         {
             private @PlayerInputActions m_Wrapper;
             public PlayerTwoActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_PlayerTwo_Move;
             public InputAction @Interact => m_Wrapper.m_PlayerTwo_Interact;
+            public InputAction @TryToSkip => m_Wrapper.m_PlayerTwo_TryToSkip;
             public InputActionMap Get() { return m_Wrapper.m_PlayerTwo; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -358,6 +410,9 @@ namespace Tethered.Input
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @TryToSkip.started += instance.OnTryToSkip;
+                @TryToSkip.performed += instance.OnTryToSkip;
+                @TryToSkip.canceled += instance.OnTryToSkip;
             }
 
             private void UnregisterCallbacks(IPlayerTwoActions instance)
@@ -368,6 +423,9 @@ namespace Tethered.Input
                 @Interact.started -= instance.OnInteract;
                 @Interact.performed -= instance.OnInteract;
                 @Interact.canceled -= instance.OnInteract;
+                @TryToSkip.started -= instance.OnTryToSkip;
+                @TryToSkip.performed -= instance.OnTryToSkip;
+                @TryToSkip.canceled -= instance.OnTryToSkip;
             }
 
             public void RemoveCallbacks(IPlayerTwoActions instance)
@@ -389,11 +447,13 @@ namespace Tethered.Input
         {
             void OnMove(InputAction.CallbackContext context);
             void OnInteract(InputAction.CallbackContext context);
+            void OnTryToSkip(InputAction.CallbackContext context);
         }
         public interface IPlayerTwoActions
         {
             void OnMove(InputAction.CallbackContext context);
             void OnInteract(InputAction.CallbackContext context);
+            void OnTryToSkip(InputAction.CallbackContext context);
         }
     }
 }

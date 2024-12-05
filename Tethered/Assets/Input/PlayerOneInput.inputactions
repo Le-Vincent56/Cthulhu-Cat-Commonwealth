@@ -22,6 +22,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TryToSkip",
+                    "type": "Button",
+                    "id": "4a861472-2156-41ab-abef-025c93901cad",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -90,6 +99,17 @@
                     "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "94f6b518-4b86-4590-9dec-5f8b4fd2efe4",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TryToSkip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -110,6 +130,15 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "433446df-da6d-480d-9b81-3d0ad3e35497",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TryToSkip",
+                    "type": "Button",
+                    "id": "a78bf411-e4c0-42bd-bcaa-3e52bcdeab51",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -182,6 +211,17 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "76df3553-e34a-465c-aa3a-bcd90949f89d",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TryToSkip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

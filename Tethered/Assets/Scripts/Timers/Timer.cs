@@ -18,6 +18,7 @@ namespace Tethered.Timers
         public Action OnTimerStart = delegate { };
         public Action OnTimerStop = delegate { };
         public Action OnTimerTick = delegate { };
+        public Action OnTimerFinished = delegate { };
 
         protected Timer(float value)
         {
@@ -67,6 +68,11 @@ namespace Tethered.Timers
 
             // Invoke the Timer stop event
             OnTimerStop.Invoke();
+
+            // Check if the Timer is finished
+            if (IsFinished)
+                // Invoke the finished event
+                OnTimerFinished.Invoke();
         }
 
         /// <summary>

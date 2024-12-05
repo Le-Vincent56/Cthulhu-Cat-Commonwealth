@@ -10,6 +10,7 @@ namespace Tethered.Input
     {
         public event UnityAction<Vector2, bool> Move = delegate { };
         public event UnityAction<bool> Interact = delegate { };
+        public event UnityAction TryToSkip = delegate { };
 
         public int NormMoveX { get; private set; }
         public int NormMoveY { get; private set; }
@@ -71,6 +72,14 @@ namespace Tethered.Input
                     Interact.Invoke(false);
                     break;
             }
+        }
+
+        /// <summary>
+        /// Callback function to handle skipping input
+        /// </summary>
+        public void OnTryToSkip(InputAction.CallbackContext context)
+        {
+            if (context.started) TryToSkip.Invoke();
         }
     }
 }

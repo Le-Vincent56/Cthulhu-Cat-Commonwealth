@@ -5,49 +5,94 @@ namespace Tethered.Timers
 {
     public class RegenerativeTimer : Timer
     {
+        private bool regenerating;
+
         public override bool IsFinished => CurrentTime <= 0;
 
         public UnityAction Regenerated = delegate { };
 
-        public RegenerativeTimer(float value) : base(value) { }
+        public RegenerativeTimer(float value) : base(value)
+        {
+            regenerating = false;
+        }
 
         public override void Tick()
         {
-            // If currently running and the time is greater than 0, reduce the time
-            if (IsRunning && CurrentTime > 0)
+            // Check if the Timer is running
+            if (IsRunning)
             {
-                // Subtract the time
-                CurrentTime -= Time.deltaTime;
+                // Check if regenerating and if the Current Time is still within the range of [0, initialTime]
+                if(regenerating && CurrentTime < initialTime)
+                {
+                    // Add the delta time
+                    CurrentTime += Time.deltaTime;
 
-                // Send the tick event
-                OnTimerTick.Invoke();
-            } 
-            // If not running and the time is greater than 0, but less than the initial time
-            else if(!IsRunning && CurrentTime > 0 && CurrentTime < initialTime)
-            {
-                // Add the delta time
-                CurrentTime += Time.deltaTime;
+                    // Clamp to between 0 and the initial time
+                    CurrentTime = Mathf.Clamp(CurrentTime, 0, initialTime);
 
-                // Clamp to between 0 and the initial time
-                CurrentTime = Mathf.Clamp(CurrentTime, 0, initialTime);
+                    // Send the tick event
+                    OnTimerTick.Invoke();
+                }
+                // Otherwise, check if not regenerating and if the Current Time is above 0
+                else if(!regenerating && CurrentTime > 0)
+                {
+                    // Subtract the time
+                    CurrentTime -= Time.deltaTime;
 
-                // Send the tick event
-                OnTimerTick.Invoke();
+                    // Clamp to between 0 and the initial time
+                    CurrentTime = Mathf.Clamp(CurrentTime, 0, initialTime);
+
+                    // Send the tick event
+                    OnTimerTick.Invoke();
+                }
             }
 
-            // If currently running and the time is equal to or below 0 or equal to or above the initial time,
-            // stop the Timer
-            if (IsRunning && CurrentTime <= 0) Stop();
-            if (!IsRunning && CurrentTime >= initialTime) Regenerated.Invoke();
+            // Check if the Timer is Running and the Current Time is less than or equal to 0
+            if (IsRunning && !regenerating && CurrentTime <= 0)
+                // Stop the Timer
+                Stop();
+
+            // Ceheck if the Timer is running and regenerating and if the Current Time is greater than the initial time
+            if (IsRunning && regenerating && CurrentTime >= initialTime)
+            {
+                Debug.Log($"Fully Regenerated: " +
+                    $"\nCurrent Time: {CurrentTime}" +
+                    $"\nInitial Time: {initialTime}");
+
+                // Invoke the Regenerated event
+                Regenerated.Invoke();
+
+                // Pause the timer
+                Pause();
+            }
         }
 
-        public void Regenerate()
+        /// <summary>
+        /// Start regenerating
+        /// </summary>
+        public void StartRegenerating()
         {
-            // Exit case - the RegenerativeTimer is not running and therefore does not need to regenerate
-            if (!IsRunning) return;
+            regenerating = true;
+            
+            // Exit case - the Regenerative Timer is running
+            if (IsRunning) return;
 
-            // Set IsRunning to false to allow regenerating
-            IsRunning = false;
+            // Resume if paused
+            Resume();
+        }
+
+        /// <summary>
+        /// Stop regenerating
+        /// </summary>
+        public void StopRegenerating()
+        {
+            regenerating = false;
+
+            // Exit case - the Regenerative Timer is running
+            if (IsRunning) return;
+
+            // Resume if paused
+            Resume();
         }
     }
 }

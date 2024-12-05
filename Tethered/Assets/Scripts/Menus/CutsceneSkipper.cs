@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using Tethered.Timers;
 using Tethered.Input;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 namespace Tethered.Menus
 {
@@ -13,21 +14,25 @@ namespace Tethered.Menus
         [SerializeField] private PlayerTwoInputReader playerTwoInputReader;
 
         [Header("References")]
+        [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private Image radialImage;
         [SerializeField] private Image wKey;
         [SerializeField] private Image upKey;
+        private bool groupShown;
         private float startingOpacity;
 
         [Header("Skipping Variables")]
         [SerializeField] private bool playerOneHolding;
         [SerializeField] private bool playerTwoHolding;
+        [SerializeField] private bool firstTimeSkip;
         [SerializeField] private bool tryingToSkip;
 
         [Header("Tweening Variables")]
+        [SerializeField] private float fadeCanvasDuration;
         [SerializeField] private float fadeRadialDuration;
         [SerializeField] private float fadeKeyDuration;
+        private Tween fadeCanvasTween;
         private Tween fadeRadialTween;
-
         private Tween fadeWKeyTween;
         private Tween fadeUpKeyTween;
 
@@ -35,13 +40,20 @@ namespace Tethered.Menus
 
         private void Awake()
         {
+            // Get components
+            canvasGroup = GetComponent<CanvasGroup>();
+
+            // Set variables
+            firstTimeSkip = true;
+
             // Set a Countdown Timer for two seconds
             countdownTimer = new RegenerativeTimer(3f);
 
             // Hook up timer events
+            countdownTimer.OnTimerStart += () => firstTimeSkip = false;
             countdownTimer.OnTimerTick += UpdateRadialProgressBar;
             countdownTimer.Regenerated += HideRadialProgressBar;
-            countdownTimer.OnTimerStop += SkipCutscene;
+            countdownTimer.OnTimerFinished += SkipCutscene;
         }
 
         private void Start()
@@ -54,14 +66,18 @@ namespace Tethered.Menus
         {
             // Subscribe to input events
             playerOneInputReader.Interact += CheckSkipPlayerOne;
+            playerOneInputReader.TryToSkip += ShowSkippingUI;
             playerTwoInputReader.Interact += CheckSkipPlayerTwo;
+            playerTwoInputReader.TryToSkip += ShowSkippingUI;
         }
 
         private void OnDisable()
         {
             // Unsubscribe to input events
             playerOneInputReader.Interact -= CheckSkipPlayerOne;
+            playerOneInputReader.TryToSkip -= ShowSkippingUI;
             playerTwoInputReader.Interact -= CheckSkipPlayerTwo;
+            playerTwoInputReader.TryToSkip -= ShowSkippingUI;
         }
 
         private void OnDestroy()
@@ -84,12 +100,28 @@ namespace Tethered.Menus
         /// </summary>
         private void HideRadialProgressBar() => Fade(0f, fadeRadialDuration);
 
+        private void ShowSkippingUI()
+        {
+            // Exit case - the CanvasGroup is already shown
+            if (groupShown) return;
+
+            // Set the group as shown
+            groupShown = true;
+
+            // Fade in the Canvas Group
+            FadeCanvasGroup(1f, fadeCanvasDuration);
+        }
+
         /// <summary>
         /// Skip the cutscene
         /// </summary>
         private void SkipCutscene()
         {
-            Debug.Log("Scene skipped");
+            // Kill all tweens
+            DOTween.KillAll();
+
+            // Change the scene
+            SceneManager.LoadScene("Scenes/MockLevel1");
         }
 
         /// <summary>
@@ -132,27 +164,41 @@ namespace Tethered.Menus
         /// </summary>
         private void CheckSkipping()
         {
-            // Check if either of the players are not holding the skip button
-            if(!playerOneHolding || !playerTwoHolding)
+            if((playerOneHolding && playerTwoHolding) && !tryingToSkip)
             {
-                // Set not trying to skip
-                tryingToSkip = false;
-
-                // Soft stop and reset the Countdown Timer
-                countdownTimer.Regenerate();
-            }
-            // Otherwise, check if not already trying to skip
-            else if(!tryingToSkip)
-            {
-                // Set trying to skip
+                // Start trying to skip
                 tryingToSkip = true;
 
                 // Fade in the Radial Image
                 Fade(1f, fadeRadialDuration);
 
-                // Start the CountdownTimer
-                countdownTimer.Start();
+                // Check if it's the first time skipping
+                if(firstTimeSkip)
+                    // Start the Countdown Timer
+                    countdownTimer.Start();
+                else
+                    // Stop regenerating the timer
+                    countdownTimer.StopRegenerating();
+            } else if(!(playerOneHolding && playerTwoHolding) && tryingToSkip)
+            {
+                // Stop trying to skip
+                tryingToSkip = false;
+
+                // Regenerate the Countdown Timer
+                countdownTimer.StartRegenerating();
             }
+        }
+
+        /// <summary>
+        /// Handle the Tween-fading for the Canvas Group
+        /// </summary>
+        private void FadeCanvasGroup(float endValue, float duration)
+        {
+            // Kill the Fade Canvas Tween if it exists
+            fadeCanvasTween?.Kill();
+
+            // Set the Fade Canvas Tween
+            fadeCanvasTween = canvasGroup.DOFade(endValue, duration);
         }
 
         /// <summary>
