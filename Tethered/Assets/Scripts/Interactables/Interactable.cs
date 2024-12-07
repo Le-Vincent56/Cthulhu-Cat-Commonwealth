@@ -27,6 +27,7 @@ namespace Tethered.Interactables
         protected SFXManager sfxManager;
         [SerializeField] protected SoundData soundData;
 
+        protected bool canInteract;
         protected bool interactSymbolShown;
         protected bool itemSymbolShown;
 
@@ -138,6 +139,9 @@ namespace Tethered.Interactables
                 FadeItem(0f, 0f);
                 ScaleItem(itemInitialScale, 0f);
             }
+
+            // Set can interact
+            canInteract = true;
         }
 
         protected virtual void Start()
@@ -149,6 +153,9 @@ namespace Tethered.Interactables
         {
             // Exit case - if an InteractController is not found on the collision object
             if (!collision.TryGetComponent(out InteractController controller)) return;
+
+            // Exit case - cannot interact
+            if (!canInteract) return;
 
             // Set the controller's interactable
             controller.SetInteractable(this);

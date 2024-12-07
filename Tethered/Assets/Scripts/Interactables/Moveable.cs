@@ -231,12 +231,18 @@ namespace Tethered.Interactables
                 transform.position.y,
                 transform.position.z
             );
-
+            
             // Move to the position
-            Translate(newPosition, translateDuration, () => StopSound());
+            Translate(newPosition, translateDuration);
 
             // Lock the Moveable
             canMove = false;
+
+            // Don't allow interaction
+            canInteract = false;
+
+            // Stop the sound
+            StopSound();
         }
         
         /// <summary>
