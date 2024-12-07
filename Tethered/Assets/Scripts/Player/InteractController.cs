@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Tethered.Input;
 using Tethered.Interactables;
 using Tethered.Inventory;
+using Tethered.Tutorial;
 using UnityEngine;
 
 namespace Tethered.Player
@@ -12,6 +13,7 @@ namespace Tethered.Player
         [SerializeField] private PlayerOneInputReader playerOneInputReader;
         [SerializeField] private PlayerTwoInputReader playerTwoInputReader;
         private PlayerInventory inventory;
+        private TutorialManager tutorialManager;
         [SerializeField] private Interactable currentInteractable;
 
         // climb
@@ -26,6 +28,7 @@ namespace Tethered.Player
         {
             // Get components
             inventory = GetComponent<PlayerInventory>();
+            tutorialManager = GetComponentInChildren<TutorialManager>();
         }
 
         private void OnEnable()
@@ -69,6 +72,14 @@ namespace Tethered.Player
 
             // Set the interactable
             currentInteractable = interactable;
+
+            // Check if the current interactable is null
+            if(currentInteractable == null)
+                // Hide the Interact Tutorial
+                tutorialManager.HideInteractTutorial();
+            else
+                // Otherwise, show the Interact Tutorial
+                tutorialManager.ShowInteractTutorial();
         }
 
         /// <summary>
@@ -84,8 +95,14 @@ namespace Tethered.Player
             // Exit case - if not started or performed, return
             if (!startedOrPerformed) return;
 
+            // Exit case - the current Interactable is null
+            if (currentInteractable == null) return;
+
             // Interact with the current Interactable
-            currentInteractable?.Interact(this);
+            currentInteractable.Interact(this);
+
+            // Use the Interact tutorial
+            tutorialManager.UseInteract();
         }
     }
 }

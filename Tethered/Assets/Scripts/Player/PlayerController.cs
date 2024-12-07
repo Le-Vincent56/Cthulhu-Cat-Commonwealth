@@ -6,10 +6,9 @@ using Tethered.Patterns.ServiceLocator;
 using System.Collections.Generic;
 using System.Linq;
 using Tethered.Audio;
-using static UnityEditor.FilePathAttribute;
-using UnityEngine.InputSystem.XR;
 using Tethered.Patterns.EventBus;
 using Tethered.Monster.Events;
+using Tethered.Tutorial;
 
 namespace Tethered.Player
 {
@@ -33,6 +32,7 @@ namespace Tethered.Player
         protected StateMachine stateMachine;
         protected MoveableController moveableController;
         protected CameraBoundary cameraBoundary;
+        protected TutorialManager tutorialManager;
         private Transform skinTransform;
         private PlayerSFX playerSFX;
 
@@ -79,6 +79,7 @@ namespace Tethered.Player
             animator = GetComponentInChildren<Animator>();
             moveableController = GetComponent<MoveableController>();
             skinTransform = animator.transform;
+            tutorialManager = GetComponentInChildren<TutorialManager>();
             playerSFX = GetComponent<PlayerSFX>();
 
             // Set variables
@@ -219,6 +220,15 @@ namespace Tethered.Player
         {
             rb.velocity = new Vector2(moveDirectionX * movementSpeed, rb.velocity.y);
             SetFacingDirection(moveDirectionX);
+
+            // Check if moving right
+            if (moveDirectionX >= 1)
+                // Use the Right Movement tutorial
+                tutorialManager.UseRight();
+            // Otherwise, check if moving left
+            else if (moveDirectionX <= -1)
+                // Use the Left Movement tutorial
+                tutorialManager.UseLeft();
         }
 
         /// <summary>
