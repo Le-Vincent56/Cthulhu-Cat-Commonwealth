@@ -11,6 +11,7 @@ namespace Tethered.Menus
     {
         [SerializeField] private Button startButton;
         [SerializeField] private Button exitButton;
+        [SerializeField] private Button creditsButton;
 
         // Start is called before the first frame update
         void Start()
@@ -18,10 +19,12 @@ namespace Tethered.Menus
             // Initialize the buttons in the menu
             Button startBtn = startButton.GetComponent<Button>();
             Button exitBtn = exitButton.GetComponent<Button>();
+            Button creditsBtn = creditsButton.GetComponent<Button>();
 
             // Add EventListeners to the buttons for when they're clicked
             startBtn.onClick.AddListener(OpenGame);
             exitBtn.onClick.AddListener(QuitGame);
+            creditsBtn.onClick.AddListener(OpenCredits);
         }
 
         // Opens the game scene
@@ -34,6 +37,12 @@ namespace Tethered.Menus
         void QuitGame()
         {
             Application.Quit();
+        }
+
+        // Opens credits
+        void OpenCredits()
+        {
+            SceneManager.LoadScene(sceneName:"Credits");
         }
         
     }
