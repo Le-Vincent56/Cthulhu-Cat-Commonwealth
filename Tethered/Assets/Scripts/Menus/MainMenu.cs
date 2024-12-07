@@ -43,7 +43,7 @@ namespace Tethered.Menus
         // Opens the credits menu
         void OpenCredits()
         {
-
+            SceneManager.LoadScene(sceneName: "Credits");
         }
     }
 }
