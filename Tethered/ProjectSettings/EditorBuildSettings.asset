@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LevelComplete.unity
     guid: 00ac3c3cfac3d7e42a800146dd3bb177
+  - enabled: 1
+    path: Assets/Scenes/CreditsMenu.unity
+    guid: d7da1e94a4f116d44979af6e64d3e2cf
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: d779181b2942ef54998ab311ca16ae7a, type: 2}
