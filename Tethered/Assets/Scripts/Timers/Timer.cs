@@ -9,12 +9,16 @@ namespace Tethered.Timers
         protected float initialTime;
 
         public float CurrentTime { get; protected set; }
-        public bool IsRunning { get; private set; }
-        public float Progress => Mathf.Clamp(CurrentTime / initialTime, 0f, 1f);
+        public bool IsRunning { get; protected set; }
+        public float ProgressDecreasing => Mathf.Clamp(CurrentTime / initialTime, 0f, 1f);
+        public float ProgressIncreasing => 1f - Mathf.Clamp(CurrentTime / initialTime, 0f, 1f);
+
         public abstract bool IsFinished { get; }
 
         public Action OnTimerStart = delegate { };
         public Action OnTimerStop = delegate { };
+        public Action OnTimerTick = delegate { };
+        public Action OnTimerFinished = delegate { };
 
         protected Timer(float value)
         {
@@ -64,6 +68,11 @@ namespace Tethered.Timers
 
             // Invoke the Timer stop event
             OnTimerStop.Invoke();
+
+            // Check if the Timer is finished
+            if (IsFinished)
+                // Invoke the finished event
+                OnTimerFinished.Invoke();
         }
 
         /// <summary>

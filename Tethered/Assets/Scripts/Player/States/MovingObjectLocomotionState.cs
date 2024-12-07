@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace Tethered.Player.States
 {
-    public class MovingObjectState : PlayerState
+    public class MovingObjectLocomotionState : PlayerState
     {
         private readonly MoveableController moveableController;
 
-        public MovingObjectState(
+        public MovingObjectLocomotionState(
             PlayerController controller, 
             Animator animator, 
             MoveableController moveableController
@@ -17,21 +17,11 @@ namespace Tethered.Player.States
 
         public override void OnEnter()
         {
-            // Disable input to prevent movement
-            controller.DisableInput();
+            // Allow the Player to move objects
+            moveableController.CanMoveObject = true;
 
             // Cross fade into the animation
-            animator.CrossFade(MoveObjectHash, crossFadeDuration);
-
-            // Set the position of the Player
-            moveableController.PositionWithMoveable(() =>
-            {
-                // Allow the Player to move objects
-                moveableController.CanMoveObject = true;
-
-                // Enable input
-                controller.EnableInput();
-            });
+            animator.CrossFade(MoveObjectLocomotion, crossFadeDuration);
         }
 
         public override void FixedUpdate()

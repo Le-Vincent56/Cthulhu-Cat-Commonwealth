@@ -9,8 +9,8 @@ namespace Tethered.Input
     public class PlayerOneInputReader : ScriptableObject, IPlayerOneActions, IInputReader
     {
         public event UnityAction<Vector2, bool> Move = delegate { };
-        public event UnityAction Interact = delegate { };
-        public event UnityAction Pause = delegate { };
+        public event UnityAction<bool> Interact = delegate { };
+        public event UnityAction TryToSkip = delegate { };
 
         public int NormMoveX { get; private set; }
         public int NormMoveY { get; private set; }
@@ -62,17 +62,24 @@ namespace Tethered.Input
         /// </summary>
         public void OnInteract(InputAction.CallbackContext context)
         {
-            // If the button has been lifted, invoke the event
-            if (context.canceled) Interact.Invoke();
+            switch(context.phase)
+            {
+                case InputActionPhase.Started:
+                    Interact.Invoke(true);
+                    break;
+
+                case InputActionPhase.Canceled:
+                    Interact.Invoke(false);
+                    break;
+            }
         }
 
-        // <summary>
-        /// Callback function to handle open pause menu input
+        /// <summary>
+        /// Callback function to handle skipping input
         /// </summary>
-        public void OnPause(InputAction.CallbackContext context)
+        public void OnTryToSkip(InputAction.CallbackContext context)
         {
-            // If the button has been lifted, invoke the event
-            if (context.canceled) Pause.Invoke();
+            if (context.started) TryToSkip.Invoke();
         }
     }
 }
