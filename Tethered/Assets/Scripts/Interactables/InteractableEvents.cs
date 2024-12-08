@@ -26,4 +26,9 @@ namespace Tethered.Interactables.Events
         public InteractController InteractController;
         public PlayerController PlayerController;
     }
+
+    public struct EndLevel : IEvent
+    {
+        public int LevelIndex;
+    }
 }

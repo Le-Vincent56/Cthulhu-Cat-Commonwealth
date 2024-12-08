@@ -1,8 +1,8 @@
-using DG.Tweening;
 using Tethered.Interactables;
+using Tethered.Interactables.Events;
+using Tethered.Patterns.EventBus;
 using Tethered.Player;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LevelDoor : Interactable
 {
@@ -10,9 +10,6 @@ public class LevelDoor : Interactable
 
     public override void Interact(InteractController controller)
     {
-        DOTween.KillAll();
-
-        // Load the new scene
-        SceneManager.LoadScene(levelIndex);
+        EventBus<EndLevel>.Raise(new EndLevel() { LevelIndex = levelIndex });
     }
 }
