@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
+using Tethered.Audio;
+using Tethered.Patterns.ServiceLocator;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,10 +16,17 @@ public class Cutscene : MonoBehaviour
     [SerializeField] private SpriteRenderer fade;
 
     [SerializeField] private Vector3 finalPos;
+
+    [Header("SFX")]
+    [SerializeField] private SoundData necklaceSnap;
+    private SFXManager sfxManager;
     
     // Start is called before the first frame update
     void Start()
     {
+        // Get services
+        sfxManager = ServiceLocator.ForSceneOf(this).Get<SFXManager>();
+
         foreach (var text in texts)
         {
             text.alpha = 0;
@@ -60,8 +67,8 @@ public class Cutscene : MonoBehaviour
                 DOTween.To(() => texts[4].alpha, x => texts[4].alpha = x, 1, 0.01f)
             )
             .Append(
-                texts[4].rectTransform.DOShakeAnchorPos(1f, 40, 32, 20, 
-                    false, true, ShakeRandomnessMode.Harmonic)
+                (texts[4].rectTransform.DOShakeAnchorPos(1f, 40, 32, 20,
+                    false, true, ShakeRandomnessMode.Harmonic)).OnPlay(() => PlaySound())
             )
             .Append(
                 DOTween.To(() => texts[4].alpha, x => texts[4].alpha = x, 0, 0.1f)
@@ -85,4 +92,9 @@ public class Cutscene : MonoBehaviour
                 }
             );
     }
+
+    /// <summary>
+    /// Play the Button Sound Effect
+    /// </summary>
+    private void PlaySound() => sfxManager.CreateSound().WithSoundData(necklaceSnap).Play();
 }
